@@ -1,0 +1,72 @@
+---------------------------------------------------------------------------------------------Definizioni
+
+Visita in Ampiezza: partendo da un nodo s, creo una lista di liste divisa in livelli, nel primo livello
+inserisco s, successicamente scandedndo tutti i gli archi che partono da s e arrivano in nodi u, se i 
+nodi u non sono stati scoperti li inserisco nel secondo livello iterando cosi, fino a n-2 nodi.
+
+Albero BFS: L'algoritmo produce come output un albero, che ha come radice s e come figli tutti i nodi
+collegati a quest'ultimo.
+
+----------------------------------------------------------------------------------------------------Idea
+
+#Idea
+BFS(s){
+    L0={s}
+    for(i=0;i<n-2;i++){
+        inizializza(Li+1) come insieme vuoto
+        foreach (nodo u contenuto in Li)
+            foreach (arco (u,,v) incidente al nodo u)
+                if (v non è contenuto in nessun L0,...,Li-1)
+                    aggiungi u a li+1
+                }
+            }
+        }
+    }
+}
+
+------------------------------------------------------------------------------------------implementazioni
+
+#implementazione con lista di adiacenza: abbiamo come output, sia la lista di adiacenza che l'albero
+associato al grafo.
+
+BFS(s){
+    inizializza L[0] in modo che contenga solo s
+    poni disc[s]=true e disc[u]=false per tutti gli altri nodi u del grafo
+    inizializza bfsTree come albero vuoto.
+    i=0
+    while(i<n-2){
+        inizializza L[i+1] come lista vuota
+        foreach (nodo in L[i]){
+            foreach (arco(u,v) incidente in u){
+                if (disc[v]==false){
+                    disc[v]=true
+                    bfsTree.add(arco(u,v))
+                    L[i+1].add(v)
+                }
+            }
+        }
+        i=i+1
+    }
+}
+
+#implementazione con coda FIFO: al contrario dell'implementazione con lista di adiacenza, l'implementazione
+con coda FIFO ha come unico output l'albero.
+
+BFS(s){
+    inizializza q come coda vuota
+    q.enqueu(s)
+    poni disc[s]=true e disc[u]=false per tutti gli altri nodi u del grafo
+    inizializza bfsTree come albero vuoto
+    while(Q non è vuota){
+        u=q.deque
+        foreach (arco(u,v) incidente in u){
+            if (disc[v]==false){
+                    disc[v]=true
+                    bfsTree.add(arco(u,v))
+                    q.enqueu(v)
+            }
+        }
+    }
+}
+
+---------------------------------------------------------------------------------------------------------

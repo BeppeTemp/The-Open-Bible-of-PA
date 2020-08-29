@@ -1,0 +1,42 @@
+---------------------------------------------------------------------------------------------Definizioni
+
+Visita in profondità: l'algoritmo parte da un nodo s e per un arco(s,u) si spinge ricorsivamente per un
+arco(u,x) e cosi via finche non ci sono più archi su. 
+
+Albero DFS: L'algoritmo produce come output un albero, che ha come radice s con un unico lungo ramo di 
+figli, che rappresenta il percorso più lungo scandito dall'algoritmo, da cui si diramano altri rami
+che rappresentano i backtrack svolti dall'algoritmo.
+
+
+----------------------------------------------------------------------------------------------------Idea
+
+#Idea
+DFS(s){
+    expl[s]=True
+    R.add(s)
+    foreach (arco(s,v) incidente in s)
+        if (!expl)
+            DFS(v)
+        }
+    }
+}
+
+------------------------------------------------------------------------------------------implementazioni
+
+#Implementazione tramite stack
+DFS(s){
+    poni expl[s]=true e expl[u]=false per tutti gli altri nodi u
+    stk.push(s)
+    while(stk non vuoto){
+        u=stk.pop()
+        if (esiste un arco(u,v) incidente su u non ancora esaminato){
+            if (expl[v]=false){
+                expl[v]=true
+                stk.push(v)
+            }
+        }
+        stk.pop()
+    } 
+}
+
+--------------------------------------------------------------------------------------------------------

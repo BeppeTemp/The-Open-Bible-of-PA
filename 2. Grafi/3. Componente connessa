@@ -1,0 +1,61 @@
+Definizioni--------------------------------------------------------------------------------------------
+
+Componente connessa: sottoinsieme di vertici in cui per ciascuna coppia di vertici u,v esiste un
+percorso tra u e v.
+
+Teoremi------------------------------------------------------------------------------------------------
+
+Teorema: Per ogni due nodi s,t in un grafo, le loro componenti connesse o sono uguali o sono diverse.
+Dim: banalmente se esiste un percorso tra s e t, tutti i nodi che sono collegati direttamente o
+indirettamente ad s o a t sono sono loro componente connessa e siccome s e t sono collegati, le 
+compoenenti saranno uguali. Viceversa se non esiste un percorso tra s e t nessun nodo può che sia
+collegato a s o a t può toccare il corrispettivo ne può creare un percorso, per non contraddire 
+l'ipotesi che ci sia un percorso tra s e t.
+
+Codice--------------------------------------------------------------------------------------------------
+
+#Algoritmo che trova tutte le componenti connesse in un grafo: il BFS va modicifato in modo da lasciare
+la fase di inizializzalizzazione di disc a AllComponents.
+AllComponents(g){
+    per ogni sono u in g disc[u]=false
+    foreach (nodo u in g){
+        BFS(u)
+    }
+}
+
+Extra---------------------------------------------------------------------------------------------------
+
+#Algoritmo che trova le componenti connesse in un grafo, associando i nodi alla componente connessa
+di cui fanno parte.
+AllCompAss(g){
+    per ogni nodo u in g disc[u]=false
+    inizializza comp[u]=0 per ogni u in g
+    j=0
+    foreach (nodo u in g){
+        BFSACA(u,disc,comp,j)
+        j++
+    }
+    return comp
+}
+
+BFSACA(u,disc,comp,j){
+    inizializza L[0] in modo che contenga solo u
+    i=0
+    while(i<n-2){
+        inizializza l[i+1] vuota
+        foreach (nodo contenuto in l[i]){
+            foreach (arco(u,v) incidente in u){
+                if (disc[v]==false){
+                    disc[v]=true
+                    if(comp[v]!=0){
+                        comp[v]=j
+                        L[i+1].add(v)
+                    }
+                }
+            }
+        }
+        i=i+1
+    }
+}
+
+--------------------------------------------------------------------------------------------------------
