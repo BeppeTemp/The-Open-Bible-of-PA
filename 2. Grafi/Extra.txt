@@ -1,0 +1,24 @@
+Componente connessa: sottoinsieme di vertici in cui per ciascuna coppia di vertici u,v esiste un
+percorso tra u e v.
+
+IsBipart(color,g){
+    foreach (nodo u in g){
+        foreach (arco(u,v) incidente in u)
+            if(color[u]==color[v])
+                return false
+            }
+        }
+    }
+    return true
+}
+
+TopologicalOrder(g){
+    if (esiste un nodo u senza archi entranti)
+        elimina u dal grafo g=g-{u}
+        L=TopologicalOrder(g)
+        aggiungi v all'inizio di L
+        return L
+    }else{
+        return lista vuota
+    }
+}
