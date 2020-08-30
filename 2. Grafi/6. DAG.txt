@@ -1,0 +1,86 @@
+---------------------------------------------------------------------------------------------Definizioni
+
+DAG: un DAG è un grafo che non contiene cicli direzionati.
+
+Ordinamento topologico: preso un grafo g un ordinamento topologico è un oridnamento dei suoi nodi, t.c.
+se c'è l'arco (u,w) in g, allora il nodo u precede il nodo w nell' ordinamento. In sostanza è un
+etichettatura dei nodi V1,V2,...,Vn t.c. se esiste l'arco(Vi,Vj) si ha che i<j.
+
+-------------------------------------------------------------------------------------------------Lemma 1
+
+Lemma: Se un grafo direzionato g ha un ordinamento topologico allora è un DAG.
+Dim (per assurdo): supponiamo che g sia un grafo direzionato con un ordinamento V1,V2,...,Vn, supponiamo
+inoltre che g abbia un ciclo direzionato C (quindi non sia un DAG). 
+
+Prendiamo il nodo Vi appartenente a C con indice più piccolo e prendiamo Vj quello precendete a Vi (al
+interno del ciclo), questo implica che esiste un arco(Vj,Vi), quindi visto che esiste un ordinamento 
+topologico j deve essere minore di i. Ma questo è impossibile, perchè abbiamo preso i come il vertice 
+di indici più piccolo nel ciclo.
+
+-------------------------------------------------------------------------------------------------Lemma 2
+
+Lemma: Se g è un DAG allora g ha un nodo senza archi entranti.
+Dim (per assurdo): supponiamo che g sia un DAG e ogni nodo di g ha un arco entrante. Ora scorrendo tutti
+gli archi di g al ritroso per n o più volte ci rendiamo conto che incontriamo un nodo due volte, questo
+implica che all'interno di g deve esistere un ciclo quindi g non è un DAG per definizioni (è come una
+catena, deve avere un inizio e un fine).
+
+-------------------------------------------------------------------------------------------------Lemma 3
+
+Lemma: se g è un DAG, g ha un ordinamento topologico.
+Dim (induzione su n):
+    Passo Base: se n=1 è banalmente vero (un nodo nell'ordinamento).
+
+    Passo induttivo: supponiamo che il lemma sia vero per n>=1. Preso un DAG con n+1>1 nodi, prendiamo
+    un nodo senza archi entranti (sappiamo che esiste). se cancelliamo v da grafo sappiamo che non 
+    introducendo cicli g è ancora un DAG, inoltre g ora ha n nodi e sappiamo per ipotesi induttiva che
+    ha un ordinamento topolgico che si ottiene ponendo v all'inzio dell'ordinamento aggiungendo tutti i
+    g-{v} nodi.
+
+--------------------------------------------------------------------------------------------Pseudocodice
+
+#Algoritmo che ritorna l'ordinamento topologico di un DAG, in sostanza elimina un nodo alla volta dal 
+grafo.
+TopologicalOrder(g){
+    if (esiste un nodo u senza archi entranti)
+        elimina u dal grafo g=g-{u}
+        L=TopologicalOrder(g)
+        aggiungi u all'inizio di L
+        return L
+    }else{
+        return lista vuota
+    }
+}
+
+---------------------------------------------------------------------------Miglioramento con tempo O(n+m)
+
+#Algoritmo che ritorna l'ordinamento topologico di un DAG in tempo O(n+m), utilizza un array count per
+contare il numero di archi entranti in ogni nodo e una coda s che contiene tutti i nodi senza archi
+entranti.
+foreach (nodo u in g){
+    foreach (arco(u,w) entrante in u){
+        count[u]=count[u]+1
+    }
+    if (count[u]==0){
+        s.push(u)
+    }
+}
+
+TopologicalOrder(count,s,g){
+    if(s non è vuota){
+        u=s.pop()
+        g=g-{u}
+        foreach(arco(u,w) uscente da u){
+            count[w]=count[w]-1
+            if(count[w]==0){
+                s.push(w)
+            }
+        }
+        L=TopologicalOrder(count,s,g)
+        aggiungi u all'inizio di L
+        return L
+    }
+    return linsta vuota
+}
+
+---------------------------------------------------------------------------------------------------------

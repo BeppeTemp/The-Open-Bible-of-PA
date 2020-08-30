@@ -1,0 +1,26 @@
+--------------------------------------------------------------------------------------------Definizioni
+
+Mutualmente raggiungibili: due nodi u e v si dicono mutualmente raggiungibili se c'è un percorso da u a
+v e un percorso tra v e u.
+
+Fortemente connesso: un grafo in cui ogni coppia di nodi è mutualmente raggiungibile è fortemente
+connesso.
+
+--------------------------------------------------------------------------------------------Pseudocidice
+
+#Algoritmo che determina se un grafo g è fortemente connesso (Tempo n+m), in pratica dato un grafo g,
+eseguo BFS su un nodo s di g, succesicamente inverto tutti gli archi di g e rieseguo il BFS su s, se
+i due array disc sono uguali allora il grado è fortemente connesso.
+IsStrongConnect(s,g){
+    discbfs_one=BFS(s,g)
+    g_inv=inverti tutti gli archi del grafo g
+    discbfs_two=BFS(s,g_inv)
+    for(i=0,i<n;i++){
+        if(discbfs_one[i]!=discbfs_two[i]){
+            return false
+        }
+    }
+    return true
+}
+
+--------------------------------------------------------------------------------------------------------
