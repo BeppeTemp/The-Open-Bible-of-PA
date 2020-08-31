@@ -1,0 +1,42 @@
+---------------------------------------------------------------------------------Definizione del Problema
+
+Input: un insieme di job di cui abbiamo la durata tj e il tempo in cui il job deve essere terminato dj 
+ovvero la sua scadenza.
+
+Obbiettivo: Trovare uno scheduling di tutti i job che minimizzi il ritardo massimo L=max lj. 
+
+-----------------------------------------------------------------------------------Definizione di ritardo
+
+Ritardo: il ritardo del job j è definito come lj=max{0,fj-dj}, dove fj è il suo tempo di fine dato da,
+fj=sj-tj, (ovvero tempo di inizio più durata).
+
+-----------------------------------------------------------------------------------------Strategie Greedy
+
+Strategia 1 (Shortest Processing Time First): Considera prima i job in con tempo di elaborazione tj 
+minimo. 
+
+#Strategia Migliore
+Strategia 2 (Earliest Deadline Time): Considera i job in ordina non decrescente dei tempi entri i quali 
+devono essere ultimati.
+
+Strategia 3 (Smallest Slack): Considera prima i job con scarto dj-tj più piccolo.
+
+----------------------------------------------------------------------------------------------Pseudocodice
+
+#Algoritmo che dato in input un instanza del problema minimizzazione dei ritartdi ritorna l'ordine di
+esecuzione degli intervalli.
+
+MinRit(){
+    ordino gli intervalli in base alla scadenza
+    t=0                                             //conta il tempo di inizio del prossimo job
+
+    for(j=1;i<n;j++){
+       asegna il job j all'intervallo [t,t+tj]
+       sj=t                                         //setta sj del job j
+       fj=t+tj                                      //setta fj del job j
+       t=t+tj                                       //aggiorna il tempo di inizio del job j+1
+    }
+    return i nuovi intervalli
+}
+
+----------------------------------------------------------------------------------------------------------
