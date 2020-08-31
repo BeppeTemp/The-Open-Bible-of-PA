@@ -1,0 +1,49 @@
+---------------------------------------------------------------------------------Definizione del Problema
+
+Input: un insieme di job ognuno con un certo tempo di inizio sj e un tempo di fine fj. Possiamo eseguire
+al più un'attività alla volta.
+
+Obbiettivo: trovare il maggior numero di job che siano a due a due compatibili.
+
+Compatibilità fra Job: Due Job i e j si dicono compatibili, se fi<=sj oppure fj<=si, in pratica se i loro
+tempi di esecuzione non si sovrappongono.
+
+-----------------------------------------------------------------------------------------Strategie Greedy
+
+Strategia 1 (Earliest Start Time): Cerco di prendere sempre il job che ha tempo di inizio più piccolo, tra
+tutti quelli non ancora esaminati.
+
+#Strategia Migliore
+Strategia 2 (Earliest Finish Time): Cerco di prendere sempre il job che ha tempo di fine più piccolo, tra
+tutti quelli non ancora esaminta.
+
+Strategia 3 (Shortest Interval): Cerco di prendere quello che dura meno tra tutti quelli non ancora
+esaminati (fj-sj minore).
+
+Strategia 4 (Fewest Conflicts): Cerco di prendere quello che ha meno conflitti con altri job tra tutti
+quelli non ancora esaminati.
+
+----------------------------------------------------------------------------------------------Pseudocodice
+
+#Algoritmo che dato in input un instanza del problema Interval Scheduling, implementa la strategia Greedy
+Shortest Finish Time.
+
+IntSched(job){
+    Sort(job[] secondo i tempi di fine)
+    j=0
+    ord= insieme vuoto
+    for(i=1 to n){
+        if (job[i].getStart()>=f){
+            ord.add(job[i])
+            f=job[i].getFinish()
+        }
+    }
+    return ord
+}
+
+Tempo dell'ordinamento: O(n log n)
+Tempo del for: O(n)
+
+Tempo totale: O(n log n)
+
+----------------------------------------------------------------------------------------------------------

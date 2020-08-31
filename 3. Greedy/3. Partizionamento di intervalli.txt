@@ -1,0 +1,46 @@
+---------------------------------------------------------------------------------Definizione del Problema
+
+Input: un insieme di n intervalli [s1,f1],...,[s2,f2] che rappresentano gli intervalli durante i quali si
+svolgono le n attività.
+
+Obbiettivo: far svolgere le n attività utilizzando il minor numero possibile di risorse, in modo che
+ciascuna risorsa venga utilizzata da al massimo un attività alla volta.
+
+Al contrario dell'Interval Scheduling, qui vogliamo utilizzare il minor numero possibile di risorse, un 
+esempio è la gestione delle aulee in un università, vogliamo occuparne il meno possibile.
+
+-----------------------------------------------------------------------------------Concetto di profondità
+
+Disponendo gli intervalli lungo l'asse x in modo da non avere intervalli che si sovrappongono alla stessa
+altezza.
+
+Profondità: numero massimo di intervalli intersecabili da un singola linea verticale che si muovo lungo 
+l'asse x.
+
+Osservazione: Numero di risorse necessarie >= profondità.
+
+----------------------------------------------------------------------------------------------Pseudocodice
+
+#Algoritmo che dato in input un instanza del problema partizionamento di intervalli ritorna il numero di 
+risorse minimo per eseguirli in modo compatibile
+
+PartInt(intval){
+    ordino gli intervalli in base ai tempi di inizio
+    d=0  //contatore risorse allocate
+
+    for(j=1;i<n;j++){
+       if(l'intervallo j può essere asegnato a una risorsa già allocata){
+           assegno la risorsa v all'intervallo j
+       }else{
+           alloco una nuova risorsa d+1
+           assegno la risorsa d+1 all'intervallo j
+           d=d+1
+       }
+    }
+    return d
+}
+
+Tempo con inmplementazione con coda a priorità: O(n lon n)
+
+----------------------------------------------------------------------------------------------------------
+
