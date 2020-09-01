@@ -1,0 +1,39 @@
+----------------------------------------------------------------------------------Definizione del Problema
+
+Input:
+  * Un memoria centrale contene un insieme U di n elementi.
+  * Una memoria cache con capacità di memorizzare k elementi.
+  * Sequenza di m richieste di elementi d1,d2,...,dm fornita in modo offline (tutte le richieste sono 
+    note fin da subito).
+  * Assumiamo che all'inizio la cache è piena, ovvero contiene k elementi.
+
+Obbiettivo: definire uno Eviction Scheduling che minimizzi il numero di cache miss.
+
+-----------------------------------------------------------------------------------------------Definizioni
+
+Chache hit: elemento già presente nella cache quando richiesto.
+
+Chache miss: elemento non presente nella cache quando richiesto: occorre caricarlo nella memoeria e se la
+memoria è piena occorre espellere dalla cache alcuni elementi per fare poso a quelli richiesti.
+
+--------------------------------------------------------------------------Definizione di Eviction Schedule
+
+Eviction Schedule Ridotto: è uno scheuling degli elementi da espellere, cioè una sequenza che indica quale
+elemento espellere dalla cache quando bisogna far posto ad un nuovo elemento richiesto.
+
+Eviction Schedule non Ridotto: è un scheuling che può decidere di inserire nella cache un elemento che 
+non è stato richiesto.
+
+----------------------------------------------------------------------------------------------Osservazione
+
+Osservazione: In un Eviction Schedule Ridotto il numero di inseirmenti è uguale al numero di cache miss.
+
+------------------------------------------------------------------------------------------Strategie Greedy
+
+#Strategia Migliore
+Strategia (Farthest-in-future): quando viene rischiesto un elemento che non è presente in cache, espelli
+dalla cache l'elemento che sarà richiesto più in là nel tempo o che non sarà più richiesto.
+
+---------------------------------------------------------------------------------------------------------
+
+ 
