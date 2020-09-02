@@ -43,19 +43,43 @@ Funzionamento:
 
 Psudocodice:
 Dijkstra(G,l){
-    Sia s l'insieme dei nodi esplorati
-        foreach (nodo u in S){
-            conservane la distanza d(u)
-        }
-    inizializza S={s} 
-    d(s)=0
-    while(S!=V){
-        seleziona un nodo che non appartiene a S con almeno un vertice in S il quale
-            la distanza è il minimo possibile
-        aggiungi v a S e definisci d(v)=d'(v)
-    }
+  Sia s l'insieme dei nodi esplorati
+  foreach (nodo u in S){
+    conservane la distanza d(u)
+  }
+  inizializza S={s} 
+  d(s)=0
+
+  while(S!=V){
+    seleziona un nodo che non appartiene a S con almeno un vertice in S per cui
+    d'(v)=min(e=(u,v):u appartiene ad s) d(u)+le è il minimo possibile
+    aggiungi v a S e definisci d(v)=d'(v)
+  }
 }
 
----------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------Funzionamento a parole
 
- 
+Ogni nodo viene inserito in una cosa contente l'associazione (Distanza da s, nome nodo), all'inzio tutte
+le distanze da s sono uguali a infinito. Partendo dal nodo s aggiorno la distanza da s di tutti i nodi 
+adiacenti ad s, succesivamente includo il nodo con distanza minore nella lista S e rieseguo l'Algoritmo
+sul nodo con distanza da s minima, fino a quando S non contiene tutti i nodi del grafo.
+
+-----------------------------------------------------------------------Implementazione con coda a priorità
+
+Dijkstra(G,s,l){
+  sia s settato come nodo esplorato
+  per ogni nodo u non in S, conserva la distanza d'(u)
+  sia Q una coda a priorità della coppia (d'(u),u) t.c. u non è in S
+  per ogni nodo u in S, conserva la distanza d(u)
+  insert(Q,(0,s))
+  per ogni u diverso da s insert(Q,infinto,u)
+  while(S!=V){
+    (d(v,v)=extractMin(Q)
+    add v to S
+    foreach (arco e=(v,z)){
+      if (z non in s) and (d(v)+le<d'(z)){
+        changeKey(Q,z,d(v)+le)
+      }
+    }
+  }
+}
