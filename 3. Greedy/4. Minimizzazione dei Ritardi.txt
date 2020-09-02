@@ -10,6 +10,11 @@ Obbiettivo: Trovare uno scheduling di tutti i job che minimizzi il ritardo massi
 Ritardo: il ritardo del job j è definito come lj=max{0,fj-dj}, dove fj è il suo tempo di fine dato da,
 fj=sj-tj, (ovvero tempo di inizio più durata).
 
+--------------------------------------------------------------------------------Definizione di inversione
+
+Inversione: un'inversione in uno scheduling S è una coppia di job i e j tali che: di<dj ma j viene
+eseguito prima di i.
+
 -----------------------------------------------------------------------------------------Strategie Greedy
 
 Strategia 1 (Shortest Processing Time First): Considera prima i job in con tempo di elaborazione tj 
@@ -39,4 +44,9 @@ MinRit(){
     return i nuovi intervalli
 }
 
+La soluzione cosi proposta gode di due proprietà:
+a) Nessun Idle Time, non ci sono momenti in cui la risorsa non viene utilizzata.
+b) Nessun Inversione, se un job j ja scadenza maggiore di quella i un job 1 allora viene eseguito i.
+
 ----------------------------------------------------------------------------------------------------------
+

@@ -1,0 +1,35 @@
+----------------------------------------------------------------------------------Definizione del problema
+
+Input: intero k.
+
+Obbiettivo: Trovare un k-clustering con massimo spacing.
+
+-----------------------------------------------------------------------------------------------Definizioni
+
+Clustering: Dato un insieme U di n oggetti P1,...,Pn, vogliamo classificalri in gruppi coerenti.
+
+Funzione distanza: Associa ad ogni coppia di oggetti un valore numerico che indica la vicinanza dei due
+oggetti.
+
+k-clustering: Partizione dell'insieme U in k sottoinsiemi non vuoti (cluster)
+
+Spacing: distanza più piccol atra due oggeti in cluster differenti.
+
+Funzione distanza: è una funzione che soddisfa le seguenti proprietà:
+  * d(pi,pj)=0 se e solo se pi=pj
+  * d(pi,pj)>=0
+  * d(pi,pj)=d(pj,pi)
+
+-------------------------------------------------------------Algoritmo basato sul single-link k-clustering
+
+Funzionamento:
+  * Costruire un grafo sull'insieme di vertici U in modo che alla fine abbia k componenti connesse. ogni
+    componente connessa corisponderà ad un cluster.
+  * Inzialmente il grafo non contiene arche per cui ogni vertice u è in un cluster che contine solo u.
+  * Ad ogni passo trova i due oggetti x e y più vicin e t.c. x e y sono in cluster distinti.
+  * Aggiunge un arco tra x e y
+    Va avanti fino a che ha ragiunto n-k archi: a quel punto ci sono esattamente k cluster.
+
+Questa procedura corrisponde ad esguire l'algorimo di Kruskal su un grafo completo in cui i costi degli
+archi rappresentano la distanza tra due oggetti. L'unica differenza è che l'algoritmo si ferma prima di
+inserire i k-1 archi più costosi dello MST.
