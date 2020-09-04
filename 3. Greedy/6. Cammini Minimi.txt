@@ -1,4 +1,4 @@
-----------------------------------------------------------------------------------Definizione del Problema
+---------------------------------------------------------------------------------Definizione del Problema
 
 Input:
   * Grafo direzionato G=(V,E)
@@ -8,7 +8,7 @@ Input:
 
 Obbiettivo: Trovare i percorsi direzionati più corsto da s verso tutti gli altri nodi.
 
------------------------------------------------------------------------------------------------Definizioni
+----------------------------------------------------------------------------------------------Definizioni
 
 Definizione: Per ogni percorso direzionato P. l(P)=somma delle lunghezze degli archi in P (Costo di P).
 
@@ -25,18 +25,18 @@ vertice u a v.
 
 All Pairs Shortest Path: Per ogni coppai di vertici u e v, determinare un cammino minimo da u a v.
 
-----------------------------------------------------------------------------------------------Osservazione
+---------------------------------------------------------------------------------------------Osservazione
 
 Cicli Negativi: in caso di un ciclo negativo non è possibile definire un percorso minimo.
 
--------------------------------------------------------------------------------------Algoritmo di Dijkstra
+------------------------------------------------------------------------------------Algoritmo di Dijkstra
 
 Funzionamento:
   * Ad ogni passo mantiene l'insieme S dei nodi esplorati, ovvero quelli per cui è già stata calcolata la
     distanza minima da s.
   * Inizializzo S={s},d(s)=0.
-  * Ad ogni passo, seglie tra i nodi non ancora in S ma adiacent a qualche di S, quello che può essere
-    raggiunto in modo più economico (scelta greedy).
+  * Ad ogni passo, seglie tra i nodi non ancora in S ma adiacenti a qualche nodo di S, quello che può 
+    essere  raggiunto in modo più economico (scelta greedy).
   * Aggiunge v ad S e pone d(v)=d'(v).
   * d'(v) rappresenta la lunghezza del percorso più corto da s a v tra quelli che passano solo per nodi
     di S.
