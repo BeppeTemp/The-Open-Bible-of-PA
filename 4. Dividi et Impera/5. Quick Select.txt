@@ -1,0 +1,42 @@
+-----------------------------------------------------------------------------------Definizione del problema
+
+Input: un array v di n elementi distinti con un unizio s e una fine f.
+
+Obbiettivo: Selezionare l'elemento di rango r in un array v di n elementi distinti (evitando di ordinare v).
+
+Osservazione: La funzione di distribuzione permette di trovare il rango del pivot, posizionando tutti gli
+elementi di rango inferiore alla sua sinistra e tutti quelli di rango superiore alla sua destra.
+
+Si può modificare il codice del Quick Sort procedendo ricorsivamente nel solo segmento dell'array 
+contentente l'elemento da selezionare.
+
+La ricorsione termina quando il segmento è composta da un solo elemento.
+
+-----------------------------------------------------------------------------------------------Pseudocodice
+
+QuickSelect(v,s,r,d){
+    if(s==d){
+        return v[s]
+    }else{
+        scegli un pivot p nell'intervallo [s,...,d]
+        np=Distribuzione(v,s,p,d)
+        if(r-1==np){
+            retunr v[np]
+        }else{
+            if(r-1<np){
+                return QuickSelect(v,s,r,np-1)
+            }else{
+                return QuickSelect(v,np+1,r,d)
+            }
+        }
+    }
+}
+
+------------------------------------------------------------------------------------Relazione di ricorrenza
+
+La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
+      | c0                       se n=1
+T(n)<=| c1n                      se n>1 e rp=r-1
+      | mac{T(rp-1),T(n-rp)+cn}  altrimenti
+
+-----------------------------------------------------------------------------------------------------------

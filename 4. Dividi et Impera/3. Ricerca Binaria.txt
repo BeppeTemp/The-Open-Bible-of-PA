@@ -1,0 +1,42 @@
+-----------------------------------------------------------------------------------Definizione del problema
+
+Input: un array v ordinato con un inizio s e una fine d e un elemento x.
+
+Obbiettivo: Restituire la posizione dell'elemento x se esiste all'interno dell'arrray.
+
+Funzionamento:
+  * Caso Base: Quando il segmento analizzato contiene al più un elemento.
+  * Decpmposizione: Vine calcolato l'indice centrale m e controllato se x è maggiore o minore di a[c].
+  * Ricorsione e Ricombinazione: non occorre nessun lavoro di ricombinazione.
+
+-----------------------------------------------------------------------------------------------Pseudocodice
+
+RicercaBinaria(v,x,s,d){
+    if(s>d){
+        return -1
+    }
+
+    m=(s+d)/2
+    if(x==v[m]){
+        return m;
+    }
+
+    if(s==d){
+        return -1
+    }
+
+    if(x<v[m]){
+        RicercaBinaria(v,x,s,mid-1)
+    }else{
+        RicercaBinaria(v,x,mid+1,d)
+    }
+}
+
+------------------------------------------------------------------------------------Relazione di ricorrenza
+
+La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
+      | c0       se n<=1 oppure K è l'elemento centrale
+T(n)<=|
+      | T(n/2)+c altrimenti
+
+-----------------------------------------------------------------------------------------------------------
