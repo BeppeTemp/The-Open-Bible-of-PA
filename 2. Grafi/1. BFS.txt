@@ -24,22 +24,22 @@ BFS(s){
     }
 }
 
-------------------------------------------------------------------------------------------implementazioni
+-------------------------------------------------------------------Implementazione con lista di adiacenza
 
 #implementazione con lista di adiacenza: abbiamo come output, sia la lista di adiacenza che l'albero
 associato al grafo.
 
 BFS(s){
-    inizializza L[0] in modo che contenga solo s
-    poni disc[s]=true e disc[u]=false per tutti gli altri nodi u del grafo
-    inizializza bfsTree come albero vuoto.
+    inizializza L[0] in modo che contenga solo s                                 //Tempo O(1)
+    poni disc[s]=true e disc[u]=false per tutti gli altri nodi u del grafo       //Tempo O(n)
+    inizializza bfsTree come albero vuoto.                                       //Tempo O(1)
     i=0
-    while(i<n-2){
-        inizializza L[i+1] come lista vuota
-        foreach (nodo in L[i]){
-            foreach (arco(u,v) incidente in u){
-                if (disc[v]==false){
-                    disc[v]=true
+    while(i<n-2){                                      //Tempo O(n)
+        inizializza L[i+1] come lista vuota                                     
+        foreach (nodo in L[i]){                        //Sul totale delle iterazioni del while O(n).
+            foreach (arco(u,v) incidente in u){        //la sommatoria di tutti i gradi degli archi,
+                if (disc[v]==false){                   //quindi al più 2m sul totale delle iterazioni 
+                    disc[v]=true                       //del while. 
                     bfsTree.add(arco(u,v))
                     L[i+1].add(v)
                 }
@@ -49,24 +49,38 @@ BFS(s){
     }
 }
 
+Analisi: L'inizializzazione prende tempo costante tranne per quanto riguarda quella dell'array disc[] che
+prende come tempo O(n). Per quanto riguarda il While prende tempo O(n-2) mentre il primo foreach sul totale
+delle iterazioni del while visiterà tutti i nodi, quindi O(n). Infine il secondo foreach, visiterà tutti
+gli archi del grafo al più due volte quindi, per tutte le iterazioni del while O(2m).
+Totale: O(n)+O(n-2)+O(n)+O(m)=O(3n+m-2)=O(n+m).
+
+----------------------------------------------------------------------------Implementazione con coda FIFO
+
 #implementazione con coda FIFO: al contrario dell'implementazione con lista di adiacenza, l'implementazione
 con coda FIFO ha come unico output l'albero.
 
 BFS(s){
-    inizializza q come coda vuota
-    q.enqueu(s)
-    poni disc[s]=true e disc[u]=false per tutti gli altri nodi u del grafo
-    inizializza bfsTree come albero vuoto
-    while(Q non è vuota){
-        u=q.deque
-        foreach (arco(u,v) incidente in u){
-            if (disc[v]==false){
-                    disc[v]=true
+    inizializza q come coda vuota                                               //Tempo O(1)
+    q.enqueu(s)                                                                 //Tempo O(1)
+    poni disc[s]=true e disc[u]=false per tutti gli altri nodi u del grafo      //Tempo O(n)
+    inizializza bfsTree come albero vuoto                                       //Tempo O(1)
+    while(Q non è vuota){                           //Ci passeranno tutti i nodi quindi O(n)
+        u=q.deque                                   //Tempo O(1)
+        foreach (arco(u,v) incidente in u){         //la sommatoria di tutti i gradi degli archi,
+            if (disc[v]==false){                    //quindi al più 2m sul totale delle iterazioni 
+                    disc[v]=true                    //del while. 
                     bfsTree.add(arco(u,v))
                     q.enqueu(v)
             }
         }
     }
 }
+
+Analisi: L'inizializzazione prende tempo costante tranne per quanto riguarda quella dell'array disc[] che
+prende come tempo O(n). Per quanto riguarda il While prende tempo O(n) in quanto nella coda transiteranno
+tutti i nodi del grafo, mentre il foreach, visiterà tutti gli archi del grafo al più due volte quindi, 
+per tutte le iterazioni del while O(2m).
+Totale: O(n)+O(n)+O(n)+O(m)=O(3n+m)=O(n+m).
 
 ---------------------------------------------------------------------------------------------------------

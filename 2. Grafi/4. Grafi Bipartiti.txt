@@ -42,8 +42,8 @@ o X,nodi padre non comuni,Z,nodi padre non comuni, Y che rappresenta un ciclo di
 ------------------------------------------------------------------------------------------Implementazione
 #Algoritmo che verifica se un grafo contiene un ciclo dispari e quindi se è bipartito o meno.
 IsBipart(color,g){
-    foreach (nodo u in g){
-        foreach (arco(u,v) incidente in u)
+    foreach (nodo u in g){                     //Tempo O(n)
+        foreach (arco(u,v) incidente in u)     //Tempo O(2m) 
             if(color[u]==color[v])
                 return false
             }
@@ -52,9 +52,14 @@ IsBipart(color,g){
     return true
 }
 
+Analisi: stesso concetto degli arhci visitati due votle del BFS e DFS.
+Tempo totale: O(n)+O(2m)=O(n+2m)=O(n+m)
+
+----------------------------------------------------------------------------------------------------Extra
+
 #Algoritmo di visita BFS modificato per assegnare colore ai nodi in modo che possano essere analizzati
 da IsBipart.
-BFS(s){
+BFSCOL(s){
     poni disc[s]=true e disc[u]=false per tutti i nodi u
     i=0
     inizializza L[0] in modo che contenga solo s

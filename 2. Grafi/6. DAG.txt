@@ -41,9 +41,10 @@ Dim (induzione su n):
 
 #Algoritmo che ritorna l'ordinamento topologico di un DAG, in sostanza elimina un nodo alla volta dal 
 grafo.
+
 TopologicalOrder(g){
-    if (esiste un nodo u senza archi entranti)
-        elimina u dal grafo g=g-{u}
+    if (esiste un nodo u senza archi entranti)     //Tempo O(n)
+        elimina u dal grafo g=g-{u}                //Tempo deg(u) 
         L=TopologicalOrder(g)
         aggiungi u all'inizio di L
         return L
@@ -52,11 +53,18 @@ TopologicalOrder(g){
     }
 }
 
+Analisi: Trovare un nodo senza archi entranti, richiede O(n) se per ogni nodo memorizziamo il numero di
+archi entranti. Cancellare un nodo dal grafo ivnece richeidete tempo propozionale al numero di archi del
+nodo quindi deg(u). Considerando tutte le chiamate ricorsive e il tempo O(n^2) per l'if e O(m) per
+l'eliminazione.
+Totale: O(n^2)+O(m)=O(n^2+m)=O(n^2)
+
 ---------------------------------------------------------------------------Miglioramento con tempo O(n+m)
 
 #Algoritmo che ritorna l'ordinamento topologico di un DAG in tempo O(n+m), utilizza un array count per
 contare il numero di archi entranti in ogni nodo e una coda s che contiene tutti i nodi senza archi
 entranti.
+
 foreach (nodo u in g){
     foreach (arco(u,w) entrante in u){
         count[u]=count[u]+1
