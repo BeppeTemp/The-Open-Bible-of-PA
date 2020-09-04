@@ -39,4 +39,22 @@ DFS(s){
     } 
 }
 
+#Implementazione tramite stack e generazione albero DFS
+DFS(s){
+    poni expl[s]=true e expl[u]=false per tutti gli altri nodi u
+    Inizializza il DFStree come albero vuoto
+    stk.push(s)
+    while(stk non vuoto){
+        u=stk.pop()
+        if (esiste un arco(u,v) incidente su u non ancora esaminato){
+            if (expl[v]=false){
+                expl[v]=true
+                DFSTree.add(arco(u,v))
+                stk.push(v)
+            }
+        }
+        stk.pop()
+    } 
+}
+
 --------------------------------------------------------------------------------------------------------
