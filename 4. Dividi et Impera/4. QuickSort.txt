@@ -1,0 +1,74 @@
+-----------------------------------------------------------------------------------Definizione del problema
+
+Input: un array v non ordinato con un inizio s e una fine d.
+
+Obbiettivo: Vogliamo ordinare l'array v.
+
+Funzionamento:
+  * Decomposizione: se la sequenza ha almeno due elementi, scegli un elemento pivot e dividi la sequenza in
+                    due sotto-sequenza in modo tale che la prima contenga elementi minori o uguali al pivot
+                    e la seconda gli elementi maggiori o uguali al pivot.
+  * Ricorsione: Ordina ricorsivamente le due sotto-sequenze.
+  * Ricombinazione: non occorre fare alcun lavoro di ricombinazione.
+
+-----------------------------------------------------------------------------------------------Pseudocodice
+
+RicercaBinaria(v,x,s,d){
+    if(s<d){
+        scegli un pivot p nell'intervallo [s,...,d]
+        np=Distribuzione(v,s,p,d)
+        QuickSort(v,s,np-1)
+        QuickSort(v,np+1,d)
+    }
+}
+
+----------------------------------------------------------------------------------------------Distribuzione
+
+Funzionamento:
+  * Pone il pivot nella posizione v[d], se già lo è non fa nulla.
+  * Usa due indici i e j per scandire il segmento: i parte da s e varso destra, j parte da d e va verso 
+    sinistra fino a quando i i<=j.
+  * Ogni votla che si ha un v[i]>pivot e a[j]<pivot, scambia v[i] con v[j] e poi riprende la scansione.
+  * Alla fine della scansione posizione il pivot nella posizione corretta.
+
+Pseudocodice:
+Distribuzione(v,s,p,d){
+    if(v[p]!=v[d]){
+        Scambia(v[p],v[d])
+    }
+
+    i=s
+    j=d
+
+    while(i<=j){
+        while((i<=j)and(v[i]<=v[d])){
+            i++
+        }
+        while((i<=j)and(v[i]=>v[d])){
+            j--
+        }
+        if(i<j){
+            Scambia(v[i]),v[j])
+            i++
+            j--
+        }
+    }
+    if(i!=d){
+        Scambia(v[i],v[d])
+    }
+}
+
+Scambia(x,y){
+    t=x
+    x=y
+    y=t
+}
+
+------------------------------------------------------------------------------------Relazione di ricorrenza
+
+La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
+      | c0               se n<=1 
+T(n)<=|
+      | T(r-1)+T(n-r)+cn altrimenti
+
+-----------------------------------------------------------------------------------------------------------

@@ -1,0 +1,57 @@
+-----------------------------------------------------------------------------------Definizione del problema
+
+Input: un array v non ordinato con un inizio s e una fine d.
+
+Obbiettivo: ordinare l'array v.
+
+Funzionamento:
+  * Decomposizione: L'array viene diviso in due sottoseguenze, calcolandone il centro m (Tempo theta(1)).
+  * Ricorsione: Le due sottoseguenze vengono ricorsivamente ordinate (Tempo O(T[n/2]+T[n/2])).
+  * Ricombinazione: Le due seguenze vengono ricombinate tramite l'algoritmo Merge (Tempo theta(n))
+
+-----------------------------------------------------------------------------------------------Pseudocodice
+
+MergeSort(v,s,d){
+    if(s<d){
+        m=(s+d)/2
+        MergeSort(v,s,m)
+        MergeSort(v,m+1,d)
+        Merge(v,s,m,d)
+    }
+}
+
+Merge(v,s,m,d){
+    i=s
+    j=m+1
+    k=0
+
+    while((i<=m)and(j<=d)){         //Scorre entrambe le sequenze finche una non finisce
+        if(v[i]<=v[j]){             //Inserisce prima il minore
+            b[k]=v[i]
+            i++
+        }else{
+            b[k]=v[j]
+            j++
+        }
+        k++
+    }
+
+    for(;i<=m;i++;k++){             //Inserisce la parte restante della seguenze non finita
+        b[k]=v[i]
+    }
+    for(;j<=d;j++,k++){             //Inserisce la parte restante della seguenze non finita
+        b[k]=v[j]
+    }
+    for(i=s;i<=d,i++){              //Inserisce la sequenza completa e ordinata in v
+        v[i]=b[i-s]
+    }
+}
+
+------------------------------------------------------------------------------------Relazione di ricorrenza
+
+La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
+     | c0            se n<=1
+T(n)=|
+     | 2T(n/2)+cn+c' altrimenti
+
+-----------------------------------------------------------------------------------------------------------
