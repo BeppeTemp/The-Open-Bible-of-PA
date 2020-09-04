@@ -26,7 +26,7 @@ devono essere ultimati.
 
 Strategia 3 (Smallest Slack): Considera prima i job con scarto dj-tj più piccolo.
 
-----------------------------------------------------------------------------------------------Pseudocodice
+---------------------------------------------------------------------------------------------Pseudocodice
 
 #Algoritmo che dato in input un instanza del problema minimizzazione dei ritartdi ritorna l'ordine di
 esecuzione degli intervalli.
@@ -48,5 +48,5 @@ La soluzione cosi proposta gode di due proprietà:
 a) Nessun Idle Time, non ci sono momenti in cui la risorsa non viene utilizzata.
 b) Nessun Inversione, se un job j ja scadenza maggiore di quella i un job 1 allora viene eseguito i.
 
-----------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
 

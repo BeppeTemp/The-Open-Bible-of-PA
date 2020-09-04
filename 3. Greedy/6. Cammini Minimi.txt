@@ -1,4 +1,4 @@
-----------------------------------------------------------------------------------Definizione del Problema
+---------------------------------------------------------------------------------Definizione del Problema
 
 Input:
   * Grafo direzionato G=(V,E)
@@ -8,7 +8,7 @@ Input:
 
 Obbiettivo: Trovare i percorsi direzionati più corsto da s verso tutti gli altri nodi.
 
------------------------------------------------------------------------------------------------Definizioni
+----------------------------------------------------------------------------------------------Definizioni
 
 Definizione: Per ogni percorso direzionato P. l(P)=somma delle lunghezze degli archi in P (Costo di P).
 
@@ -25,18 +25,18 @@ vertice u a v.
 
 All Pairs Shortest Path: Per ogni coppai di vertici u e v, determinare un cammino minimo da u a v.
 
-----------------------------------------------------------------------------------------------Osservazione
+---------------------------------------------------------------------------------------------Osservazione
 
 Cicli Negativi: in caso di un ciclo negativo non è possibile definire un percorso minimo.
 
--------------------------------------------------------------------------------------Algoritmo di Dijkstra
+------------------------------------------------------------------------------------Algoritmo di Dijkstra
 
 Funzionamento:
   * Ad ogni passo mantiene l'insieme S dei nodi esplorati, ovvero quelli per cui è già stata calcolata la
     distanza minima da s.
   * Inizializzo S={s},d(s)=0.
-  * Ad ogni passo, seglie tra i nodi non ancora in S ma adiacent a qualche di S, quello che può essere
-    raggiunto in modo più economico (scelta greedy).
+  * Ad ogni passo, seglie tra i nodi non ancora in S ma adiacenti a qualche nodo di S, quello che può 
+    essere  raggiunto in modo più economico (scelta greedy).
   * Aggiunge v ad S e pone d(v)=d'(v).
   * d'(v) rappresenta la lunghezza del percorso più corto da s a v tra quelli che passano solo per nodi
     di S.
@@ -50,12 +50,36 @@ Dijkstra(G,l){
     inizializza S={s} 
     d(s)=0
     while(S!=V){
-        seleziona un nodo che non appartiene a S con almeno un vertice in S il quale
-            la distanza è il minimo possibile
+        seleziona un nodo che non appartiene a S ma che è adiacente a qualche nodo in S il quale
+            ha distanza minima possibile
         aggiungi v a S e definisci d(v)=d'(v)
     }
 }
 
----------------------------------------------------------------------------------------------------------
+Implementazione con coda a priorità:
+Dijkstra(G,s,l){
+    Sia s l'ineime dei nodi esplorati
+    foreach(nodo un non in s){
+        conservane la distanza d'(u)
+    }
+    Sia Q una coda a priorità (d'(u),u) t.c. u non è in S
+    foreach(nodo un in S){
+        conservane la distanza d(u)
+    }
+    Insert(Q,(0,s))
+    foreach(u!=s){
+        Insert (Q,infinito,u) in Q
+    }
+    while(S!=V){
+      (d(v),v)<---ExtractMin(Q)
+      aggiungi v to s
+      foreach(arco e=(v,z)){
+        if ((z non è in S) and (d(v)+le<d'(z))){
+          changekey(Q,z,d(v)+le)
+        }
+      }
+    }
+}
+--------------------------------------------------------------------------------------------------------
 
  

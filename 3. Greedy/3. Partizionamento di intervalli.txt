@@ -19,7 +19,7 @@ l'asse x.
 
 Osservazione: Numero di risorse necessarie >= profondità.
 
-----------------------------------------------------------------------------------------------Pseudocodice
+---------------------------------------------------------------------------------------------Pseudocodice
 
 #Algoritmo che dato in input un instanza del problema partizionamento di intervalli ritorna il numero di 
 risorse minimo per eseguirli in modo compatibile
@@ -42,5 +42,5 @@ PartInt(intval){
 
 Tempo con inmplementazione con coda a priorità: O(n lon n)
 
-----------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
 

@@ -23,7 +23,7 @@ esaminati (fj-sj minore).
 Strategia 4 (Fewest Conflicts): Cerco di prendere quello che ha meno conflitti con altri job tra tutti
 quelli non ancora esaminati.
 
-----------------------------------------------------------------------------------------------Pseudocodice
+---------------------------------------------------------------------------------------------Pseudocodice
 
 #Algoritmo che dato in input un instanza del problema Interval Scheduling, implementa la strategia Greedy
 Shortest Finish Time.
@@ -46,4 +46,4 @@ Tempo del for: O(n)
 
 Tempo totale: O(n log n)
 
-----------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
