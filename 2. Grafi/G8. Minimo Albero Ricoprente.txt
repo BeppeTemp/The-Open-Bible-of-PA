@@ -61,6 +61,12 @@ Prim(G,c){
         }
     }
 }
+
+Analisi: 
+O(n^2) con array o lista non ordinati.
+O(m log n+n log n) con heap.
+Siccome nel problema dello MST il grafo è connesso allora m>=n-1 e O(m log n+n log n)=O(m log n).
+
 -------------------------------------------------------------------------------Modifica algoritmo di Prim
 
 Modifica che restituisce l'insieme dei nodi appartenenti allo MST:
@@ -154,4 +160,21 @@ Kruskal(G,c){
     return T
 }
 
---------------------------------------------------------------------------------------------------------
+Analisi: la fase di inzializzazione prende tempo: O(n) per creare la struttura Union-Find e O(m log m)
+per ordinare gli archi. Successicamente per ogni arco esaminato abbiamo tempo O(2m)=O(m) per le due find
+e per ogni arco aggiunto O(n) su un totale di n-1 archi che si traduce in (n^2).
+Tempo totale: O(m log n)+O(n^2).
+
+-------------------------------------------------Implementazione con Union Find con array e union-by-size
+
+Stessa implementazione della slide precedente ma si usa anche un altro array A per mantenere traccia 
+della cardinalità di ciascun insieme. L’array ha n celle perché inizialmente ci sono n insiemi..
+
+Nuovo tempo totale: O(m lon n).
+
+----------------------------------------------------------Implementazione basata su struttura a puntatori
+
+L'insieme viene rappresentato come una struttura a puntatori in modo da semplificare le operazioni di 
+unio e find, portando cosi il tempo di esecuzione a O(log n).
+
+---------------------------------------------------------------------------------------------------------

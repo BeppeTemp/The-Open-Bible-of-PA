@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------Definizione del Problema
 
-Input: un insieme di job di cui abbiamo la durata tj e il tempo in cui il job deve essere terminato dj 
+Input: un insieme di job di cui abbiamo la durata tj e il tempo dj in cui il job deve essere terminato 
 ovvero la sua scadenza.
 
 Obbiettivo: Trovare uno scheduling di tutti i job che minimizzi il ritardo massimo L=max lj. 
@@ -18,13 +18,16 @@ eseguito prima di i.
 -----------------------------------------------------------------------------------------Strategie Greedy
 
 Strategia 1 (Shortest Processing Time First): Considera prima i job in con tempo di elaborazione tj 
-minimo. 
+minimo. (due job: uno con tempo di elaborazione pari a 1 e scadenza 100, un altro con tempo di 
+elaborazione pari a 10 e scadenza 10, viene eseguito prima il primo e genera ritardi)
 
 #Strategia Migliore
 Strategia 2 (Earliest Deadline Time): Considera i job in ordina non decrescente dei tempi entri i quali 
 devono essere ultimati.
 
-Strategia 3 (Smallest Slack): Considera prima i job con scarto dj-tj più piccolo.
+Strategia 3 (Smallest Slack): Considera prima i job con scarto dj-tj più piccolo. (due job: uno con tempo
+di elaborazione pari a 1 e scadenza 2, il secondo con tempo di elaborazione pari a 10 e scadenza 10, viene
+prima il job due portando a un ritardo)
 
 ---------------------------------------------------------------------------------------------Pseudocodice
 
@@ -43,6 +46,12 @@ MinRit(){
     }
     return i nuovi intervalli
 }
+
+Analisi:
+Tempo ordinamento: O(n log n) (tempo dominante)
+Tempo for: O(n)
+
+Tempo totale: O(n)+O(n log n)=O(n log n)
 
 La soluzione cosi proposta gode di due proprietà:
 a) Nessun Idle Time, non ci sono momenti in cui la risorsa non viene utilizzata.

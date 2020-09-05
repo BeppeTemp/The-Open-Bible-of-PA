@@ -11,17 +11,17 @@ tempi di esecuzione non si sovrappongono.
 -----------------------------------------------------------------------------------------Strategie Greedy
 
 Strategia 1 (Earliest Start Time): Cerco di prendere sempre il job che ha tempo di inizio più piccolo, tra
-tutti quelli non ancora esaminati.
+tutti quelli non ancora esaminati. (Un job lungo che inzia prima di 4 piccoli)
 
 #Strategia Migliore
 Strategia 2 (Earliest Finish Time): Cerco di prendere sempre il job che ha tempo di fine più piccolo, tra
-tutti quelli non ancora esaminta.
+tutti quelli non ancora esaminta. 
 
 Strategia 3 (Shortest Interval): Cerco di prendere quello che dura meno tra tutti quelli non ancora
-esaminati (fj-sj minore).
+esaminati (fj-sj minore). (Un job piccolo incastrato fra due)
 
 Strategia 4 (Fewest Conflicts): Cerco di prendere quello che ha meno conflitti con altri job tra tutti
-quelli non ancora esaminati.
+quelli non ancora esaminati. (Due colonne da 3 con 4 job sopra e uno in mezzo con meno conflitti)
 
 ---------------------------------------------------------------------------------------------Pseudocodice
 
@@ -41,9 +41,9 @@ IntSched(job){
     return ord
 }
 
-Tempo dell'ordinamento: O(n log n)
+Tempo dell'ordinamento: O(n log n) (Termine dominante)
 Tempo del for: O(n)
 
-Tempo totale: O(n log n)
+Tempo totale: O(n)+O(n log n)=O(n log n)
 
 ---------------------------------------------------------------------------------------------------------

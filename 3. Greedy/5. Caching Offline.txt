@@ -4,7 +4,7 @@ Input:
   * Un memoria centrale contene un insieme U di n elementi.
   * Una memoria cache con capacità di memorizzare k elementi.
   * Sequenza di m richieste di elementi d1,d2,...,dm fornita in modo offline (tutte le richieste sono 
-    note fin da subito).
+    note fin da subito, non molto realistico).
   * Assumiamo che all'inizio la cache è piena, ovvero contiene k elementi.
 
 Obbiettivo: definire uno Eviction Scheduling che minimizzi il numero di cache miss.
@@ -34,6 +34,8 @@ Osservazione: In un Eviction Schedule Ridotto il numero di inseirmenti è uguale
 Strategia (Farthest-in-future): quando viene rischiesto un elemento che non è presente in cache, espelli
 dalla cache l'elemento che sarà richiesto più in là nel tempo o che non sarà più richiesto.
 
----------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------Pseudocodice impossibile da ricordare
 
- 
+Analisi: O(m+k log k)+O(m log k) dove k è la dimensione della cache
+
+---------------------------------------------------------------------------------------------------------

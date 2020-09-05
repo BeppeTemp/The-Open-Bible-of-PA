@@ -25,8 +25,8 @@ Osservazione: Numero di risorse necessarie >= profondità.
 risorse minimo per eseguirli in modo compatibile
 
 PartInt(intval){
-    ordino gli intervalli in base ai tempi di inizio
-    d=0  //contatore risorse allocate
+    Ordino gli intervalli in base ai tempi di inizio
+    d=0                                                 //contatore risorse allocate
 
     for(j=1;i<n;j++){
        if(l'intervallo j può essere asegnato a una risorsa già allocata){
@@ -39,6 +39,9 @@ PartInt(intval){
     }
     return d
 }
+
+Tempo ordinamento: O(n log n) (Termine dominante)
+Tempo del for: O(n)
 
 Tempo con inmplementazione con coda a priorità: O(n lon n)
 
