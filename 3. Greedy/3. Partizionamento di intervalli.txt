@@ -7,7 +7,7 @@ Obbiettivo: far svolgere le n attività utilizzando il minor numero possibile di
 ciascuna risorsa venga utilizzata da al massimo un attività alla volta.
 
 Al contrario dell'Interval Scheduling, qui vogliamo utilizzare il minor numero possibile di risorse, un 
-esempio è la gestione delle aulee in un università, vogliamo occuparne il meno possibile.
+esempio è la gestione delle aule in un università, vogliamo occuparne il meno possibile.
 
 -----------------------------------------------------------------------------------Concetto di profondità
 

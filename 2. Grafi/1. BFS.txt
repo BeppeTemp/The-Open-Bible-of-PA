@@ -53,7 +53,7 @@ Analisi: L'inizializzazione prende tempo costante tranne per quanto riguarda que
 prende come tempo O(n). Per quanto riguarda il While prende tempo O(n-2) mentre il primo foreach sul totale
 delle iterazioni del while visiterà tutti i nodi, quindi O(n). Infine il secondo foreach, visiterà tutti
 gli archi del grafo al più due volte quindi, per tutte le iterazioni del while O(2m).
-Totale: O(n)+O(n-2)+O(n)+O(m)=O(3n+m-2)=O(n+m).
+Totale: O(n)+O(n-2)+O(2m)=O(2n+2m-2)=O(n+m).
 
 ----------------------------------------------------------------------------Implementazione con coda FIFO
 
@@ -81,6 +81,6 @@ Analisi: L'inizializzazione prende tempo costante tranne per quanto riguarda que
 prende come tempo O(n). Per quanto riguarda il While prende tempo O(n) in quanto nella coda transiteranno
 tutti i nodi del grafo, mentre il foreach, visiterà tutti gli archi del grafo al più due volte quindi, 
 per tutte le iterazioni del while O(2m).
-Totale: O(n)+O(n)+O(n)+O(m)=O(3n+m)=O(n+m).
+Totale: O(n)+O(n+2m)=O(2n+2m)=O(n+m).
 
 ---------------------------------------------------------------------------------------------------------

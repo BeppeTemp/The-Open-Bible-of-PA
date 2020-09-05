@@ -77,8 +77,8 @@ Dijkstra(G,s,l){
 
   Sia s settato come nodo esplorato                                         //Inizializzazione
   Per ogni nodo u non in S, conserva la distanza d'(u)                      /
-  Sia Q una coda a priorità della coppia (d'(u),u) t.c. u non è in S        /
-  Per ogni nodo u in S, conserva la distanza d(u)                           //
+  Per ogni nodo u in S, conserva la distanza d(u)                           /
+  Sia Q una coda a priorità della coppia (d'(u),u) t.c. u non è in S        //
 
   insert(Q,(0,s))                                       //s ha distanza da se pari a 0
   per ogni nodo u diverso da s insert(Q,infinito,u)     

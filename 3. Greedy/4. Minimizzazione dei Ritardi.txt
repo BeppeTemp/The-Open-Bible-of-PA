@@ -1,23 +1,23 @@
 ---------------------------------------------------------------------------------Definizione del Problema
 
-Input: un insieme di job di cui abbiamo la durata tj e il tempo dj in cui il job deve essere terminato 
+Input: un insieme di job di cui abbiamo la durata dj e il tempo sj in cui il job deve essere terminato 
 ovvero la sua scadenza.
 
 Obbiettivo: Trovare uno scheduling di tutti i job che minimizzi il ritardo massimo L=max lj. 
 
 -----------------------------------------------------------------------------------Definizione di ritardo
 
-Ritardo: il ritardo del job j è definito come lj=max{0,fj-dj}, dove fj è il suo tempo di fine dato da,
-fj=sj-tj, (ovvero tempo di inizio più durata).
+Ritardo: il ritardo del job j è definito come lj=max{0,fj-sj}, dove fj è il suo tempo di fine dato da,
+fj=sj-dj, (ovvero tempo di inizio più durata).
 
 --------------------------------------------------------------------------------Definizione di inversione
 
-Inversione: un'inversione in uno scheduling S è una coppia di job i e j tali che: di<dj ma j viene
+Inversione: un'inversione in uno scheduling S è una coppia di job i e j tali che: di<sj ma j viene
 eseguito prima di i.
 
 -----------------------------------------------------------------------------------------Strategie Greedy
 
-Strategia 1 (Shortest Processing Time First): Considera prima i job in con tempo di elaborazione tj 
+Strategia 1 (Shortest Processing Time First): Considera prima i job in con tempo di elaborazione dj 
 minimo. (due job: uno con tempo di elaborazione pari a 1 e scadenza 100, un altro con tempo di 
 elaborazione pari a 10 e scadenza 10, viene eseguito prima il primo e genera ritardi)
 
@@ -25,9 +25,9 @@ elaborazione pari a 10 e scadenza 10, viene eseguito prima il primo e genera rit
 Strategia 2 (Earliest Deadline Time): Considera i job in ordina non decrescente dei tempi entri i quali 
 devono essere ultimati.
 
-Strategia 3 (Smallest Slack): Considera prima i job con scarto dj-tj più piccolo. (due job: uno con tempo
+Strategia 3 (Smallest Slack): Considera prima i job con scarto sj-dj più piccolo. (due job: uno con tempo
 di elaborazione pari a 1 e scadenza 2, il secondo con tempo di elaborazione pari a 10 e scadenza 10, viene
-prima il job due portando a un ritardo)
+prima il job due portando a un)
 
 ---------------------------------------------------------------------------------------------Pseudocodice
 
@@ -39,10 +39,10 @@ MinRit(){
     t=0                                             //conta il tempo di inizio del prossimo job
 
     for(j=1;i<n;j++){
-       asegna il job j all'intervallo [t,t+tj]
+       asegna il job j all'intervallo [t,t+dj]
        sj=t                                         //setta sj del job j
-       fj=t+tj                                      //setta fj del job j
-       t=t+tj                                       //aggiorna il tempo di inizio del job j+1
+       fj=t+dj                                      //setta fj del job j
+       t=t+dj                                       //aggiorna il tempo di inizio del job j+1
     }
     return i nuovi intervalli
 }

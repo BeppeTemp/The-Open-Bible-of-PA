@@ -70,7 +70,7 @@ BFSCOL(s){
                 if(disc[v]==false){
                     disc[v]==true;
                     L[i+1].add(v)
-                    if(i%2=0=){
+                    if(i%2==0){
                         color[v]=rosso
                     }else{
                         color[v]=blue
