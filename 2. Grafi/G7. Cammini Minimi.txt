@@ -75,13 +75,13 @@ sul nodo con distanza da s minima, fino a quando S non contiene tutti i nodi del
 
 Dijkstra(G,s,l){
 
-  Sia s settato come nodo esplorato                                         //Inizializzazione
+  Sia s l'insieme dei nodi esplorati                                        //Inizializzazione
   Per ogni nodo u non in S, conserva la distanza d'(u)                      /
   Per ogni nodo u in S, conserva la distanza d(u)                           /
   Sia Q una coda a priorità della coppia (d'(u),u) t.c. u non è in S        //
 
   insert(Q,(0,s))                                       //s ha distanza da se pari a 0
-  per ogni nodo u diverso da s insert(Q,infinito,u)     
+  per ogni nodo u diverso da s insert(Q,(infinito,u))     
   while(S!=V){
     (d(v),v)=extractMin(Q)                              //Estrai il nodo con distanza d'(u) minima
     add v to S
@@ -110,5 +110,33 @@ Analisi: Abbiamo prima di tutto un tempo constante di inizializzazione, successi
 
 Heap Binario: una struttura dati basata su un albero dove il nodo figlio sinistro contiene sempre un valore
 minore rispetto al padre, mentre il destro uno maggiore.
+
+Implementazione per la creazione dell'albero dei cammini minimi:
+Dijkstra(G,s,l){
+  Sia s l'insieme dei nodi esplorati                                        
+  Per ogni nodo u non in S, conserva la distanza d'(u)                      
+  Per ogni nodo u in S, conserva la distanza d(u)                           
+  Sia Q una coda a priorità della coppia (d'(u),u) t.c. u non è in S        
+
+  Insert(Q,(0,s))
+  Per ogni nodo u diverso da s insert(Q,(infinito,u))
+
+  Inizializza dtree come albero vuoto              //Prima modifica                     
+  Inserisci s come radice di dtree                 //Seconda modifica
+  ln=s                                             //Terza modifica: contiene l'ultimo nodo inserito 
+
+  while(S!=V){
+    (d(v),v)=extractMin(Q)                              
+    add v to S
+    dtree.add(arco(ln,v))                           //Quarta modifica
+    ln=v                                            //Quinta modifica
+    foreach (arco e=(v,z)){
+      if (z non in s) and (d(v)+le<d'(z)){              
+        changeKey(Q,z,d(v)+le)                          
+      }                                                 
+    }                                                  
+  }
+  return dtree                                      //Sesta modifica
+}
 
 ---------------------------------------------------------------------------------------------------------

@@ -13,7 +13,7 @@ che rappresentano i backtrack svolti dall'algoritmo.
 #Idea
 DFS(s){
     expl[s]=True
-    R.add(s)
+    Q.add(s)
     foreach (arco(s,v) incidente in s)
         if (!expl)
             DFS(v)
@@ -61,6 +61,41 @@ DFS(s){
             }
         }
         stk.pop()
+    } 
+}
+
+-----------------------------------------------------------------------------------------Work in progress
+
+#Implementazione che ritorna un ciclo nel grafo se c'è.
+DFS(s){
+    poni expl[s]=true e expl[u]=false per tutti gli altri nodi u
+    Inizializza il DFStree come albero vuoto
+
+    stk.push(s)
+    while(stk non vuoto){
+        u=stk.pop()
+        if (esiste un arco(u,v) incidente su u non ancora esaminato){
+            if (expl[v]=false){
+                expl[v]=true
+                DFSTree.add(arco(u,v))                                 
+                stk.push(v)
+            }else{
+                
+            }
+        }
+        stk.pop()
+    } 
+}
+
+findPath(dtree,v,u){
+    foreach(arco(v,y)in dtree){
+        if(y!=u){
+            path(i).add(y)
+            i++
+        }else{
+            return path(i)
+        }
+        i=0
     } 
 }
 

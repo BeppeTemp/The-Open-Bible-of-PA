@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------Definizioni
 
-DAG: un DAG è un grafo che non contiene cicli direzionati.
+DAG: un DAG è un grafo direzionato che non contiene cicli direzionati.
 
 Ordinamento topologico: preso un grafo g un ordinamento topologico è un oridnamento dei suoi nodi, t.c.
 se c'è l'arco (u,w) in g, allora il nodo u precede il nodo w nell' ordinamento. In sostanza è un
