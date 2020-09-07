@@ -50,14 +50,14 @@ d[u]: costo dell'arco di costo più basso tra quelli che uniscono v ad un nodo i
 
 Kruskal(G,c){
     Ordina gli archi in ordine decrescente di peso
-    Inizializza T come vuoto
+    Inizializza T come albero vuoto
 
     foreach (nodo u){
         crea un insieme che contine solo u
     }
 
     for(i=1 to m){                                          
-        e[i]=(u,v)
+        e[i]=(u,v)                                    //Arco considerato
         if (u e v sono in due insiemi differenti){
             aggiungi l'arco e[i] a T
             unisci gli insiemi che contengono u e v

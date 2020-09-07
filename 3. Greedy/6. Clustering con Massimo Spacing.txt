@@ -13,7 +13,7 @@ oggetti.
 
 k-clustering: Partizione dell'insieme U in k sottoinsiemi non vuoti (cluster)
 
-Spacing: distanza più piccol atra due oggeti in cluster differenti.
+Spacing: distanza più piccola tra due oggeti in cluster differenti.
 
 Funzione distanza: è una funzione che soddisfa le seguenti proprietà:
   * d(pi,pj)=0 se e solo se pi=pj
