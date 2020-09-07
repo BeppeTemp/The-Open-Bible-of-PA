@@ -1,0 +1,69 @@
+---------------------------------------------------------------------------------------------------------
+
+Dijkstra(G,L,x){
+  Sia S l'insieme dei nodi esplorati                                        
+  Per ogni nodo u non in S, conserva la distanza d'[u]                      
+  Per ogni nodo u in S, conserva la distanza d[u]                           
+  Sia Q una coda a priorità della coppia (d'[u],u) t.c. u non è in S        
+
+  Insert(Q,(0,x))
+  Per ogni nodo u diverso da x insert(Q,(infinito,u))
+
+  while(Q non è vuota){
+    (d[u],u)=extractMin(Q)                              
+    add u to S
+    foreach (arco e=(u,v)){
+      if (v non in s) and (d[v]+L[e]<d'[v]){              
+        changeKey(Q,v,d[v]+L[e])                          
+      }                                                 
+    }                                                  
+  }
+}
+
+d'[u]: costo del percorso tra u a x migliore fino a quel momento.
+d[u]: costo dell'arco di costo più basso tra quelli che uniscono v ad un nodo in S.
+
+---------------------------------------------------------------------------------------------------------
+
+Prim(G,L,x){
+  Sia S l'insieme dei nodi esplorati                                        
+  Per ogni nodo u non in S, conserva la distanza d[u]                                              
+  Sia Q una coda a priorità della coppia (d[u],u) t.c. u non è in S        
+
+  Insert(Q,(0,x))
+  Per ogni nodo u diverso da x insert(Q,(infinito,u))
+
+  while(Q non è vuota){
+    (d[u],u)=extractMin(Q)                              
+    add u to S
+    foreach (arco e=(u,v)){
+      if (v non in s) and (L[e]<d[v]){              
+        changeKey(Q,v,d[v])                          
+      }                                                 
+    }                                                  
+  }
+}
+
+d[u]: costo dell'arco di costo più basso tra quelli che uniscono v ad un nodo in S.
+
+---------------------------------------------------------------------------------------------------------
+
+Kruskal(G,c){
+    Ordina gli archi in ordine decrescente di peso
+    Inizializza T come vuoto
+
+    foreach (nodo u){
+        crea un insieme che contine solo u
+    }
+
+    for(i=1 to m){                                          
+        e[i]=(u,v)
+        if (u e v sono in due insiemi differenti){
+            aggiungi l'arco e[i] a T
+            unisci gli insiemi che contengono u e v
+        }
+    }
+    return T
+}
+
+---------------------------------------------------------------------------------------------------------

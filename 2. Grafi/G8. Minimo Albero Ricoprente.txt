@@ -91,7 +91,13 @@ Prim(G,c){
             }
         }
     }
+    return T
 }
+
+Analisi: 
+O(n^2) con array o lista non ordinati.
+O(m log n+n log n) con heap.
+Siccome nel problema dello MST il grafo è connesso allora m>=n-1 e O(m log n+n log n)=O(m log n).
 
 -------------------------------------------------------------------------------------Algoritmo di Kruskal
 
