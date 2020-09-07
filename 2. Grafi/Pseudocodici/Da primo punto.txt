@@ -67,3 +67,42 @@ Kruskal(G,c){
 }
 
 ---------------------------------------------------------------------------------------------------------
+
+DFS(s){
+    poni expl[s]=true e expl[u]=false per tutti gli altri nodi u          
+    stk.push(s)                                                           
+    while(stk non vuoto){
+        u=stk.pop()                                                        
+        if (esiste un arco(u,v) incidente su u non ancora esaminato){  
+            if (expl[v]==false){
+                expl[v]=true
+                stk.push(v)
+            }
+        }
+        stk.pop()
+    } 
+}
+
+---------------------------------------------------------------------------------------------------------
+
+BFS(s){
+    inizializza q come coda vuota                                               
+    q.enqueu(s)                                                                 
+    poni disc[s]=true e disc[u]=false per tutti gli altri nodi u del grafo      
+    inizializza bfsTree come albero vuoto 
+
+    while(Q non è vuota){                           
+        u=q.deque                                   
+        foreach (arco(u,v) incidente in u){         
+            if (disc[v]==false){                    
+                    disc[v]=true                    
+                    bfsTree.add(arco(u,v))
+                    q.enqueu(v)
+            }
+        }
+    }
+
+    return bfsTree
+}
+
+---------------------------------------------------------------------------------------------------------
