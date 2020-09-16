@@ -1,0 +1,94 @@
+-----------------------------------------------------------------------------------Definizione del problema
+
+Input: Un insieme J di Job ognuno con un tempo di inizio Sj, un tempo di fine Fj e un valore Vj associato.
+
+Obbiettivo: Trovare il sottoinsieme di job compatibili con il massimo peso totale.
+
+La strategia Greedy Earlieast Finish Time funziona solo nel caso tutti i pesi siano uguali ad uno nel caso
+in cui a ogni job viene associato un peso questo non è più vero (un hob che finisce prima ma con peso uno,
+un altro job che finisce subito dopo ma con peso 999).
+
+------------------------------------------------------------------------------------------------Definizioni
+
+p(j): il più grande indice i<j tale che i è compatibile con j. (il job compatibile più vicino)
+
+OPT(j): valore della soluzione ottima per l'instanza del problema dell'interval scheduling pesato costituita
+dalle j richieste con i j tempo di fine più piccoli.
+  * Caso 1: la soluzione ottima per i j job con i tempi di fine più piccoli contiene il job j. In questo
+    caso la soluzione ottima non può usare i job incompatibili con j. La soluzione è compresa tra il job
+    1 e il job j.
+
+  * Caso 2: la soluzione non contiene il job j. In questo caso la soluzione è compresa tra il job 1 e il
+    job j-1.
+
+       |0 se j=0
+OPT(J)=|
+       |max{Vj + OPT(P(j), OPT(J-1))}
+
+-----------------------------------------------------------------------------------------------Pseudocodice
+
+#Versione inefficiente (Tempo Esponenziale):
+Input: n, s1,...,sn, f1,...,fn, v1,...,vn
+
+Ordina i job in base ai tempi di fine
+Computa p(1),p(2),...,p(n)
+
+Compute-Opt(j){
+    if(j=0){
+        return 0
+    }else{
+        return max(Vj+Compute-Opt(p(j)), Compute-Opt(j-1))
+    }
+}
+
+#Versione con Memoization:
+Input<: n, s1,...,sn, f1,...,fn, v1,...,vn
+
+Ordina i job in base ai tempi di fine
+Computa p(1),p(2),...,p(n)
+
+for(j=1 to n){
+    M[j]=empty
+}
+
+Compute-Opt(j){
+    if(j=0){
+        return 0
+    }else{
+        M[j]= max(Vj+Compute-Opt(p(j)), Compute-Opt(j-1))
+        retunr M[j]
+    }
+}
+
+Analisi tempo di esecuzione:
+L'ordinamento prende tempo O(n log n).
+La computazione dei valori invece prende tempo O(n).
+
+#Algoritmo che esegue il post-processing per trovare la soluzione ottima:
+Run Compute-Opt(n)
+Run Find-Solution(n)
+
+Find-Solution(j) {
+    if (j = 0){
+        output nothing
+    }else if (vj + M[p(j)] > M[j-1]){
+        print j
+        Find-Solution(p(j))
+    }else{
+        Find-Solution(j-1)
+    }
+}
+
+#Versione Iterativa:
+Input: n, s1,...,sn, f1,...,fn, v1,...,vn
+
+Ordina i job in base ai tempi di fine
+Computa p(1),p(2),...,p(n)
+
+Iter-Compute-Opt(j){
+    M[0]=0
+    for(j=1 to n){
+        M[j]=max(Vj+M[p(j)],M[j-1])
+    }
+}
+-----------------------------------------------------------------------------------------------------------

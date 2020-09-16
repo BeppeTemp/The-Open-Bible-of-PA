@@ -1,0 +1,385 @@
+BfS(s){
+    Poni dis[s]=true e disc[u]=false per tutti i nodi un contenunti in G
+    inizializza q come cosa fifo
+    inizilizza bftree come albero vuoto di radice s
+
+    Q.enqueue(s)
+    while(Q non è vuota){
+        u=q.dequeue()
+        foreach(arco(u,v) incidende in u){
+            if(disc[u]==false){
+                disc[u]==true
+                Q.dequeue(u)
+                bftree.add(arco(u,v))
+            }
+        }
+    }
+    return bftree
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+Traccia:
+Si consideri l’algoritmo che determina se un grafo è bipartito. Si dimostri che se
+l’algoritmo colora due nodi adiacenti dello stesso colore allora il grafo non è bipartito.
+
+L'algoritmo che si occupa di colorare i nodi del grafo è una modifica del BFS che colora i nodi appartenenti allo stesso livello con il medesimo
+colore, questo vuol dire due nodi potranno avere lo stesso colore solo se appartengono allo stesso livello, di può dimostrare che se all'interno di 
+un albero bfs due nodi allo stesso livello sono connessi, all'interno del bfs tree esisterà un ciclo dispari e si può dimostrare che un grafo è 
+bipartito solo se non contiene cicli dispari.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+Traccia:Si spieghi in che cosa consiste un’istanza (input) del problema del partizionamento di intervalli
+e qual è l’obiettivo del problema (output). Se dalla risposta a questo punto si evincera`
+che lo studente non sa in cosa consiste il problema, i punti successivi dell’esercizio non
+saranno valutati.
+
+Il problema del partizionamento degli intervalli può essere semplificato nel problema di distribuire un tot di lezioni con un tempo di fine e di
+inizio nel minor numero possibile di aule all'interno di un instituto o università.
+Più nel dettaglio come input del problema abbiamo una serie di intervalli, mentre il nostro obbiettivo è quello di eseguire tutti i job trovando 
+la combinazione di quest'ultimi che ci permette di utilizzare meno risorse.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+Traccia:Si scriva lo pseudocodice dell’algoritmo greedy che restituisce il valore della soluzione
+ottima per il problema del partizionamento di intervalli. SI SCRIVA LO PSEUDOCODICE IN
+ITALIANO: le uniche parole inglesi consentite sono le parole chiave if, for, ecc. .
+
+parInterval(intvl){
+    Ordino gli intervalli in base ai tempi di inizio
+    r=0                 //Rappresenta il numero di risorse
+
+    for(i=1;i<n;i++){
+        If(l'intervallo può essere associato a una risora già allocata){
+            assegno l'intervallo
+        }else
+            Associio una nuova risorsa
+            d++
+            assegno la risorsa l'intervallo i
+    }
+    return d
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+Traccia:Si fornisca un’istanza del problema dell’Interval Scheduling per
+la quale la strategia greedy “Fewest Conflicts” non fornisce una soluzione ottima. Occorre
+indicare i tempi di inizio e di fine di ogni job.
+
+------ ----- ----- -----                [1,3],[3,5],[6,7][7,8]
+   ------- --- ------                   [2,4][4,6][6,8]
+   -------     ------                   [2,4]     [6,8]  
+   -------     ------                   [2,4]     [6,8]
+
+1--2--3--4--5--6--7--8--9
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+Traccia: Si spieghi in che cosa consiste un’istanza (input) del problema della minimizzazione dei ritardi
+e qual è l’obiettivo del problema (output). Devono essere definite anche tutte le quantita`
+utilizzate per spiegare l’obiettivo del problema . Se dalla risposta a questo punto si
+evincera` che lo studente non sa in cosa consiste il problema della minimizzazione dei ritardi,
+i punti successivi dell’esercizio non saranno valutati.
+
+Come input abbiamo una serie di job di cui disponiamo di un tempo di fine di che rappesenta la durata e di un tempo si che rappesenta la chadenza.
+l'obbiettivo del problema è quello di fornire uno scheduling che minimizzo il ritrado massimo. dove il ritrado per ogni job è definito
+come lj=max{o,xj-sj} dove xj è il tuo tempo di fine dato da xj=sj-tj
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+Si scriva lo pseudocodice dell’algoritmo greedy che restituisce la soluzione ottima per il problema della minimizzazione dei ritardi.
+
+minrit(job){
+    ordina job in base ai tempi di scadenza
+    d=0                                        //rappresenta il tempo di fine dell'ulti job assegnato
+    for(i=0;i<n;i++){
+        assegna job[i] all'intervallo [d,d+job[i].durata]
+        d=d+job[i].durata
+    }
+    return i nuovi intevalli
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+Traccia: Si scriva lo pseudocodice dell'algoritmo di Dijkstra che fa uso di una coda a priorita`
+aggiungendo anche le linee di codice per la costruzione dell’albero dei cammini minimi. Si
+analizzi il tempo di esecuzione dell'algoritmo proposto quando la coda a priorita` è implementata
+con un heap binario.
+
+Dijkstra(G,s){
+    Sia s l'insieme dei nodi esplorati
+    Si coservi la distanza di(u) per tutti i nodi non i S
+    Si conservi la distaza d(u) per tutti i nodi in S
+    Sia Q una coda a priorità della forma Q(d'(u),u)
+    
+    insert(Q,(0,s))
+    foreach(nodo u in G){
+        insert(Q,(infinito,s))
+    }
+
+    inizializza dtree come albero vuoto
+    aggiungi s come radice di dtree
+    ln=s
+
+    while(S!=V){
+        (d(v),v)=extractmin(Q)
+        add v to s
+        dtree.add(arco(ln,v))
+        ln=v
+        foreach(e=arco(v,z)incidente in v){
+            if((v non in s)and(di(z)>di(u)+le)){
+                changekey(Q,z,d(u)+le)
+            }
+        }
+    }
+    reutrn dtree
+}
+
+se la coda a priorità viene implementata tramite un heap il tempo di esecuzione è:
+ per quanto riguarda l'inizzilizzazione O(n log n)
+ il while invece prende tempo O(n log n) mentre il changekey sul totale edlle itnerazione del while O(m log n)
+ tempo totale O(n log n + m log n)
+
+ --------------------------------------------------------------------------------------------------------------------------------------------------
+
+ Traccia: Si descriva un algoritmo che prende in input un grafo non direzionato e, nel caso in cui il
+grafo contenga un ciclo, restituisce una lista contenente i nodi che formano il ciclo e in
+caso contrario restituisce una lista vuota. L’algoritmo deve avere tempo di esecuzione
+O(n+m) nel caso pessimo
+
+haveLoop(G){
+    s=nodo in G
+    btree=BFS(G,s)
+    foreach(nodo u in btree){
+        foreach(arco(u,v)in btree incidente su u){
+            if(v appartine allo stesso livello di u o al livello precedente){
+
+            }
+        }
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+Si scriva lo pseudocodice dell'algoritmo di Prim per il minimo albero ricoprente aggiungendo
+anche le linee di codice per la costruzione dell’albero. Si analizzi il tempo di esecuzione
+dell'algoritmo proposto quando la coda a priorita` è implementata con un heap binario.
+
+prim(G,s,)
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+Si definisca il concetto di ordinamento topologico di un grafo direzionato e si dimostri
+che se un grafo direzionato G è un DAG allora G ha un ordinamento topologico.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+MinRit(J){
+    ordina j in modo crescente rispetto alle scadenze
+
+    t=0;
+    for(i to n){
+        Assegna j[i] all intervallo [t,t+j[i].durata]
+        t=t+j[i].durata
+    }
+    return a
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+-----
+     -----
+          -----
+--------------------
+-----------------------
+--------------------------  
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+IntervalSc(J){
+    Ordina in base ai tempi di fine;
+    inizializza a come lista vuota
+
+    f=0
+    for(i to n){
+        if(j[i].start>f){
+            a.add(j[i])
+            f=j[i].end
+        }
+    }
+    return a
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+intervpar(J){
+    ordina i job in base ai tempi di inizio
+
+    r=0
+    for(i to n){
+        if(s el'intervallo i può essere assegnato a una risora esistente){
+            assegna i alla risorsa
+        } else{
+            instanzia una nuova risorsa
+            r++
+            assegna i alla risoesa
+        }
+    }
+    return r
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+BFS(G,s){
+    setta dis[s]=ture e disc[u]=false per tutti i nodi u di G
+    iniziazza Q come cosa fifo
+    inzializza bftree come albero vuoto
+
+    Q.enqueue(s)
+    while(Q non è vuote){
+        u=Q.dequeue()
+        foreach(arco(u,v) incidente in u){
+            if(disv[v]==false){
+                disc[v]=true
+                bftree.add(arco(u,v))
+                Q.enqueue(s)
+            }
+        }
+    }
+    reutrn btree
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+Dijkstra(G,L,x){
+    sia S l'insieme dei nodi esplorati
+    Per ogni non u non in S conserva d'[u]
+    per ogni nodo u in S conserva d[u]
+    sia Q la cosa a priorità Q(di[u],u)
+
+    insert(Q,0,s)
+    foreach (nodo u in G){
+        insert(Q,infinito,u)
+    }
+
+    while(Q non è vuota){
+        (d'[u],u)=extractmin(Q)
+        add u to s
+        foreach(arco e=(u,v) in g){
+            if (v non in s) and (d[v]+le<d'[v]){
+                changekey(q,d[v]+le,v)
+            }
+        }
+    }
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+Prim(G,L,x){
+    Sia s l'insieme dei nodi esplorati
+    per ogni nodo u in g presente in s conserca d[u]
+    sia Q la coda a priorità Q(d[u],u)
+
+    insert(Q,0,s)
+    foreach(nodo u in g){
+        insert(Q,infinito,u)
+    }
+
+    while(Q non è vuota){
+        (d[u],u)=extractmin(Q)
+        add u to s
+        foreach(arco e=(u,v) incindente in u){
+            if(v non i s) and (L[e]<d[v]){
+                changekey(Q,L[e,v])
+            }
+        }
+    }
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+Kuskal(){
+    ordina gli archi in ordine crescente in base al pessimo
+    inizializza T come albero vuoto
+
+    foreach (nodo u in g){
+        crea un insieme 
+    }
+
+    for (i to m){
+        considera l'arco e=(u,v)
+        if (u e v non appartengono allo stesso insieme){
+            unisci l'insieme a cui appartiene u con l'insieme a cui appartiene v
+            aggiungi l'arco (u,v) all albero T
+        }
+    }
+    return T
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+DFS(s){
+    posi disc[s]=true e disc[u]= false per tutti i nodi u del grafo
+    inizializza Q come stack
+    
+    Q.push(s)
+    while(Q non è vuoto){
+        u=q.pop()
+        if(eiste un arco(u,v) incidente su u non ancor esaminato){
+            if(disc[v]==False){
+                disc[v]==true
+                Q.push(v)
+            }
+        }else{
+             q.pop()
+        }  
+    }
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------

@@ -38,7 +38,7 @@ Prim(G,L,x){
     add u to S
     foreach (arco e=(u,v)){
       if (v non in s) and (L[e]<d[v]){              
-        changeKey(Q,v,d[v])                          
+        changeKey(Q,v,L[e])                          
       }                                                 
     }                                                  
   }
@@ -57,7 +57,7 @@ Kruskal(G,c){
     }
 
     for(i=1 to m){                                          
-        e[i]=(u,v)                                    //Arco considerato
+        considera l'arco e[i]=(u,v)                                 //Arco considerato
         if (u e v sono in due insiemi differenti){
             aggiungi l'arco e[i] a T
             unisci gli insiemi che contengono u e v

@@ -27,7 +27,7 @@ devono essere ultimati.
 
 Strategia 3 (Smallest Slack): Considera prima i job con scarto sj-dj più piccolo. (due job: uno con tempo
 di elaborazione pari a 1 e scadenza 2, il secondo con tempo di elaborazione pari a 10 e scadenza 10, viene
-prima il job due portando a un)
+prima il job due portando a un ritardo)
 
 ---------------------------------------------------------------------------------------------Pseudocodice
 
