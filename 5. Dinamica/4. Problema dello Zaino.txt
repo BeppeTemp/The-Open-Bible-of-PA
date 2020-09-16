@@ -1,37 +1,37 @@
 -----------------------------------------------------------------------------------Definizione del problema
 
-Input: Un insieme di n job 1,2,...,n e un tempo Wi>0 associato ad ogni job. Un limite W al tempo per il
-quale il processore può essere utilizzato.
+Input: n oggetti di peso Wi>0 e valora Vi>0. Limite W di peso inseribile nello zaino.
 
-Obbiettivo: selezionare un sottoinsieme S degli n job t.c. la sommatoria dei tempi di esecuzione si quanto
-più grande possibile ma comunque minore uguale di W.
+Obbiettivo: Selezionare un sottoinsieme S degli n oggetti in modo che la somma dei loro pesi non superi W e
+che il valore totale sia massimo.
 
-Possibili soluzioeni Greedy:
-    Greedy 1: ad ogni passo inserisce in S il job con peso piu` alto in modo che la durata complessiva dei 
-    job in S non superi W.
-    Esempio: Input una volta ordinato [W/2+1,W/2,W/2]. L’algoritmo greedy seleziona solo il primo mentre 
-    la soluzione ottima e` formata dagli ultimi due.
+Il problema corrisponde al Subset Sums, quando Vi=Wi.
 
-    Greedy 2: ad ogni passo inserisce in S il job con peso piu` basso in modo che la duranta complessiva 
-    dei job in S non superi W.
-    Esempio: Input [1,W/2,W/2] una volta ordinato . L’algoritmo greedy seleziona i primi due per un peso 
-    complessivo di 1+W/2. mentre la soluzione ottima e` formata dagli ultimi due di peso complessivo W.
+-----------------------------------------------------------------------------------------Strategie Greedy
 
+Strategia 1: Inserire prima gli oggetti con valore più grande.
+
+Strategia 2: Inserire prima gli oggetti più leggeri.
+
+Strategia 3: Inserire prima gli oggetti con rapporto Vi/Wi più grande.
+
+Nessuna di queste strategie è in grado di risolvere il problema dello zaino, che per l'appunto non è 
+risolvibile con una Strategia Greedy. (Basta trovare un controesempio).
 
 ------------------------------------------------------------------------------------------------Definizioni
 
-OPT(i): Valore della soluzione ottima per i job {1,...,i} con limite W sul tempo di utilizzo del processore.
-    Caso 1: La soluzione ottima per i primi i job, con limite di utilizzo w non include il job i. In questo
-    caso la soluzione ottima è OPT(i,w)=OPT(i-1,w).
+OPT(i,w): Valore della soluzione ottima per gli oggetti {1,...,i} con peso totale W.
+    Caso 1: La soluzione ottima per i primi i oggetti, con limite di utilizzo w non include il oggetti i. 
+    In questo caso la soluzione ottima è OPT(i,w)=OPT(i-1,w).
 
-    Caso 2: La soluzione ottima per i primi i job, con limite di utilizzo w include il job i. In questo caso
-    la soluzione ottima è OPT(i,w)=Wi+OPT(i-1,W-Wi).
+    Caso 2: La soluzione ottima per i primi i oggetti, con limite di utilizzo w include il oggetti i. 
+    In questo caso la soluzione ottima è OPT(i,w)=Wi+OPT(i-1,W-Wi).
 
-La soluzione ottima per i primi i job con limite di utilizzo W va ricercata tra le soluzioni ottime per i 
+La soluzione ottima per i primi i oggetti con limite di utilizzo W va ricercata tra le soluzioni ottime per i 
 due casi. Questo però se i>0 e Wi<=W.
 
-Se i=0 banalmente si ha OPT(i,w)=0. Se Wi>W è possibile solo il caso 1 perchè il job i non può far parte
-della soluzione in quanto richiede più tempo di quello a disposizione.
+Se i=0 banalmente si ha OPT(i,w)=0. Se Wi>W è possibile solo il caso 1 perchè il oggetti i non può far 
+parte della soluzione in quanto richiede più tempo di quello a disposizione.
 
        |0                                 se i=0
        |
@@ -39,66 +39,36 @@ OPT(J)=|OPT(i-1,w)                        se Wi>W
        |
        |max{OPT(i-1,w), Wi+OPT(i-1,W-Wi)} Altrimenti
 
+
 -----------------------------------------------------------------------------------------------Pseudocodice
 
-#Algoritmo per il calcolo della soluzione al problema del SS: Si riempie un array bodimensionale NxW a partire
-dalle locazioni di indice di riga i più piccolo.
-SS(n,W1,...,Wn,W){
+#Algoritmo che computa la soluzione ottima per il problema dello zaino
+ProbZain(){n,w1,...,Wn,V1,...,Vn,W}{
     for(w=0 to W){
         M[0,w]=0
     }
 
     for(i=1 to n){
-        for(w=0 to W){
-            if(Wi>w){
-                M[i,w]=M[i-1,w]
+        for(w=o to W){
+            if(Wi>W){
+                M[i,w]=M[i-1,W]
             }else{
-                M[i,w]=max{M[i-1,w],Wi+M[i-1,W-Wi]}
+                M[i,w]=max{M[i-1,w],Vi+M[i-1,w-wi]}
             }
         }
     }
-    return M{n,W}
+    return M[n,W]
 }
 
-Analisi: Non è polinomiale nella dimensione dell'input: L'algoritmo è efficiente quando W ha un valore 
-ragionevolmente piccolo. Tempo: Theta(n W)
+Tempo di esecuzione: Theta(n W)
+Per W con un valore ragionevolmente piccolo.
 
-#Algoritmo ricorsivo per il calcolo del SS:
-for (i=0 to n){
-    for (w=0 to W){
-        M[i,w]=empty
-    }
-}
+-------------------------------------------------------------------------------------------------------Extra
 
-SS(i,w){
-    if (i=0){
-        M[i,w]=0
-    }
-    if (M[i,w] ≠ empty){
-        return M[i,w]
-    }
-    if (wi > w){
-        M[i,w]=SS(i-1,w)
-    }else{
-        M[i,w]= max{SubsetSums(i-1,w), wi+ SubsetSums(i-1, w-wi)
-    }
-    return M[i,w]
-}
+Esercizio: Scrivere lo pseudocodice dell’algoritmo che produce la soluzione ottima per un’istanza del 
+problema dello zaino.
 
-#Algoritmo ricorsivo che stampa la soluzioen di SS:
-Invochiamo SS
+Esercizio: Scrivere la versione ricorsiva dell’algoritmo di programmazione dinamica per il problema dello 
+zaino.
 
-FindSubset(i,w){
-    if(i=0){
-        return null
-    }
-    if (M[i,w]=M[i-1,w]){
-        FindSubset(i-1,w)
-    }else{
-        print i
-        FindSubset(i-1,w-wi)
-    }
-}
-Analisi: Tempo O(n)
-
------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------

@@ -20,7 +20,7 @@ Possibili soluzioeni Greedy:
 
 ------------------------------------------------------------------------------------------------Definizioni
 
-OPT(i): Valore della soluzione ottima per i job {1,...,i} con limite W sul tempo di utilizzo del processore.
+OPT(i,w): Valore della soluzione ottima per i job {1,...,i} con limite W sul tempo di utilizzo del processore.
     Caso 1: La soluzione ottima per i primi i job, con limite di utilizzo w non include il job i. In questo
     caso la soluzione ottima è OPT(i,w)=OPT(i-1,w).
 
