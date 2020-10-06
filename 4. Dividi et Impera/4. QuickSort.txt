@@ -1,4 +1,5 @@
------------------------------------------------------------------------------------- Definizione del problema
+
+-------------------------------------------------------------------- Definizione del problema
 
 Input: un array v non ordinato con un inizio s e una fine d.
 
@@ -11,7 +12,7 @@ Funzionamento:
   * Ricorsione: Ordina ricorsivamente le due sotto-sequenze.
   * Ricombinazione: non occorre fare alcun lavoro di ricombinazione.
 
------------------------------------------------------------------------------------- Pseudocodice
+-------------------------------------------------------------------- Pseudocodice
 
 QuickSort(v, sx, dx){
     if(sx < dx){
@@ -22,7 +23,7 @@ QuickSort(v, sx, dx){
     }
 }
 
------------------------------------------------------------------------------------- Distribuzione
+-------------------------------------------------------------------- Distribuzione
 
 Funzionamento:
   * Pone il pivot nella posizione v[d], se già lo è non fa nulla.
@@ -31,7 +32,8 @@ Funzionamento:
   * Ogni votla che si ha un v[i]>pivot e a[j]<pivot, scambia v[i] con v[j] e poi riprende la scansione.
   * Alla fine della scansione posizione il pivot nella posizione corretta.
 
------------------------------------------------------------------------------------- Pseudocodice:
+-------------------------------------------------------------------- Pseudocodice:
+
 Distribuzione(v, sx, p, dx){
 
     if(p != dx)  Scambia(v[p], v[dx]);
@@ -59,14 +61,15 @@ Scambia(i, j){
     v[i] = temp;
 }
 
------------------------------------------------------------------------------------- Relazione di ricorrenza
+-------------------------------------------------------------------- Relazione di ricorrenza
 
 La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
       | c0               se n<=1 
 T(n)<=|
       | T(r-1)+T(n-r)+cn altrimenti
 
------------------------------------------------------------------------------------- Tempo di esecuzione
+-------------------------------------------------------------------- Tempo di esecuzione
+
 Distribuzione:  O(n)
 
 QuickSort caso pessimo:  T(n) = O(n^2)
@@ -74,3 +77,5 @@ QuickSort caso pessimo:  T(n) = O(n^2)
 QuickSort caso ottimo:  T(n) = O(nlogn)
 
 QuickSort Randomizzato:  T(n) = O(nlogn)
+
+-------------------------------------------------------------------- Fin
