@@ -13,12 +13,12 @@ Funzionamento:
 
 ------------------------------------------------------------------------------------ Pseudocodice
 
-QuickSort(v, s, d){
-    if(s < d){
-        scegli un pivot p nell'intervallo [s,...,d]
-        indiceFinalePivot = Distribuzione(v, s, p, d)
-        QuickSort(v, s, indiceFinalePivot-1)
-        QuickSort(v, indiceFinalePivot+1, d)
+QuickSort(v, sx, dx){
+    if(sx < dx){
+        scegli un pivot p nell'intervallo [sx,...,dx]
+        indiceFinalePivot = Distribuzione(v, sx, p, dx)
+        QuickSort(v, sx, indiceFinalePivot-1)
+        QuickSort(v, indiceFinalePivot+1, dx)
     }
 }
 
@@ -26,42 +26,37 @@ QuickSort(v, s, d){
 
 Funzionamento:
   * Pone il pivot nella posizione v[d], se già lo è non fa nulla.
-  * Usa due indici i e j per scandire il segmento: i parte da s e varso destra, j parte da d e va verso 
-    sinistra fino a quando i i<=j.
+  * Usa due indici i e j per scandire il segmento: i parte da s e scorre verso destra, j parte da d - 1 e scorre verso 
+    sinistra fino a quando i <= j.
   * Ogni votla che si ha un v[i]>pivot e a[j]<pivot, scambia v[i] con v[j] e poi riprende la scansione.
   * Alla fine della scansione posizione il pivot nella posizione corretta.
 
-Pseudocodice:
-Distribuzione(v,s,p,d){
-    if(v[p]!=v[d]){
-        Scambia(v[p],v[d])
-    }
+------------------------------------------------------------------------------------ Pseudocodice:
+Distribuzione(v, sx, p, dx){
 
-    i=s
-    j=d
+    if(p != dx)  Scambia(v[p], v[dx]);
+
+    i=sx;
+    j=dx;
 
     while(i<=j){
-        while((i<=j)and(v[i]<=v[d])){
-            i++
-        }
-        while((i<=j)and(v[i]=>v[d])){
-            j--
-        }
-        if(i<j){
-            Scambia(v[i]),v[j])
-            i++
-            j--
-        }
+        while((i <= j) && (v[i] <= v[dx])) i = i + 1;
+        
+        while((i <= j) && (v[j] => v[dx])) j = j - 1;
+        
+        if(i < j) Scambia(v[i]), v[j]);
+            
+        i = i + 1;
+        j = j - 1;
+        
     }
-    if(i!=d){
-        Scambia(v[i],v[d])
-    }
+    if(i != dx) Scambia(v[i], v[dx]);
 }
 
-Scambia(x,y){
-    t=x
-    x=y
-    y=t
+Scambia(i, j){
+    temp = v[j];
+    v[j] = v[i];
+    v[i] = temp;
 }
 
 ------------------------------------------------------------------------------------ Relazione di ricorrenza
