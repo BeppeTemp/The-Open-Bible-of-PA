@@ -1,4 +1,4 @@
------------------------------------------------------------------------------------Definizione del problema
+------------------------------------------------------------------------------------ Definizione del problema
 
 Input: un array v non ordinato con un inizio s e una fine d.
 
@@ -11,7 +11,7 @@ Funzionamento:
   * Ricorsione: Ordina ricorsivamente le due sotto-sequenze.
   * Ricombinazione: non occorre fare alcun lavoro di ricombinazione.
 
------------------------------------------------------------------------------------------------Pseudocodice
+------------------------------------------------------------------------------------ Pseudocodice
 
 QuickSort(v, s, d){
     if(s < d){
@@ -22,7 +22,7 @@ QuickSort(v, s, d){
     }
 }
 
-----------------------------------------------------------------------------------------------Distribuzione
+------------------------------------------------------------------------------------ Distribuzione
 
 Funzionamento:
   * Pone il pivot nella posizione v[d], se già lo è non fa nulla.
@@ -64,11 +64,18 @@ Scambia(x,y){
     y=t
 }
 
-------------------------------------------------------------------------------------Relazione di ricorrenza
+------------------------------------------------------------------------------------ Relazione di ricorrenza
 
 La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
       | c0               se n<=1 
 T(n)<=|
       | T(r-1)+T(n-r)+cn altrimenti
 
------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------ Tempo di esecuzione
+Distribuzione:  O(n)
+
+QuickSort caso pessimo:  T(n) = O(n^2)
+
+QuickSort caso ottimo:  T(n) = O(nlogn)
+
+QuickSort Randomizzato:  T(n) = O(nlogn)
