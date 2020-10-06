@@ -1,4 +1,4 @@
------------------------------------------------------------------------------------Definizione del problema
+------------------------------------------------------------------------------------ Definizione del problema
 
 Input: un array v ordinato con un inizio s e una fine d e un elemento x.
 
@@ -9,7 +9,7 @@ Funzionamento:
   * Decpmposizione: Vine calcolato l'indice centrale m e controllato se x è maggiore o minore di a[c].
   * Ricorsione e Ricombinazione: non occorre nessun lavoro di ricombinazione.
 
------------------------------------------------------------------------------------------------Pseudocodice
+------------------------------------------------------------------------------------ Pseudocodice
 
 RicercaBinaria(v,x,s,d){
     if(s>d){
@@ -32,11 +32,13 @@ RicercaBinaria(v,x,s,d){
     }
 }
 
-------------------------------------------------------------------------------------Relazione di ricorrenza
+------------------------------------------------------------------------------------ Relazione di ricorrenza
 
 La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
       | c0       se n<=1 oppure K è l'elemento centrale
 T(n)<=|
       | T(n/2)+c altrimenti
 
------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------ Tempo di esecuzione
+
+T(n) <= O(log n)
