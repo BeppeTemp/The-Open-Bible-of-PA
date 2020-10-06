@@ -1,4 +1,4 @@
------------------------------------------------------------------------------------Definizione del problema
+------------------------------------------------------------------------------------ Definizione del problema
 
 Input: un array v non ordinato con un inizio s e una fine d.
 
@@ -9,7 +9,7 @@ Funzionamento:
   * Ricorsione: Le due sottoseguenze vengono ricorsivamente ordinate (Tempo O(T[n/2]+T[n/2])).
   * Ricombinazione: Le due seguenze vengono ricombinate tramite l'algoritmo Merge (Tempo theta(n))
 
------------------------------------------------------------------------------------------------Pseudocodice
+------------------------------------------------------------------------------------ Pseudocodice
 
 MergeSort(v,s,d){
     if(s<d){
@@ -47,11 +47,13 @@ Merge(v,s,m,d){
     }
 }
 
-------------------------------------------------------------------------------------Relazione di ricorrenza
+------------------------------------------------------------------------------------ Relazione di ricorrenza
 
 La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
      | c0            se n<=1
 T(n)=|
      | 2T(n/2)+cn+c' altrimenti
 
------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------ Tempo di esecuzione
+
+T(n) = O(n log n)
