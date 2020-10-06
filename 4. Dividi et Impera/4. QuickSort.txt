@@ -13,12 +13,12 @@ Funzionamento:
 
 -----------------------------------------------------------------------------------------------Pseudocodice
 
-RicercaBinaria(v,x,s,d){
-    if(s<d){
+QuickSort(v, s, d){
+    if(s < d){
         scegli un pivot p nell'intervallo [s,...,d]
-        np=Distribuzione(v,s,p,d)
-        QuickSort(v,s,np-1)
-        QuickSort(v,np+1,d)
+        indiceFinalePivot = Distribuzione(v, s, p, d)
+        QuickSort(v, s, indiceFinalePivot-1)
+        QuickSort(v, indiceFinalePivot+1, d)
     }
 }
 
