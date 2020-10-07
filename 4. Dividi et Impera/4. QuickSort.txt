@@ -1,9 +1,9 @@
 
 -------------------------------------------------------------------- Definizione del problema
 
-Input: un array v non ordinato con un inizio sx e una fine dx.
+Input: un array a non ordinato con un inizio sx e una fine dx.
 
-Obbiettivo: Vogliamo ordinare l'array v.
+Obbiettivo: Vogliamo ordinare l'array a.
 
 Funzionamento:
   * Decomposizione: se la sequenza ha almeno due elementi, scegli un elemento pivot e dividi la sequenza in
@@ -14,52 +14,52 @@ Funzionamento:
 
 -------------------------------------------------------------------- Pseudocodice
 
-QuickSort(v, sx, dx){
+QuickSort(a, sx, dx){
     if(sx < dx){
         scegli un pivot p nell'intervallo [sx,...,dx]
-        indiceFinalePivot = Distribuzione(v, sx, p, dx)
-        QuickSort(v, sx, indiceFinalePivot-1)
-        QuickSort(v, indiceFinalePivot+1, dx)
+        indiceFinalePivot = Distribuzione(a, sx, p, dx)
+        QuickSort(a, sx, indiceFinalePivot-1)
+        QuickSort(a, indiceFinalePivot+1, dx)
     }
 }
 
 -------------------------------------------------------------------- Distribuzione
 
 Funzionamento:
-  * Pone il pivot nella posizione v[dx], se già lo è non fa nulla.
+  * Pone il pivot nella posizione a[dx], se già lo è non fa nulla.
   * Usa due indici i e j per scandire il segmento: i parte da s e scorre verso destra, j parte da d - 1 e scorre verso 
     sinistra fino a quando i <= j.
-  * Ogni votla che si ha un v[i]>pivot e v[j]<pivot, scambia v[i] con v[j] e poi riprende la scansione.
-  * Alla fine della scansione posizione il pivot nella posizione corretta.
+  * Ogni votla che si ha un a[i] > pivot e a[j] < pivot, scambia a[i] con a[j] e poi riprende la scansione.
+  * Alla fine della scansione, Distribuzione posiziona il pivot nella posizione corretta.
 
 -------------------------------------------------------------------- Pseudocodice:
 
-Distribuzione(v, sx, p, dx){
+Distribuzione(a, sx, p, dx){
 
-    if(v[p] != v[dx])  Scambia(v[p], v[dx]);
+    if(a[p] != a[dx])  Scambia(a[p], a[dx]);
 
     i = sx;
     j = dx - 1;
 
     while(i<=j){
-        while((i <= j) && (v[i] <= v[dx])) i = i + 1;
+        while((i <= j) && (a[i] <= a[dx])) i = i + 1;
         
-        while((i <= j) && (v[j] >= v[dx])) j = j - 1;
+        while((i <= j) && (a[j] >= a[dx])) j = j - 1;
         
-        if(i < j) Scambia(v[i]), v[j]);
+        if(i < j) Scambia(a[i]), a[j]);
             
         i = i + 1;
         j = j - 1;
         
     }
-    if(v[i] != v[dx]) Scambia(v[i], v[dx]);
+    if(a[i] != a[dx]) Scambia(a[i], a[dx]);
     return i;
 }
 
-Scambia(v[i], v[j]){
-    temp = v[j];
-    v[j] = v[i];
-    v[i] = temp;
+Scambia(a[i], a[j]){
+    temp = a[j];
+    a[j] = a[i];
+    a[i] = temp;
 }
 
 -------------------------------------------------------------------- Relazione di ricorrenza
@@ -68,6 +68,8 @@ La relazione di ricorrenza che esprime il tempo di esecuzione è la seguente:
         | c0               se n<=1 
 T(n) <= |
         | T(r-1)+T(n-r)+cn altrimenti
+        
+NB: r indica il rango del pivot. La sotto-sequenza di sinistra conterrà r-1 elementi, mentre la sottosequenza di destra conterrà n-r elementi.
 
 -------------------------------------------------------------------- Tempo di esecuzione
 
