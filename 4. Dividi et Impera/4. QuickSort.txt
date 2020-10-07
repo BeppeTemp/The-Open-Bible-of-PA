@@ -29,7 +29,7 @@ Funzionamento:
   * Pone il pivot nella posizione v[dx], se già lo è non fa nulla.
   * Usa due indici i e j per scandire il segmento: i parte da s e scorre verso destra, j parte da d - 1 e scorre verso 
     sinistra fino a quando i <= j.
-  * Ogni votla che si ha un v[i]>pivot e a[j]<pivot, scambia v[i] con v[j] e poi riprende la scansione.
+  * Ogni votla che si ha un v[i]>pivot e v[j]<pivot, scambia v[i] con v[j] e poi riprende la scansione.
   * Alla fine della scansione posizione il pivot nella posizione corretta.
 
 -------------------------------------------------------------------- Pseudocodice:
@@ -64,7 +64,7 @@ Scambia(v[i], v[j]){
 
 -------------------------------------------------------------------- Relazione di ricorrenza
 
-La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
+La relazione di ricorrenza che esprime il tempo di esecuzione è la seguente:
         | c0               se n<=1 
 T(n) <= |
         | T(r-1)+T(n-r)+cn altrimenti
@@ -78,5 +78,7 @@ QuickSort caso pessimo:  T(n) = O(n^2)
 QuickSort caso ottimo:  T(n) = O(nlogn)
 
 QuickSort Randomizzato:  T(n) = O(nlogn)
+
+QuickSort Tempo Medio di esecuzione: T(n) = O(nlogn)
 
 -------------------------------------------------------------------- Fin
