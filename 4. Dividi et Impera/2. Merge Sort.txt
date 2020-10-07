@@ -1,59 +1,73 @@
 ------------------------------------------------------------------------------------ Definizione del problema
 
-Input: un array v non ordinato con un inizio s e una fine d.
+Input: un array a non ordinato con un inizio sx e una fine dx.
 
-Obbiettivo: ordinare l'array v.
+Obbiettivo: ordinare l'array a in modo non decrescente.
 
 Funzionamento:
-  * Decomposizione: L'array viene diviso in due sottoseguenze, calcolandone il centro m (Tempo theta(1)).
-  * Ricorsione: Le due sottoseguenze vengono ricorsivamente ordinate (Tempo O(T[n/2]+T[n/2])).
-  * Ricombinazione: Le due seguenze vengono ricombinate tramite l'algoritmo Merge (Tempo theta(n))
+  * Decomposizione: L'array viene diviso in due sottoseguenze, calcolandone il centro cx.
+  * Ricorsione: Le due sottoseguenze vengono ricorsivamente ordinate.
+  * Ricombinazione: Le due seguenze vengono ricombinate tramite l'algoritmo Merge.
 
------------------------------------------------------------------------------------- Pseudocodice
+------------------------------------------------------------------------------------ Pseudocodice MergeSort
 
-MergeSort(v,s,d){
-    if(s<d){
-        m=(s+d)/2
-        MergeSort(v,s,m)
-        MergeSort(v,m+1,d)
-        Merge(v,s,m,d)
+MergeSort(a, sx, dx){
+    if(sx < dx){
+        cx = (sx + dx) / 2;
+        MergeSort(a, sx, cx);
+        MergeSort(a, cx+1, dx);
+        Merge(a, sx, cx, dx);
     }
 }
 
-Merge(v,s,m,d){
-    i=s
-    j=m+1
-    k=0
+------------------------------------------------------------------------------------ Merge:
+Idea:
+ * Scandiamo gli elementi delle due sequenze da sinistra verso destra utilizzando l'indice i per la sequenza A e l'indice j per la sequenza b
+ * Fino a che i <= n e j <= m, confrontiamo a[i] con b[j]. Se a[i] <= b[j], a[i] viene inserito alla fine della sequenza di output e i viene incrementato di 1
+   Se a[i] >= b[j], b[j] viene inserito alla fine della sequenza di output e j viene incrementato di 1
+ * Al termine del ciclo precedente se i <= n trasferiamo uno dopo l'altro gli elementi a[i], ..., a[n] alla fine della sequenza di output;
+   Se j <= m trasferiamo uno dopo l'altro gli elementi b[j], ..., b[m] alla fine della sequenza di output
 
-    while((i<=m)and(j<=d)){         //Scorre entrambe le sequenze finche una non finisce
-        if(v[i]<=v[j]){             //Inserisce prima il minore
-            b[k]=v[i]
-            i++
-        }else{
-            b[k]=v[j]
-            j++
+------------------------------------------------------------------------------------ Pseudocodice:
+
+
+Merge(a, sx, cx, dx){
+
+    i = sx;
+    j = cx + 1;
+    k = 0;
+
+    while((i <= cx) && (j <= dx)){           //Scorre entrambe le sequenze
+        if(a[i] <= a[j]){                   //Inserisce prima il minore
+            b[k] = a[i];
+            i = i + 1;
+        } else{
+            b[k] = a[j]
+            j = j + 1;
         }
-        k++
+        k = k + 1;
     }
 
-    for(;i<=m;i++;k++){             //Inserisce la parte restante della seguenze non finita
-        b[k]=v[i]
+    for(;i <= cx; i=i+1, k=k+1){              //I due cicli for ricreano le due sequenze
+        b[k] = a[i];                         // A e B ordinate, andando a recuperare gli 
+    }                                       // elementi non inseriti precedentemente
+    for(;j <= dx; j=j+1, k=k+1){            
+        b[k] = a[j];
     }
-    for(;j<=d;j++,k++){             //Inserisce la parte restante della seguenze non finita
-        b[k]=v[j]
-    }
-    for(i=s;i<=d,i++){              //Inserisce la sequenza completa e ordinata in v
-        v[i]=b[i-s]
+    for(i = sx; i <= dx; i=i+1){            //Inserisce la sequenza completa e ordinata in v
+        a[i] = b[i-s];
     }
 }
 
 ------------------------------------------------------------------------------------ Relazione di ricorrenza
 
 La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
-     | c0            se n<=1
-T(n)=|
-     | 2T(n/2)+cn+c' altrimenti
+      | c0            se n<=1
+T(n)= |
+      | 2T(n/2)+cn+c' altrimenti
 
 ------------------------------------------------------------------------------------ Tempo di esecuzione
 
 T(n) = O(n log n)
+
+------------------------------------------------------------------------------------ Fin
