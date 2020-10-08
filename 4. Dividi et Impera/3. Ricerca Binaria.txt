@@ -39,6 +39,12 @@ La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
 T(n)<=|
       | T(n/2)+c altrimenti
 
+Analisi:
+    - Caso base: se il segmento su cui opera l'algoritmo contiene al più un elemento oppure l'elemento cercato è proprio quello centrale,
+                 allora l'algoritmo esegue un numero costante di operazioni per cui il costo è <= c0;
+    - Passo ricorsivo: il costo in questo caso è pari a una costante c più il tempo richiesto dalla ricerca dell'elemento
+                       in un segmento di dimensione al più pari alla metà di quello attuale.
+
 ------------------------------------------------------------------------------------ Tempo di esecuzione
 
 T(n) <= O(log n)
