@@ -22,12 +22,21 @@ MergeSort(a, sx, dx){
 
 ------------------------------------------------------------------------------------ Merge:
 Idea:
- * Scandiamo gli elementi delle due sequenze da sinistra verso destra utilizzando l'indice i per la sequenza A e l'indice j per la sequenza b
- * Fino a che i <= n e j <= m, confrontiamo a[i] con b[j]. Se a[i] <= b[j], a[i] viene inserito alla fine della sequenza di output e i viene incrementato di 1
-   Se a[i] >= b[j], b[j] viene inserito alla fine della sequenza di output e j viene incrementato di 1
- * Al termine del ciclo precedente se i <= n trasferiamo uno dopo l'altro gli elementi a[i], ..., a[n] alla fine della sequenza di output;
-   Se j <= m trasferiamo uno dopo l'altro gli elementi b[j], ..., b[m] alla fine della sequenza di output
-
+    * Scandiamo gli elementi delle due sequenze da sinistra verso destra utilizzando l'indice i per la sequenza A e l'indice j per la sequenza b
+    * Fino a che i <= n e j <= m, confrontiamo a[i] con b[j]. Se a[i] <= b[j], a[i] viene inserito alla fine della sequenza di output e i viene incrementato di 1
+      Se a[i] >= b[j], b[j] viene inserito alla fine della sequenza di output e j viene incrementato di 1
+    * Al termine del ciclo precedente se i <= n trasferiamo uno dopo l'altro gli elementi a[i], ..., a[n] alla fine della sequenza di output;
+      Se j <= m trasferiamo uno dopo l'altro gli elementi b[j], ..., b[m] alla fine della sequenza di output
+   
+   
+Analisi: 
+    - Ogni volta che eseguiamo un confronto tra un elemento di A ed uno di B, viene incrementato uno tra i due indici i e j.
+      Di consequenza l'algoritmo effettua al più n + m operazioni, dove n è la grandezza del segmento A e m è la grandezza del segmento B 
+      (n+m = dimensione dell'array originale).
+    - Sia k <= n + m il numero totale di confronti effettuati dall'algoritmo. Al termine di questi confronti, la sequenza di output
+      conterrà k elementi e in una delle due sequenze ci saranno n + m -k elementi che dovranno essere trasferiti nella sequenza output.
+    - Il tempo totale per fondere le due sequenze ordinate è quindi:  k + (n + m - k) = O(n + m)
+      
 ------------------------------------------------------------------------------------ Pseudocodice:
 
 
@@ -64,7 +73,15 @@ Merge(a, sx, cx, dx){
 La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
       | c0            se n<=1
 T(n)= |
-      | 2T(n/2)+cn+c' altrimenti
+      | 2T(n/2) + cn + c' altrimenti
+
+Analisi:
+    - Caso base: se il segmento su cui opera l'algoritmo contiene un solo elemento allora l'algoritmo esegue un
+                 numero costante di operazioni per cui il costo è <= c per una certa costance c positiva;
+    - Passo ricorsivo: il costo in questo caso è dato dal costo lineare dell'algoritmo Merge per fondere le due sottosequenze
+                       più il costo per decomporre il problema più il costo effettuato dalle due chiamate ricorsive sulle due sottosequenze.
+                       Quindi il costo in questo caso è dato al più da cn (per una certa costante c > 0) più c' (per una certa costante c' > 0)
+                       più il costo delle chiamate ricorsive.
 
 ------------------------------------------------------------------------------------ Tempo di esecuzione
 
