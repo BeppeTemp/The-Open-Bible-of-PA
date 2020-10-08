@@ -6,12 +6,12 @@ Input: un array a non ordinato con un inizio sx e una fine dx.
 Obbiettivo: Vogliamo ordinare l'array a.
 
 Funzionamento:
-  * Decomposizione: se la sequenza ha almeno due elementi, scegli un elemento pivot e dividi la sequenza in
-                    due sotto-sequenza in modo tale che la prima contenga elementi minori o uguali al pivot
-                    e la seconda gli elementi maggiori o uguali al pivot.
-  * Ricorsione: Ordina ricorsivamente le due sotto-sequenze.
-  * Ricombinazione: non occorre fare alcun lavoro di ricombinazione.
-
+      * Decomposizione: se la sequenza ha almeno due elementi, scegli un elemento pivot e dividi la sequenza in
+                        due sotto-sequenza in modo tale che la prima contenga elementi minori o uguali al pivot
+                        e la seconda gli elementi maggiori o uguali al pivot.
+      * Ricorsione: Ordina ricorsivamente le due sotto-sequenze.
+      * Ricombinazione: non occorre fare alcun lavoro di ricombinazione.
+                   
 -------------------------------------------------------------------- Pseudocodice
 
 QuickSort(a, sx, dx){
@@ -86,6 +86,14 @@ Sia r il rango dell'elemento pivot, la relazione di ricorrenza che esprime il te
         | c0                 se n<=1 
 T(n) <= |
         | T(r-1)+T(n-r)+cn   altrimenti
+        
+Analisi:
+    - Caso base: se il segmento u cui opera l'algoritmo contiene un solo elemento allora l'algoritmo esegue un
+                 numero costante di operazioni per cui il costo è <= c per una certa costance c positiva;
+    - Passo ricorsivo: il costo in questo caso è dato dal costo lineare di distribuzione più il costo delle due
+                       chiamate ricorsive effettuate: sul segmento composto dagli elementi minori del pivot e 
+                       dal segmento composto dagli elementi maggiori del pivot. Il costo in questo caso è al più
+                       pari a cn (per una certa costance c > 0) più il costo delle chiamate ricorsive.
         
 -------------------------------------------------------------------- Analisi Caso Pessimo
 
