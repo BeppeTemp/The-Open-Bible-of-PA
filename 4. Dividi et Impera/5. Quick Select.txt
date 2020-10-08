@@ -2,7 +2,7 @@
 
 Input: un array a di n elementi distinti con un inizio sx e una fine fx.
 
-Obbiettivo: Selezionare l'elemento di rango r in un array a di n elementi distinti (evitando di dover ordinare a).
+Obiettivo: Selezionare l'elemento di rango r in un array a di n elementi distinti (evitando di dover ordinare a).
 
 Osservazione: La funzione di distribuzione permette di trovare il rango del pivot, posizionando tutti gli
 elementi di rango inferiore alla sua sinistra e tutti quelli di rango superiore alla sua destra.Si può 
@@ -73,6 +73,36 @@ La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
         | c0                       se n=1
 T(n) <= | c1n                      se n>1 e rp=r-1
         | max{T(rp-1), T(n-rp)} + cn  altrimenti
+
+Analisi:
+    - Caso base: se il segmento sul quale opera l'algoritmo contiene un solo elemento allora l'algoritmo esegue un
+                 numero costante di operazioni per cui il costo è <= c per una certa costance c positiva;
+                 Se l'indice restituito da Distribuzione(a, sx, px, dx) è uguale a r - 1, l'algoritmo termina. 
+                 Il costo in questo caso è dato dal costo lineare di distribuzione più il costo costante delle 
+                 altre istruzioni per cui il costo totale è z= c1n, dove c1 > 0 è una certa costante
+    - Passo ricorsivo: il costo in questo caso è dato dal costo lineare di distribuzione più il costo della 
+                       chiamata ricorsive effettuata sul segmento composto dagli elementi minori del pivot oppure 
+                       dal segmento composto dagli elementi maggiori del pivot. Il costo in questo caso è al più
+                       pari a cn (per una certa costance c > 0) più il costo delle chiamate ricorsive.
+               
+-------------------------------------------------------------------- Analisi Caso Pessimo
+
+Nel caso pessimo il pivot è tutto a sinistra (rp = 1) e r > rp oppure è tutto a destra (rp = n)
+e r > rp. In entrambi i casi la relazione diventa:
+
+        T(n) <= T(n - 1) + T(0) + cn <= T(n - 1) + cn;        per un'opportuna costante c;
+
+Applicando iterativamente la relazione di ricorrenza:
+
+        T(n) <= T(n - i) + [Somma per j che va da (n-i+1) a n di] cj;
+
+Sostituiamo i = n - 1, otteniamo:
+        
+        T(n) <= T(1) + [Somma per j che va da 2 a n di] cj 
+                <= c0 + [Somma per j che va da 2 a (n) di] cj
+                    <= c0 + [**] c(n+1)n/2 - c = O(n^2)
+                
+[**]: Compare la sommatoria dei primi n numeri, nell'ultimo passaggio abbiamo un - c' perchè la sommatoria parte da 1
      
 -------------------------------------------------------------------- Tempo di Esecuzione
 
