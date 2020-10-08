@@ -1,0 +1,41 @@
+-------------------------------------------------------------------- Definizione del problema: Dimensione
+
+Input: un albero u
+
+Obbiettivo: calcolare la dimensione d dell'albero u, ovvero i numeri di nodi che compongono l'albero u
+
+Caso Base: se l'albero u è vuoto allora d = 0
+Caso induttivo: la dimensione d è uguale a 1 + la dimensione del sottoalbero sinitro + la dimensione del sottoalbero destro
+
+-------------------------------------------------------------------- Pseudocodice: Dimensione
+
+Dimensione(u):
+  if(u == null) return 0;
+  else{
+      dimensioneSX = Dimensione(u.sx);
+      dimensioneDX = Dimensione(u.dx);
+    
+      return dimensioneSX + dimensioneDX + 1;
+  }
+ 
+-------------------------------------------------------------------- Definizione del problema: Altezza
+
+Input: un albero u
+
+Obbiettivo: calcolare l'altezza h dell'albero u
+
+Caso Base: se l'albero u è vuoto allora h = -1
+Caso induttivo: l'altezza h. uguale a 1 + la massima altezza dei figli di u
+
+-------------------------------------------------------------------- Pseudocodice: Altezza
+
+Altezza(u):
+  if(u == null) return -1;
+  else{
+      altezzaSX = Altezza(u.sx);
+      altezzaDX = Altezza(u.dx);
+    
+      return max(altezzaSX + AltezzaDX) + 1;
+  }
+
+-------------------------------------------------------------------- FIN
