@@ -21,23 +21,23 @@ Input:
     - Py = array di punti ordinato in modo non decrescente rispetto alle ordinate;
     - n = dimensione degli array Px e Py;
     
-Algoritmo:
-    1.  Se n <= 3, calcola le distanze tra le coppie di punti per trovare la coppia a distanza minima.
-    2.  Se n > 3, esegue i seguenti passi:
-        2.a  Inserisce nell'array Sx i primi ParteInferiore(n/2) punti di Px e nell'array Dx gli ultimi
+Algoritmo;                                                                                                                    Analisi:
+    1.  Se n <= 3, calcola le distanze tra le coppie di punti per trovare la coppia a distanza minima.                           1.  Limitato superioremente da una costante c0
+    2.  Se n > 3, esegue i seguenti passi:                                                                                    
+        2.a  Inserisce nell'array Sx i primi ParteInferiore(n/2) punti di Px e nell'array Dx gli ultimi                          2.a = O(n)
              ParteSuperiore(n/2) punti di Px.
-        2.b  Inserisce nell'array Sy i primi ParteInferiore(n/2) punti di Px nell'ordine in cui appaiono 
+        2.b  Inserisce nell'array Sy i primi ParteInferiore(n/2) punti di Px nell'ordine in cui appaiono                         2.b = O(n) 
              in Py e nell'array Dy gli ultimi ParteSuperiore(n/2) punti di Px nell'ordine in cui appaiono
              in Py.
-        2.c  Effettua una chiamata ricorsiva con input: "Sx, Sy e ParteInferiore(n/2)" e una chiamata ricorsiva
+        2.c  Effettua una chiamata ricorsiva con input: "Sx, Sy e ParteInferiore(n/2)" e una chiamata ricorsiva                  2.c = 2T(n/2) costo delle chiamate ricorsive
              con input: "Dx, Dy e ParteSuperiore(n/2)". Siano ds e dd i valori delle distanze delle coppie di 
              punti restituite dalla prima e dalla seconda chiamata ricorsiva. Pone d = min{ds, dd} e (p, q)
              uguale alla coppia di distanza d.
-        2.d  Copia in Pd i punti a distanza minore di d dalla retta verticale passante per l'elemento centrale 
+        2.d  Copia in Pd i punti a distanza minore di d dalla retta verticale passante per l'elemento centrale                   2.d = O(n) 
              di Px nello stesso ordine in cui appaiono in Py
-        2.e  Per ciascun punto p' di Pd esamina gli 11 punti che seguono p' in Pd. Per ciascun punto q' computa 
+        2.e  Per ciascun punto p' di Pd esamina gli 11 punti che seguono p' in Pd. Per ciascun punto q' computa                  2.e = O(n) 
              la sua distanza da p' e se questa risulta minore di d, aggiorna il valore di d e pone (p, q) = (p', q').
-        2.f  restituisce la coppia (p, q).
+        2.f  restituisce la coppia (p, q).                                                                                       2.f = O(1)
              
           
 Pseudocodice:
