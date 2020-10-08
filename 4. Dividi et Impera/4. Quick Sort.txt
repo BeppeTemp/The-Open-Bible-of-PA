@@ -25,17 +25,33 @@ QuickSort(a, sx, dx){
 
 -------------------------------------------------------------------- Distribuzione
 
-Funzionamento:
-  * Pone il pivot nella posizione a[dx], se già lo è non fa nulla.
-  * Usa due indici i e j per scandire il segmento: i parte da s e scorre verso destra, j parte da d - 1 e scorre verso 
-    sinistra fino a quando i <= j.
-  * Ogni votla che si ha un a[i] > pivot e a[j] < pivot, scambia a[i] con a[j] e poi riprende la scansione.
-  * Alla fine della scansione, Distribuzione posiziona il pivot nella posizione corretta.
+Algoritmo:
+    * Scambia gli elementi a[px] e a[dx], se px è diverso da dx
+    * Usa due indici i e j per scandire il segmento: i parte da s e scorre verso destra, j parte da d - 1 e scorre verso 
+      sinistra fino a quando i <= j.
+    * Ogni votla che si ha un a[i] > pivot e a[j] < pivot, scambia a[i] con a[j] e poi riprende la scansione.
+    * Alla fine della scansione, Distribuzione posiziona il pivot nella posizione corretta.
+  
+Analisi:
+    - Dobbiamo stimare il numero di iterazioni eseguite complessivamente dai due while interni.
+    1. primo while = numero di confronti tra un elemento a[i] con il pivot
+    2. secondo while = numero di confronti tra un elemento a[j] con il pivot
+    3. Dopo ogni confronto di a[i] con il pivot:
+        3.a viene incrementeato i di 1
+        3.b il while esterno termina dopo al più un'interazione
+    4. Dopo ogni confronto di a[j] con il pivot:
+        4.a viene incrementeato j di 1
+        4.b il while esterno termina dopo al più un'interazione
+    5. Dopo ogni interazione di ciascuno dei while interni, tranne per l'ultima, 
+       viene confrontato un nuovo elemento con il pivot.
+    6. Il numero totale di confronti con il pivot è quindi al più n - 2. 
+       Il numero di iterazioni complessive dei due while è di n - 2.
+    7. Tempo di esecuzione: O(n)
+
 
 -------------------------------------------------------------------- Pseudocodice:
 
-Distribuzione(a, sx, px, dx){
-
+Distribuzione(a, sx, px, dx):
     if(a[px] != a[dx])  Scambia(a[p], a[dx]);
 
     i = sx;
@@ -56,26 +72,39 @@ Distribuzione(a, sx, px, dx){
     }
     if(i != dx) Scambia(a[i], a[dx]);
     return i;
-}
 
-Scambia(a[i], a[j]){
+Scambia(a[i], a[j]):
     temp = a[j];
     a[j] = a[i];
     a[i] = temp;
-}
+
 
 -------------------------------------------------------------------- Relazione di ricorrenza
 
-La relazione di ricorrenza che esprime il tempo di esecuzione è la seguente:
-        | c0               se n<=1 
+Sia r il rango dell'elemento pivot, la relazione di ricorrenza che esprime il tempo di esecuzione è la seguente:
+
+        | c0                 se n<=1 
 T(n) <= |
-        | T(r-1)+T(n-r)+cn altrimenti
+        | T(r-1)+T(n-r)+cn   altrimenti
         
-NB: r indica il rango del pivot. La sotto-sequenza di sinistra conterrà r-1 elementi, mentre la sottosequenza di destra conterrà n-r elementi.
+-------------------------------------------------------------------- Analisi Caso Pessimo
 
+Nel caso pessimo il pivot è tutto a sinistra (r = 1) oppure è tutto a destra (r = n), la relazione diventa:
+
+        T(n) <= T(n - 1) + T(0) + cn <= T(n - 1) + c'n        per un'opportuna costante c';
+
+Applicando iterativamente la relazione di ricorrenza:
+
+        T(n) <= T(n - i) + [Somma per j che va da 0 a (i-1) di] c'(n-j)
+
+Sostituiamo i = n - 1, otteniamo:
+        
+        T(n) <= T(1) + [Somma per j che va da 0 a (n-2) di] c'(n-j) <= c0 + [Somma per j che va da 0 a (n-1-1) di] c'j <=
+                <= c0 + [**] c'(n+1)n/2 - c' = O(n^2)
+                
+[**]: Compare la sommatoria dei primi n numeri, nell'ultimo passaggio abbiamo un - c' perchè la sommatoria parte da 1
+       
 -------------------------------------------------------------------- Tempo di esecuzione
-
-Distribuzione:  O(n)
 
 QuickSort caso pessimo:     T(n) = O(n^2)
 
