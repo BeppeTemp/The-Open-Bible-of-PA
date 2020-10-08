@@ -1,42 +1,91 @@
------------------------------------------------------------------------------------Definizione del problema
+-------------------------------------------------------------------- Definizione del problema
 
-Input: un array v di n elementi distinti con un unizio s e una fine f.
+Input: un array a di n elementi distinti con un inizio sx e una fine fx.
 
-Obbiettivo: Selezionare l'elemento di rango r in un array v di n elementi distinti (evitando di ordinare v).
+Obbiettivo: Selezionare l'elemento di rango r in un array a di n elementi distinti (evitando di ordinare a).
 
 Osservazione: La funzione di distribuzione permette di trovare il rango del pivot, posizionando tutti gli
-elementi di rango inferiore alla sua sinistra e tutti quelli di rango superiore alla sua destra.
+elementi di rango inferiore alla sua sinistra e tutti quelli di rango superiore alla sua destra.Si può 
+modificare il codice del QuickSort procedendo ricorsivamente nel solo segmento dell'array contentente 
+l'elemento da selezionare. La ricorsione termina quando il segmento è composta da un solo elemento.
 
-Si può modificare il codice del Quick Sort procedendo ricorsivamente nel solo segmento dell'array 
-contentente l'elemento da selezionare.
+-------------------------------------------------------------------- Pseudocodice
 
-La ricorsione termina quando il segmento è composta da un solo elemento.
-
------------------------------------------------------------------------------------------------Pseudocodice
-
-QuickSelect(v,s,r,d){
-    if(s==d){
-        return v[s]
+QuickSelect(a, sx, rango, dx){
+    if(sx == dx){
+        return a[sx]
     }else{
-        scegli un pivot p nell'intervallo [s,...,d]
-        np=Distribuzione(v,s,p,d)
-        if(r-1==np){
-            retunr v[np]
+        scegli un pivot px nell'intervallo [sx, ..., dx]
+        indiceFinalePivot = Distribuzione(a, sx , px, dx)
+        if(rango-1 == indiceFinalePivot){
+            return a[indiceFinalePivot]
         }else{
-            if(r-1<np){
-                return QuickSelect(v,s,r,np-1)
+            if(rango-1 < indiceFinalePivot){
+                return QuickSelect(a, sx, rango, indiceFinalePivot-1)
             }else{
-                return QuickSelect(v,np+1,r,d)
+                return QuickSelect(a, indiceFinalePivot+1, rango, dx)
             }
         }
     }
 }
 
-------------------------------------------------------------------------------------Relazione di ricorrenza
+-------------------------------------------------------------------- Distribuzione
+
+Funzionamento:
+  * Pone il pivot nella posizione a[dx], se già lo è non fa nulla.
+  * Usa due indici i e j per scandire il segmento: i parte da s e scorre verso destra, j parte da d - 1 e scorre verso 
+    sinistra fino a quando i <= j.
+  * Ogni votla che si ha un a[i] > pivot e a[j] < pivot, scambia a[i] con a[j] e poi riprende la scansione.
+  * Alla fine della scansione, Distribuzione posiziona il pivot nella posizione corretta.
+
+-------------------------------------------------------------------- Pseudocodice:
+
+Distribuzione(a, sx, px, dx){
+
+    if(a[px] != a[dx])  Scambia(a[p], a[dx]);
+
+    i = sx;
+    j = dx - 1;
+
+    while(i <= j){
+    
+        while((i <= j) && (a[i] <= a[dx])) i = i + 1;
+        while((i <= j) && (a[j] >= a[dx])) j = j - 1;
+        
+        if(i < j){
+            Scambia(a[i]), a[j]);
+            
+            i = i + 1;
+            j = j - 1;
+        }
+        
+    }
+    if(i != dx) Scambia(a[i], a[dx]);
+    return i;
+}
+
+Scambia(a[i], a[j]){
+    temp = a[j];
+    a[j] = a[i];
+    a[i] = temp;
+}
+
+
+-------------------------------------------------------------------- Relazione di ricorrenza
 
 La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
-      | c0                       se n=1
-T(n)<=| c1n                      se n>1 e rp=r-1
-      | mac{T(rp-1),T(n-rp)+cn}  altrimenti
+        | c0                       se n=1
+T(n) <= | c1n                      se n>1 e rp=r-1
+        | max{T(rp-1), T(n-rp)} + cn  altrimenti
+     
+-------------------------------------------------------------------- Tempo di Esecuzione
 
------------------------------------------------------------------------------------------------------------
+* QuickSelect caso pessimo: T(n) = O(n^2)
+
+* QuickSelect caso ottimo: T(n) = O(n)
+
+* QuickSelect caso medio: T(n) = O(n)
+
+* QuickSelect randomizzato tempo medio: T(n) = O(n)
+
+-------------------------------------------------------------------- FIN
