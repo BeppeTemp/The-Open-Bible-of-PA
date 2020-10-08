@@ -2,7 +2,7 @@
 
 Input: un array a di n elementi distinti con un inizio sx e una fine fx.
 
-Obbiettivo: Selezionare l'elemento di rango r in un array a di n elementi distinti (evitando di ordinare a).
+Obbiettivo: Selezionare l'elemento di rango r in un array a di n elementi distinti (evitando di dover ordinare a).
 
 Osservazione: La funzione di distribuzione permette di trovare il rango del pivot, posizionando tutti gli
 elementi di rango inferiore alla sua sinistra e tutti quelli di rango superiore alla sua destra.Si può 
@@ -12,19 +12,15 @@ l'elemento da selezionare. La ricorsione termina quando il segmento è composta 
 -------------------------------------------------------------------- Pseudocodice
 
 QuickSelect(a, sx, rango, dx){
-    if(sx == dx){
-        return a[sx]
-    }else{
-        scegli un pivot px nell'intervallo [sx, ..., dx]
-        indiceFinalePivot = Distribuzione(a, sx , px, dx)
-        if(rango-1 == indiceFinalePivot){
-            return a[indiceFinalePivot]
-        }else{
-            if(rango-1 < indiceFinalePivot){
-                return QuickSelect(a, sx, rango, indiceFinalePivot-1)
-            }else{
-                return QuickSelect(a, indiceFinalePivot+1, rango, dx)
-            }
+    if(sx == dx) return a[sx];
+    else{
+        scegli un pivot px nell'intervallo [sx, ..., dx];
+        indiceFinalePivot = Distribuzione(a, sx , px, dx);
+        
+        if(rango-1 == indiceFinalePivot) return a[indiceFinalePivot];
+        else{
+            if(rango-1 < indiceFinalePivot) return QuickSelect(a, sx, rango, indiceFinalePivot-1);
+            else return QuickSelect(a, indiceFinalePivot+1, rango, dx);
         }
     }
 }
