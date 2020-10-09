@@ -70,11 +70,6 @@ Merge(a, sx, cx, dx){
 
 ------------------------------------------------------------------------------------ Relazione di ricorrenza
 
-La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
-      | c0            se n<=1
-T(n)= |
-      | 2T(n/2) + cn + c' altrimenti
-
 Analisi:
     - Caso base: se il segmento su cui opera l'algoritmo contiene un solo elemento allora l'algoritmo esegue un
                  numero costante di operazioni per cui il costo è <= c per una certa costance c positiva;
@@ -82,6 +77,11 @@ Analisi:
                        più il costo per decomporre il problema più il costo effettuato dalle due chiamate ricorsive sulle due sottosequenze.
                        Quindi il costo in questo caso è dato al più da cn (per una certa costante c > 0) più c' (per una certa costante c' > 0)
                        più il costo delle chiamate ricorsive.
+
+La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
+      | c0            se n<=1
+T(n)= |
+      | 2T(n/2) + cn + c' altrimenti
 
 ------------------------------------------------------------------------------------ Tempo di esecuzione
 
