@@ -85,11 +85,6 @@ Scambia(a[i], a[j]):
 
 -------------------------------------------------------------------- Relazione di ricorrenza
 
-La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
-        | c0                       se n=1
-T(n) <= | c1n                      se n>1 e rp=r-1
-        | max{T(rp-1), T(n-rp)} + cn  altrimenti
-
 Analisi:
     - Caso base: se il segmento sul quale opera l'algoritmo contiene un solo elemento allora l'algoritmo esegue un
                  numero costante di operazioni per cui il costo è <= c per una certa costance c positiva;
@@ -100,7 +95,12 @@ Analisi:
                        chiamata ricorsive effettuata sul segmento composto dagli elementi minori del pivot oppure 
                        dal segmento composto dagli elementi maggiori del pivot. Il costo in questo caso è al più
                        pari a cn (per una certa costance c > 0) più il costo delle chiamate ricorsive.
-               
+
+La relazione di ricorrenza che esprime il tempo di esecuzione è la sequente:
+        | c0                       se n=1
+T(n) <= | c1n                      se n>1 e rp=r-1
+        | max{T(rp-1), T(n-rp)} + cn  altrimenti
+              
 -------------------------------------------------------------------- Analisi Caso Pessimo
 
 Nel caso pessimo il pivot è tutto a sinistra (rp = 1) e r > rp oppure è tutto a destra (rp = n)
