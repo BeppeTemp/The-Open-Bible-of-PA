@@ -4,11 +4,14 @@ Input: un array a di n elementi distinti con un inizio sx e una fine fx.
 
 Obiettivo: Selezionare l'elemento di rango r in un array a di n elementi distinti (evitando di dover ordinare a).
 
-Osservazione: La funzione di distribuzione permette di trovare il rango del pivot, posizionando tutti gli
-elementi di rango inferiore alla sua sinistra e tutti quelli di rango superiore alla sua destra.Si può 
-modificare il codice del QuickSort procedendo ricorsivamente nel solo segmento dell'array contentente 
-l'elemento da selezionare. La ricorsione termina quando il segmento è composta da un solo elemento.
+Decomposizione: se la sequenza sul quale opera l'algoritmo contiene almeno due elementi si scegli il pivot 
+                nell'intervallo [sx, dx]. la funzione Distribuzione ci permette di trovare il rango del pivot, posizionando
+                tutti gli elementi di rango minore alla sua sinistra e tutti gli elementi di rango maggiore alla sua destra.
+                
+Ricorsione: si continua la ricerca dell'elemento di rango r nel solo segmento che lo contiene.
 
+Ricombinazione: non c'è nessun lavoro di ricombinazione
+               
 -------------------------------------------------------------------- Pseudocodice
 
 QuickSelect(a, sx, rango, dx){
