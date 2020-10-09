@@ -38,7 +38,7 @@ Funzionamento:
 
 Distribuzione(a, sx, px, dx){
 
-    if(a[px] != a[dx])  Scambia(a[p], a[dx]);
+    if(a[px] != a[dx])  Scambia(a[px], a[dx]);
 
     i = sx;
     j = dx - 1;
