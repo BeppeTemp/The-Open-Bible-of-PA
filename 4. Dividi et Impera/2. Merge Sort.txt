@@ -64,7 +64,7 @@ Merge(a, sx, cx, dx){
         b[k] = a[j];
     }
     for(i = sx; i <= dx; i=i+1){            //Inserisce la sequenza completa e ordinata in v
-        a[i] = b[i-s];
+        a[i] = b[i-sx];
     }
 }
 
