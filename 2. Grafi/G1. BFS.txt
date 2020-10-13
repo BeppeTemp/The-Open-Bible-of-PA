@@ -1,86 +1,88 @@
----------------------------------------------------------------------------------------------Definizioni
+-------------------------------------------------------------------- Definizioni
 
-Visita in Ampiezza: partendo da un nodo s, creo una lista di liste divisa in livelli, nel primo livello
-inserisco s, successicamente scandedndo tutti i gli archi che partono da s e arrivano in nodi u, se i 
-nodi u non sono stati scoperti li inserisco nel secondo livello iterando cosi, fino a n-2 nodi.
+Breath First Search (o visita in ampiezza): 
+    - Nella BFS partiamo da un nodo sorgente s ed esploriamo i nodi in ordine di istanza dalla sorgente, 
+      si dice che l'esplorazione avviene per livelli. L'esecuzione dell'algoritmo produce un albero chiamato
+      albero BFS.
 
-Albero BFS: L'algoritmo produce come output un albero, che ha come radice s e come figli tutti i nodi
-collegati a quest'ultimo.
+Albero BFS: 
+    - L'albero BFS ha come radice il nodo sorgente s e come figli tutti i nodi
+      raggiungibili da quest'ultimo. Nella costruzione dell'albero BFS l'algoritmo andrà ad 
+      inserire solo gli archi, questo perchè gli archi danno informazioni di relazione PADRE-FIGLIO
 
-----------------------------------------------------------------------------------------------------Idea
 
-#Idea
+------------------------------------------------------------------- Implementazione con lista di adiacenza O(n + m)
+
+#Implementazione con lista di adiacenza: 
+    - Il grafo è rappresentato con liste di adiacenza;
+    - Ciascun livello Li è rappresentato da una lista L[i];
+    - Utilizziamo un array Discovered di valori booleani per associare a ciascun nodo il valoro vero o falso a seconda
+      se sia stato scoperto o meno;
+    - Durante l'esecuzione costruiamo un albero BFS;
+
 BFS(s){
-    L0={s}
-    for(i=0;i<n-2;i++){
-        inizializza(Li+1) come insieme vuoto
-        foreach (nodo u contenuto in Li)
-            foreach (arco (u,,v) incidente al nodo u)
-                if (v non è contenuto in nessun L0,...,Li-1)
-                    aggiungi u a li+1
+    Poni Discovered[s]=true e Discovered[u]=false per tutti gli altri nodi u del grafo              //Tempo O(n)
+    inizializza L[0] in modo che contenga solo s                                                    //Tempo O(1)
+    Poni il contatore dei livelli i = 0                                                             //Tempo O(1)
+    inizializza bfsTree come albero vuoto.                                                          //Tempo O(1)
+    while(i<n-2){                                                                                   //Tempo O(n)
+        inizializza L[i+1] come lista vuota                                                             //Tempo O(1)
+        foreach (nodo in L[i]){                                                                         //Tempo O(n)                     
+            foreach (arco(u,v) incidente in u){                                                             //Tempo O(m)     
+                if (Discovered[v]==false){                                                                      //Tempo O(1)
+                    Discovered[v]=true                                                                          //Tempo O(1)
+                    Aggiungi v alla lista L[i+1]                                                                //Tempo O(1)           
+                    Aggiungi l'arco (u, v) all'albero bfsTree                                                   //Tempo O(1)
                 }
             }
         }
+        i = i + 1                                                                                    //Tempo O(1)
     }
 }
 
--------------------------------------------------------------------Implementazione con lista di adiacenza
+Analisi: 
+    - L'inizializzazione prende tempo costante tranne per quanto riguarda quella dell'array Discovered[] che
+    prende come tempo O(n) perchè dobbiamo "analizzare" tutti gli n nodi. Per quanto riguarda il while prende 
+    tempo O(n) mentre il foreach esterno sul totale delle iterazioni del while visiterà tutti i nodi, in quanto 
+    ogni nodo appartiene ad una sola lista L di grandezza n, quindi O(n). Infine il foreach più interno, 
+    verrà eseguito al più [sommatoria di] deg(u) <= 2m, quindi O(m), perchè l'algoritmo andrà a visitare tutti 
+    gli archi incidenti su u.
 
-#implementazione con lista di adiacenza: abbiamo come output, sia la lista di adiacenza che l'albero
-associato al grafo.
+Totale: 
+    - O(n+m).
 
-BFS(s){
-    inizializza L[0] in modo che contenga solo s                                 //Tempo O(1)
-    poni disc[s]=true e disc[u]=false per tutti gli altri nodi u del grafo       //Tempo O(n)
-    inizializza bfsTree come albero vuoto.                                       //Tempo O(1)
-    i=0
-    while(i<n-2){                                      //Tempo O(n)
-        inizializza L[i+1] come lista vuota                                     
-        foreach (nodo in L[i]){                        //Sul totale delle iterazioni del while O(n).
-            foreach (arco(u,v) incidente in u){        //la sommatoria di tutti i gradi degli archi,
-                if (disc[v]==false){                   //quindi al più 2m sul totale delle iterazioni 
-                    disc[v]=true                       //del while. 
-                    bfsTree.add(arco(u,v))
-                    L[i+1].add(v)
-                }
-            }
-        }
-        i=i+1
-    }
-}
+------------------------------------------------------------------- Implementazione con coda FIFO
 
-Analisi: L'inizializzazione prende tempo costante tranne per quanto riguarda quella dell'array disc[] che
-prende come tempo O(n). Per quanto riguarda il While prende tempo O(n-2) mentre il primo foreach sul totale
-delle iterazioni del while visiterà tutti i nodi, quindi O(n). Infine il secondo foreach, visiterà tutti
-gli archi del grafo al più due volte quindi, per tutte le iterazioni del while O(2m).
-Totale: O(n)+O(n-2)+O(2m)=O(2n+2m-2)=O(n+m).
-
-----------------------------------------------------------------------------Implementazione con coda FIFO
-
-#implementazione con coda FIFO: al contrario dell'implementazione con lista di adiacenza, l'implementazione
-con coda FIFO ha come unico output l'albero.
+#implementazione con coda FIFO:
+    - Ogni volta che un nodo u viene scoperto, viene inserito in una coda di tipo FIFO;
+    - Nella coda possono esserci solo nodi che appartengono a livelli contigui;
+    - Durante l'esecuzione costruiamo un albero BFS;
 
 BFS(s){
-    inizializza q come coda vuota                                               //Tempo O(1)
-    q.enqueu(s)                                                                 //Tempo O(1)
-    poni disc[s]=true e disc[u]=false per tutti gli altri nodi u del grafo      //Tempo O(n)
-    inizializza bfsTree come albero vuoto                                       //Tempo O(1)
-    while(Q non è vuota){                           //Ci passeranno tutti i nodi quindi O(n)
-        u=q.deque                                   //Tempo O(1)
-        foreach (arco(u,v) incidente in u){         //la sommatoria di tutti i gradi degli archi,
-            if (disc[v]==false){                    //quindi al più 2m sul totale delle iterazioni 
-                    disc[v]=true                    //del while. 
-                    bfsTree.add(arco(u,v))
-                    q.enqueu(v)
+    inizializza Q come coda vuota                                                              //Tempo O(1)
+    inizializza bfsTree come albero vuoto.                                                     //Tempo O(1)
+    poni Discovered[s]=true e Discovered[u]=false per tutti gli altri nodi u del grafo         //Tempo O(n)
+    inserisci s in coda a Q con una enqueue                                                    //Tempo O(1)
+    while(Q non è vuota){                                                                      //Ogni nodo scoperto andrà inserito nella coda, quindi al più O(n)
+        estrai il front con una deque e ponilo in u                                                 //Tempo O(1)
+        foreach (arco(u,v) incidente in u){                                                             //la sommatoria di tutti i gradi degli archi,
+            if (Discovered[v]==false){                                                                  //quindi al più 2m sul totale delle iterazioni 
+                    Discovered[v]=true                                                                  //del while. 
+                    Aggiungi l'arco (u, v) all'albero bfsTree                                           //Tempo O(1)
+                    Aggiungi v in coda a Q con una enqueue                                              //Tempo O(1)
             }
         }
     }
 }
 
-Analisi: L'inizializzazione prende tempo costante tranne per quanto riguarda quella dell'array disc[] che
-prende come tempo O(n). Per quanto riguarda il While prende tempo O(n) in quanto nella coda transiteranno
-tutti i nodi del grafo, mentre il foreach, visiterà tutti gli archi del grafo al più due volte quindi, 
-per tutte le iterazioni del while O(2m).
-Totale: O(n)+O(n+2m)=O(2n+2m)=O(n+m).
+Analisi: 
+    - L'inizializzazione prende tempo costante tranne per quanto riguarda quella dell'array Discovered[] che
+    prende come tempo O(n). Per quanto riguarda il while prende tempo O(n) in quanto nella coda transiteranno tutti 
+    i nodi del grafo, perchè ogni volta che scopriamo un nodo questo verrà inserito nella coda, verrà eseguito al 
+    più [sommatoria di] deg(u) <= 2m, quindi O(m), perchè l'algoritmo andrà a visitare tutti 
+    gli archi incidenti su u.
 
----------------------------------------------------------------------------------------------------------
+Totale:
+    - O(n+m).
+    
+------------------------------------------------------------------- FIN
