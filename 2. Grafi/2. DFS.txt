@@ -1,0 +1,74 @@
+-------------------------------------------------------------------- Definizioni
+
+Depth Firts Search (o visita in profondità):
+    - La visita DFS parte dalla sorgente s e si spinge in profondità fino a che non è più possibile raggiungere nuovi nodi.
+
+Albero DFS: 
+    - L’algoritmo DFS produce un albero che ha come radice la sorgente s e come nodi tutti i nodi del grafo raggiungibili da s.
+
+-------------------------------------------------------------------- Implementazione Ricorsiva O(n+m)
+
+Implementazione Ricorsiva:
+    - Assumiamo G implementato con liste di adiacenza;
+    - R indica l'insieme dei vertici ragiunti/scoperti
+    - Lo stack viene utilizzato in maniera implicita andando ad utilizzare la ricorsione;
+
+DFS(s){
+    marchia u come "esplorato" e aggiungi u ad R                 //Tempo O(1)
+    foreach( arco (u,v) incidente su u){                         //Tempo O(deg(u))
+        if( v non è "esplorato")                                    //Tempo O(1)
+            richiama ricorsivamente DFS(v);
+    }
+}
+
+Analisi: 
+    Ciascuna visita ricorsiva richiede tempo O(1 + deg(u)): 
+        - O(1) per marcare u e aggiungerlo ad R
+        - O(deg(u)) per eseguire il foreach
+    Se inizialmente invochiamo DFS su un nodo s, allora DFS viene invocata ricorsivamente su tutti i nodi raggiungibili a partire da s. 
+    Il costo totale è quindi al più: [somma per u appartenente a V di ] O(1 + deg(u)) =
+                                    = O([somma per u appartenente a V di ] 1 + [somma per u appartenente a V di ] deg(u)) =
+                                    = O(n + m)
+                                 
+-------------------------------------------------------------------- Implementazione con Stack O(n+m)
+
+Implementazione con Stack:
+    - Assumiamo G implementato con liste di adiacenza
+    - Lo stack in questo caso è usato in modo esplicito
+
+DFS(s){
+    poni Explored[s]=true e Explored[u]=false per tutti gli altri nodi u            //Tempo O(n)
+    inizializza S con uno stack contenete la sorgente s                             //Tempo O(1)
+    Inizializza il DFStree come albero vuoto                                        //Tempo O(1)
+    while(S non è vuoto){                                                           //Tempo O(deg(u))
+        metti in u il nodo al top di S                                                   //Ogni nodo scoperto andrà inserito nello stack, quindi al più O(n)
+        if (esiste un arco(u,v) incidente su u non ancora esplorato){
+            if (Explored[v]=false){
+                Explored[v]=true
+                aggiungi l'arco (u, v) all'albero DFStree                                                   //Tempo O(1)                
+                inserisci v al top di S                                                                     //Tempo O(1) 
+            }
+        } else rimuovi il top di S
+    } 
+}
+
+Analisi:
+    - L'inizializzazione prende tempo costante tranne per quanto riguarda quella dell'array Explored[] 
+      che impiega tempo O(n) pechè deve "marchiare" tutti i nodi di G. Per quanto riguarda il while non
+      è corretto ipotizzare che il suo tempo di esecuzione sia al più O(n) perchè potrebbe esserci più
+      di un'iterazione dove non verrà rimosso u dallo Stack S, ogni nodo verrà rimosso dal top dello stack
+      se e solo so non ci sono altri archi incidenti su quel nodo da esplorare. Possiamo dire che ogni nodo
+      all'interno dello stack è responsabile di un numero di iterazioni pari al suo grado. in totale il while 
+      è iterato al più 2m volte, quindi O(m)
+
+Tempo:
+    - O(n+m)
+    
+Extra:
+    - utilizzando una rappresentazione del grafo con liste adiacenti è possibile mantenere per ogni vertice
+      u un puntatore al nodo della lista di adiacenza di u corrispondente al prossimo arco (u, v) da scandire.
+      Questo ci porta a migliorare il tempo di esecuzione in quanto il while impiegerà tempo costante per 
+      ogni singola iterazione. Il tempo totale per tutte le iterazioni è quindi O(m). Questa versione simula
+      il comportamento dell'algoritmo ricorsivo.
+
+-------------------------------------------------------------------- FIN
