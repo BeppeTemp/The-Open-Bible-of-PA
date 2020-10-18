@@ -1,0 +1,110 @@
+-------------------------------------------------------------------- Definizione del problema
+
+Input: un insieme di punti del piano
+
+Obiettivo: vogliamo trovare la coppia di punti più vicina tra un insieme di punti del piano
+
+Idea:
+    * L'insieme ha cardinalità minore o uguale di una certa costante: possiamo usare la ricerca esaustiva
+    * Oppure possiamo dividerlo in due parti uguali S e D.
+    * Troviamo ricorsivamente le soluzioni per S e quella per D individuando due coppie di punti a sitanza minima ds e dd
+    * La soluzione finale:
+        ° Una delle due coppie è già stata individuata
+        °puoò essere formata da un punto in S e uno in D
+    * Se dsd è la distanza minima di due punto aventi estremi in S e D, la soluzione finale è data dalla coppia di punti
+      a distanza: min{dsd, ds, dd}
+
+-------------------------------------------------------------------- Pseudocodice
+
+Input: 
+    - Px = array di punti ordinato in modo non decrescente rispetto alle ascisse;
+    - Py = array di punti ordinato in modo non decrescente rispetto alle ordinate;
+    - n = dimensione degli array Px e Py;
+    
+Algoritmo;                                                                                                                    Analisi:
+    1.  Se n <= 3, calcola le distanze tra le coppie di punti per trovare la coppia a distanza minima.                           1.  Limitato superioremente da una costante c0
+    2.  Se n > 3, esegue i seguenti passi:                                                                                    
+        2.a  Inserisce nell'array Sx i primi ParteInferiore(n/2) punti di Px e nell'array Dx gli ultimi                          2.a = O(n)
+             ParteSuperiore(n/2) punti di Px.
+        2.b  Inserisce nell'array Sy i primi ParteInferiore(n/2) punti di Px nell'ordine in cui appaiono                         2.b = O(n) 
+             in Py e nell'array Dy gli ultimi ParteSuperiore(n/2) punti di Px nell'ordine in cui appaiono
+             in Py.
+        2.c  Effettua una chiamata ricorsiva con input: "Sx, Sy e ParteInferiore(n/2)" e una chiamata ricorsiva                  2.c = 2T(n/2) costo delle chiamate ricorsive
+             con input: "Dx, Dy e ParteSuperiore(n/2)". Siano ds e dd i valori delle distanze delle coppie di 
+             punti restituite dalla prima e dalla seconda chiamata ricorsiva. Pone d = min{ds, dd} e (p, q)
+             uguale alla coppia di distanza d.
+        2.d  Copia in Pd i punti a distanza minore di d dalla retta verticale passante per l'elemento centrale                   2.d = O(n) 
+             di Px nello stesso ordine in cui appaiono in Py
+        2.e  Per ciascun punto p' di Pd esamina gli 11 punti che seguono p' in Pd. Per ciascun punto q' computa                  2.e = O(n) 
+             la sua distanza da p' e se questa risulta minore di d, aggiorna il valore di d e pone (p, q) = (p', q').
+        2.f  restituisce la coppia (p, q).                                                                                       2.f = O(1)
+             
+          
+Pseudocodice:
+
+    CoppiaPiuVicina(Px, Py, n):
+        if(n <= 3) return RicercaEsaustiva(Px, Py, n);
+        else p = Px[n/2];
+        
+        j = k = 0;
+        
+        for(i = 0; i < n/2; i = i + 1){
+            Sx[i] = Px[i];
+            Dx[i] = Px[i + n/2];
+        }
+        
+        if(n%2 == 1) Dx[n-1] = Px[n-1];
+        
+        for(i = 0; i < n; i = i + 1){
+            if(Py[i].x <= p.x){
+                Sy[j] = Py[i];
+                j = j + 1;
+            } else {
+                Dy[k] = Py[i];
+                k = k + 1;
+            }
+        }
+        
+        (ps, qs) = CoppiaPiuVicina(Sx, Sy, n/2);
+        (pd, qd) = CoppiaPiuVicina(Dx, Dy, (n+1)/2);
+        
+        if(Dist(ps, qs) < Dist(pd, qd)){
+            d = Dist(ps, qs);
+            (p, q) = (ps, qs);
+        } else {
+            d = Dist(pd, qd);
+            (p, q) = (pd, qd);
+        }
+        
+        for(i = m = 0; i < n; i = i + 1){
+            if(|Py[i].x - p.x| <= d){
+                Pd[m] = Py[i];
+                m = m + 1;
+            }
+        }
+        
+        for(i = 0; i < m; i = i + 1){
+            for(j = i + 1; j <= min{i+11, m}; j = j + 1){
+                if(Dist(Pd[i], Pd[j]) < d){
+                    d = Dist(Pd[i], Pd[j]);
+                    (p, q) = (Pd[i], Pd[j]);
+                }
+            }
+        }
+        
+        return (p, q);
+    
+    
+-------------------------------------------------------------------- Relazione di Ricorrenza
+
+        | c0                se n <= 3
+T(n) <= |
+        | 2T(n/2) + cn      altrimenti
+        
+-------------------------------------------------------------------- Tempo di Esecuzione
+
+T(n) = O(nlogn)
+
+-------------------------------------------------------------------- FIN
+
+    

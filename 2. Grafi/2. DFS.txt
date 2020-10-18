@@ -1,67 +1,74 @@
----------------------------------------------------------------------------------------------Definizioni
+-------------------------------------------------------------------- Definizioni
 
-Visita in profondità: l'algoritmo parte da un nodo s e per un arco(s,u) si spinge ricorsivamente per un
-arco(u,x) e cosi via finche non ci sono più archi su. 
+Depth Firts Search (o visita in profondità):
+    - La visita DFS parte dalla sorgente s e si spinge in profondità fino a che non è più possibile raggiungere nuovi nodi.
 
-Albero DFS: L'algoritmo produce come output un albero, che ha come radice s con un unico lungo ramo di 
-figli, che rappresenta il percorso più lungo scandito dall'algoritmo, da cui si diramano altri rami
-che rappresentano i backtrack svolti dall'algoritmo.
+Albero DFS: 
+    - L’algoritmo DFS produce un albero che ha come radice la sorgente s e come nodi tutti i nodi del grafo raggiungibili da s.
 
+-------------------------------------------------------------------- Implementazione Ricorsiva O(n+m)
 
-----------------------------------------------------------------------------------------------------Idea
+Implementazione Ricorsiva:
+    - Assumiamo G implementato con liste di adiacenza;
+    - R indica l'insieme dei vertici ragiunti/scoperti
+    - Lo stack viene utilizzato in maniera implicita andando ad utilizzare la ricorsione;
 
-#Idea
 DFS(s){
-    expl[s]=True
-    Q.add(s)
-    foreach (arco(s,v) incidente in s)
-        if (!expl)
-            DFS(v)
-        }
+    marchia u come "esplorato" e aggiungi u ad R                 //Tempo O(1)
+    foreach( arco (u,v) incidente su u){                         //Tempo O(deg(u))
+        if( v non è "esplorato")                                    //Tempo O(1)
+            richiama ricorsivamente DFS(v);
     }
 }
 
-------------------------------------------------------------------------------------------implementazioni
+Analisi: 
+    Ciascuna visita ricorsiva richiede tempo O(1 + deg(u)): 
+        - O(1) per marcare u e aggiungerlo ad R
+        - O(deg(u)) per eseguire il foreach
+    Se inizialmente invochiamo DFS su un nodo s, allora DFS viene invocata ricorsivamente su tutti i nodi raggiungibili a partire da s. 
+    Il costo totale è quindi al più: [somma per u appartenente a V di ] O(1 + deg(u)) =
+                                    = O([somma per u appartenente a V di ] 1 + [somma per u appartenente a V di ] deg(u)) =
+                                    = O(n + m)
+                                 
+-------------------------------------------------------------------- Implementazione con Stack O(n+m)
 
-#Implementazione tramite stack
+Implementazione con Stack:
+    - Assumiamo G implementato con liste di adiacenza
+    - Lo stack in questo caso è usato in modo esplicito
+
 DFS(s){
-    poni expl[s]=true e expl[u]=false per tutti gli altri nodi u            //Tempo O(n)
-    stk.push(s)                                                             //Tempo O(1)
-    while(stk non vuoto){
-        u=stk.pop()                                                         //Tempo ugual al foreach della
-        if (esiste un arco(u,v) incidente su u non ancora esaminato){       //BFS
-            if (expl[v]=false){
-                expl[v]=true
-                stk.push(v)
+    poni Explored[s]=true e Explored[u]=false per tutti gli altri nodi u            //Tempo O(n)
+    inizializza S con uno stack contenete la sorgente s                             //Tempo O(1)
+    Inizializza il DFStree come albero vuoto                                        //Tempo O(1)
+    while(S non è vuoto){                                                           //Tempo O(deg(u))
+        metti in u il nodo al top di S                                                   //Ogni nodo scoperto andrà inserito nello stack, quindi al più O(n)
+        if (esiste un arco(u,v) incidente su u non ancora esplorato){
+            if (Explored[v]=false){
+                Explored[v]=true
+                aggiungi l'arco (u, v) all'albero DFStree                                                   //Tempo O(1)                
+                inserisci v al top di S                                                                     //Tempo O(1) 
             }
-        }
-        stk.pop()
+        } else rimuovi il top di S
     } 
 }
 
-Analisi: L'inizializzazione prende tempo costante tranne per quanto riguarda quella dell'array expl[] che
-prende come tempo O(n). Per quanto riguarda il While visiterà tutti gli archi del grafo al più due volte
-quindi, per tutte le iterazioni del while O(2m).
-Totale: O(n)+O(2m)=O(n+2m)=O(n+m).
+Analisi:
+    - L'inizializzazione prende tempo costante tranne per quanto riguarda quella dell'array Explored[] 
+      che impiega tempo O(n) pechè deve "marchiare" tutti i nodi di G. Per quanto riguarda il while non
+      è corretto ipotizzare che il suo tempo di esecuzione sia al più O(n) perchè potrebbe esserci più
+      di un'iterazione dove non verrà rimosso u dallo Stack S, ogni nodo verrà rimosso dal top dello stack
+      se e solo so non ci sono altri archi incidenti su quel nodo da esplorare. Possiamo dire che ogni nodo
+      all'interno dello stack è responsabile di un numero di iterazioni pari al suo grado. in totale il while 
+      è iterato al più 2m volte, quindi O(m)
 
-----------------------------------------------------------------------------------------------------Extra
+Tempo:
+    - O(n+m)
+    
+Extra:
+    - utilizzando una rappresentazione del grafo con liste adiacenti è possibile mantenere per ogni vertice
+      u un puntatore al nodo della lista di adiacenza di u corrispondente al prossimo arco (u, v) da scandire.
+      Questo ci porta a migliorare il tempo di esecuzione in quanto il while impiegerà tempo costante per 
+      ogni singola iterazione. Il tempo totale per tutte le iterazioni è quindi O(m). Questa versione simula
+      il comportamento dell'algoritmo ricorsivo.
 
-#Implementazione tramite stack e generazione albero DFS
-DFS(s){
-    poni expl[s]=true e expl[u]=false per tutti gli altri nodi u
-    Inizializza il DFStree come albero vuoto                            //Modifica uno
-    stk.push(s)
-    while(stk non vuoto){
-        u=stk.pop()
-        if (esiste un arco(u,v) incidente su u non ancora esaminato){
-            if (expl[v]=false){
-                expl[v]=true
-                DFSTree.add(arco(u,v))                                  //Modifica due
-                stk.push(v)
-            }
-        }
-        stk.pop()
-    } 
-}
-
----------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------- FIN

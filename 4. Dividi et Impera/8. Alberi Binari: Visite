@@ -1,0 +1,48 @@
+-------------------------------------------------------------------- Visita Inorder
+
+Chiamata anche visita Simmetrica. Il nodo u su cui viene invocata la visita viene ispezionato tra 
+la visita del sotto-albero sinistro e la visita del sotto-albero destro.
+
+Pseudocodice:
+
+    Simmetrica(u):
+        if(u != null){
+            Simmetrica(u.sx);
+            elabora(u);             // Se bisogna usare il risultato occorre salvarlo in una variabile.
+            Simmetrica(u.dx);
+        }
+
+Tempo di esecuzione: O(n) per n nodi.
+
+-------------------------------------------------------------------- Visita Preorder
+
+Chiamata anche visita Anticipata. Il nodo u su cui viene invoata la visita viene ispezionato
+prima delle due visite al sotto-albero destro e al sotto-albero sinistro
+
+Pseudocodice:
+    
+    Anticipata(u):
+        if(u != null){
+            elabora(u);             // Se bisogna usare il risultato occorre salvarlo in una variabile.
+            Anticipata(u.sx);
+            Anticipata(u.dx);
+        }
+
+Tempo di esecuzione: O(n) per n nodi.
+
+-------------------------------------------------------------------- Visita Postorder
+
+Chiamata anche visita Posticipata. Il nodo u su cui viene invoata la visita viene ispezionato
+dopo le due visite al sotto-albero destro e al sotto-albero sinistro
+
+Pseudocodice:
+    
+    Posticipata(u):
+        if(u != null){
+            elabora(u);             // Se bisogna usare il risultato occorre salvarlo in una variabile.
+            Posticipata(u.sx);
+            Posticipata(u.dx);
+        }
+
+Tempo di esecuzione: O(n) per n nodi.
+

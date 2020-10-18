@@ -1,85 +1,86 @@
-----------------------------------------------------------------------------------------------Definizioni
+-------------------------------------------------------------------- Definizioni
 
-Grafo bipartito: Un grafo è bipartito, se L'insieme dei nodi può essere partizionato in due sottoinsiemi
-X e Y t.c. ciascun arco del grafo ha un estremità in X e una in Y.
+Grafo bipartito:
+    - un grafo bipartito è un grafo non direzionato, l'insieme dei nodi può essere partizionato
+      in due sottoinsiemi X e Y tali che ciasciun arco del grafo ha una delle due estremità in 
+      X e l'altra in Y.
 
----------------------------------------------------------------------------------------------------Lemma
 
-Lemma: un grafo dipartito non può contenere cicli dispari.
-Dim: Graficamente in un ciclo pari non è possibile colorare, con due colori, in modo alternato i nodi
-che lo compongono.
+-------------------------------------------------------------------- Lemma
 
------------------------------------------------------------------------------------------------Proprietà
+Lemma: 
+    - Se un grafo G è bipartito, non può contenere cicli dispari, cioè un ciclo 
+      formato da un numero di nodi dispari.
 
-Proprietà BFS Tree: Si consideri il BFS Tree del grafo G e sia (X,Y) un arco di G, all'interno del BFS
-Tree i livelli di X e Y (estremi dell'arco) differiscono al più di 1.
+Dimostrazione: 
+    - Graficamente in un ciclo dispari non è possibile colorare, con due colori, in modo alternato i nodi
+      che lo compongono.
 
-Dim: Definiamo Li e Lj i livelli di X e Y, supponiamo che X venga scoperto prima:
+-------------------------------------------------------------------- Osservazione
 
-Caso 1: Il nodo Y non è stato scoperto: siccome per ipotesi X viene scoperto prima di Y, Y viene
-inserito o nel livello Li (se adiacente a qualche nodo del livello Li-1) o nel livello Li+1 (se
-adiacete a un nodo del livello Li-1). Quindi in questo caso Lj=Li o Lj=Li+1
+Osservazione: Sia G un grafo connesso e siano L0,...,Lk i livelli prodotti dall'esecuzione della visita BFS a partire dal nodo s:
 
-Caso 2: Il nodo Y non è stato ancora scoperto: siccome tra gli archi incidenti di X c'è anche (X,Y)
-allora Y viene inserito in questo momento in Li+1. Quindi Lj=li+1.
+    - Caso 1: Nessun arco di G collega due nodi sullo stesso livello --> Grafo bipartito
+    - Caso 2: Un arco G collega due nodi sullo stesso livello --> Grafo non bipartito
 
---------------------------------------------------------------------------------------------Osservazione
+Caso 1 dimostrazione: In questo caso non ci sono archi tra nodi dello stesso livello, allora tutti gli archi del grafo collegano nodi 
+                      in livelli successivi. Possiamo colorare di rosso i livelli di indice pari, in questo modo ho che le estreemità 
+                      di ogni arco sono di colore diverso.
 
-Osservazione: Preso un grafo G connesso, siano L0,...,Lk i livelli dell'albero BFS ad esso associato: 
-Caso 1: nel caso in cui non ci siano nodi appartenenti allo stesso livelli connessi, G sarà bipartito. 
-Caso 2: se esistono nodi connessi nello stesso livello, il grafo non sarà bipartito.
+Caso 2 dimostrazione: In questo caso ci basta dimostrare che esiste un ciclo dispari nel grafo. Supponiamo che esista un arco(x, y) 
+                      appartente al livello Lj. Indichiamo con z l'antenato comune più prossimo a x e y. Sia Li il livello dove si trova z.
+                      Possiamo ottenere un ciclo dispari del grafo prendendo il percorso d z a x (j-i archi), quello da z a y (j-i archi) e l'arco (x, y), 
+                      in totale il ciclo contiene 2(j - i) + 1 archi.
 
-Dim 1: per la proprietà del BFS Tree sappiamo che la distanza nell'albero BFS di due nodi facente parte
-di un arco (X,Y) sarà al più di 1. Siccome sappiamo per ipotesi che non ci sono archi nei nodi nello
-stesso livello possiamo colorare i nodi appartentti al grafo in modo alternato per livello.
+-------------------------------------------------------------------- Pseudocodico
 
-Dim 2: possiamo dimostrare che esiste un ciclo dispari nel grafo sapendo per il lemma, che un grafo
-contente un ciclo dispari non può essere bipartito. Infatti prendendo un arco(X,Y) appartente al livello
-Lj, indchiamo con Z l'antenato comune più prossimo a X e Y, cosi facendo esisterà un percorso, X,Y,Z
-o X,nodi padre non comuni,Z,nodi padre non comuni, Y che rappresenta un ciclo dispari nel grafo
-(Disegnare per fa capire al compito).
+Algoritmo che determina se un grafo è Bipartito:
+    - Modifichiamo la BFS in modo da poter asseganre i due colori ed eseguiamo al termine della visita una scansione sugli archi
+    - Il grafo g è implementato con liste di adiacenza
 
-------------------------------------------------------------------------------------------Implementazione
-#Algoritmo che verifica se un grafo contiene un ciclo dispari e quindi se è bipartito o meno.
-IsBipart(color,g){
-    foreach (nodo u in g){                     //Tempo O(n)
-        foreach (arco(u,v) incidente in u)     //Tempo O(2m) 
-            if(color[u]==color[v])
-                return false
-            }
-        }
-    }
-    return true
-}
-
-Analisi: stesso concetto degli arhci visitati due votle del BFS e DFS.
-Tempo totale: O(n)+O(2m)=O(n+2m)=O(n+m)
-
-----------------------------------------------------------------------------------------------------Extra
-
-#Algoritmo di visita BFS modificato per assegnare colore ai nodi in modo che possano essere analizzati
-da IsBipart.
-BFSCOL(s){
-    poni disc[s]=true e disc[u]=false per tutti i nodi u
-    i=0
-    inizializza L[0] in modo che contenga solo s
+BFS(s){
+    Poni Discovered[s]=true e Discovered[u]=false per tutti gli altri nodi u del grafo
+    inizializza L[0] in modo che contenga solo s  
+    Poni il contatore dei livelli i = 0
+    inizializza bfsTree come albero vuoto. 
     while(i<n-2){
         inizializza L[i+1]
         foreach (nodo u in L[i]){
             foreach (arco(u,v) incidente su v){
-                if(disc[v]==false){
-                    disc[v]==true;
-                    L[i+1].add(v)
-                    if(i%2==0){
-                        color[v]=rosso
+                if(Discovered[v] == false){
+                    Discovered[v] == true;
+                    Aggiungi v alla lista L[i+1]
+                    Aggiungi l'arco (u, v) all'albero bfsTree  
+                    if((i+1) % 2 == 0){
+                        Color[v] = rosso
                     }else{
-                        color[v]=blue
+                        Color[v] = blu
                     }
                 }
             }
         }
         i=i+1
     }
+    
+    return IsBipart(Color, bfsTree)
 }
 
---------------------------------------------------------------------------------------------------------
+
+IsBipart(Color, bfsTree){
+    foreach (arco (u, v) in bfsTree){             //Tempo O(m)
+        if(color[u] == color[v]) return false
+    }
+    
+    return true
+}
+
+
+Analisi: 
+         - l'aggiunta delle modifiche non cambia il tempo di esecuzione. L'assegnazione del colore impiega tempo costante O(1) per ogni nodo, 
+           quindi al più O(n). L'algoritmo che analizza tutti gli archi per controllare se due estremi hanno lo stesso colore impiega al più O(m).
+         
+Tempo totale: 
+            - O(n+m)
+
+
+-------------------------------------------------------------------- FIN

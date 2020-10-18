@@ -1,66 +1,66 @@
-Definizioni--------------------------------------------------------------------------------------------
+-------------------------------------------------------------------- Definizioni
 
-Componente connessa: sottoinsieme di vertici in cui per ciascuna coppia di vertici u,v esiste un
-percorso tra u e v.
+Componente connessa: 
+    - Sottoinsieme di vertici tale per ciascuna coppia di vertici u e v esiste un percorso tra u e v
 
-Teoremi------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------- Teoremi
 
-Teorema: Per ogni due nodi s,t in un grafo, le loro componenti connesse o sono uguali o sono diverse.
-Dim: banalmente se esiste un percorso tra s e t, tutti i nodi che sono collegati direttamente o
-indirettamente ad s o a t sono sono loro componente connessa e siccome s e t sono collegati, le 
-compoenenti saranno uguali. Viceversa se non esiste un percorso tra s e t nessun nodo può che sia
-collegato a s o a t può toccare il corrispettivo ne può creare un percorso, per non contraddire 
-l'ipotesi che ci sia un percorso tra s e t.
+Teorema: 
+    - Per ogni due nodi s e t di un grafo, le loro componenti connesse o sono uguali o disgiunte.
 
-Codice--------------------------------------------------------------------------------------------------
+Dimostrazione: 
+    - Banalmente se esiste un percorso tra s e t, ogni nodo u raggiungibile da s è anche raggiungibile
+      da t e ogni nodo u raggiungibile da t è raggiungibile da s. Viceversa se non esiste un percorso 
+      tra s e t non può esserci un nodo che appartiene sia alla componente connessa di s che a quella di t.
 
-#Algoritmo che trova tutte le componenti connesse in un grafo: il BFS va modicifato in modo da lasciare
-la fase di inizializzalizzazione di disc a AllComponents.
+-------------------------------------------------------------------- Pseudocodice
+
+#Algoritmo che trova tutte le componenti connesse in un grafo: il BFS va modificato in modo da lasciare
+la fase di inizializzalizzazione di discovered a AllComponents.
 AllComponents(g){
-    per ogni sono u in g disc[u]=false      //Tempo O(n)
+    per ogni sono u in g Discovered[u] = false      //Tempo O(n)
     foreach (nodo u in g){
-        BFS(u)                              //Tempo O(n+m)
+        BFS(u)                                          //Tempo O(n+m)
     }
 }
 
 Analisi: Indicando con ni e mi il numero di nodi e di archi dell'iesima compontente connessa il tempo 
-necessario per ogni componente conessa sarà di O(ni+mi) quindi il tempo totale sarà dato dalla sommatoria
-per i=1 al numero di componenti connesse di O(ni+mi) ma siccome le componenti connesse sono a due a due
-disgiunte questa sommatoria sarà uguale a (n+m).
-Pertanto il tempo totale dell'algorimo è: O(n)+O(n+m)=O(2n+m)=O(n+m)
+necessario per ogni componente conessa sarà di O(ni+mi) quindi il tempo totale sarà dato dalla [somma per i che va da 1 a k di] O(ni+mi), ma siccome le componenti connesse sono a due a due disgiunte questa sommatoria sarà uguale a O(n+m).
 
-Extra---------------------------------------------------------------------------------------------------
+Pertanto il tempo totale dell'algorimo è: O(n)+O(n+m) = O(n+m)
+
+-------------------------------------------------------------------- Extra
 
 #Algoritmo che trova le componenti connesse in un grafo, associando i nodi alla componente connessa
 di cui fanno parte.
+
 AllCompAss(g){
-    per ogni nodo u in g disc[u]=false
-    inizializza comp[u]=0 per ogni u in g
-    j=0
+    per ogni nodo u in g Discovered[u] = false
+    inizializza Component[u] = 0 per ogni u in g
+    j = 1
     foreach (nodo u in g){
-        BFSACA(u,disc,comp,j)
-        j++
+        BFS(u, j)
+        j = j + 1
     }
-    return comp
+    return Component
 }
 
-BFSACA(u,disc,comp,j){
-    inizializza L[0] in modo che contenga solo u
-    i=0
-    while(i<n-2){
-        inizializza l[i+1] vuota
-        foreach (nodo contenuto in l[i]){
-            foreach (arco(u,v) incidente in u){
-                if (disc[v]==false){
-                    disc[v]=true
-                    if(comp[v]!=0){
-                        comp[v]=j
-                        L[i+1].add(v)
-                    }
+
+BFS(u, j){
+    inizializza L[0] in modo che contenga solo u                                                    
+    Poni il contatore dei livelli i = 0                                                             
+    while(i<n-2){                                                                                  
+        inizializza L[i+1] come lista vuota                                                             
+        foreach (nodo in L[i]){                                                                                            
+            foreach (arco(u,v) incidente in u){                                                                
+                if (Discovered[v]==false){                                                                     
+                    Discovered[v]=true                                                                          
+                    Aggiungi v alla lista L[i+1]                                                                        
+                    Component[v] = j
                 }
             }
         }
-        i=i+1
+        i = i + 1                                                                                    
     }
 }
 
