@@ -1,49 +1,62 @@
----------------------------------------------------------------------------------Definizione del Problema
+-------------------------------------------------------------------- Definizione del Problema
 
-Input: un insieme di job ognuno con un certo tempo di inizio sj e un tempo di fine fj. Possiamo eseguire
-al più un'attività alla volta.
+Input: 
+    - Un insieme di attività ognuna delle quali inzia ad un certo istante sj e finisce ad un certo istante fj.
+      è possibile eseguire una sola attività alla volta
 
-Obbiettivo: trovare il maggior numero di job che siano a due a due compatibili.
+Obiettivo: 
+    - fare in modo che vengono svolte quante più attività è possibile.
 
-Compatibilità fra Job: Due Job i e j si dicono compatibili, se fi<=sj oppure fj<=si, in pratica se i loro
-tempi di esecuzione non si sovrappongono.
+Definizione di compatibilità fra Job: 
+    - Attività compatibili sono attività tali che gli intervalli in cui devono essere eseguite non si sovrappngono.
+      Due Job i e j si dicono compatibili se fi <= sj oppure fj <= si. L'obiettivo è quindi quello di trovare
+      un sottoinsieme di cardinalità massima di job a due a due compatibili.
+      
+Output:
+    - in output avremo un insieme di attività di job a due a due compatibili.
 
------------------------------------------------------------------------------------------Strategie Greedy
+-------------------------------------------------------------------- Strategie Greedy
 
-Strategia 1 (Earliest Start Time): Cerco di prendere sempre il job che ha tempo di inizio più piccolo, tra
-tutti quelli non ancora esaminati. (Un job lungo che inzia prima di 4 piccoli)
+Strategia 1 (Earliest Start Time): 
+    1. Idea: Considera i job in ordine crescente rispetto ai tempi di inizio sj.
+    2. Problema: Può accadere che il job che comincia per primo finisca dopo tutti gli altri.
 
 #Strategia Migliore
-Strategia 2 (Earliest Finish Time): Cerco di prendere sempre il job che ha tempo di fine più piccolo, tra
-tutti quelli non ancora esaminta. 
+Strategia 2 (Earliest Finish Time): 
+    1. Idea: considera i job in ordine crescente rispetto ai tempi di fine fj.
+    2. Problema: -----------
 
-Strategia 3 (Shortest Interval): Cerco di prendere quello che dura meno tra tutti quelli non ancora
-esaminati (fj-sj minore). (Un job piccolo incastrato fra due)
+Strategia 3 (Shortest Interval): 
+    1. Idea: Considera i job in ordine crescente rispetto alle loro durate fj - fi.
+    2. Problema: Può accadere che un job che dira meno di altri si sovrapponga a due job che sono compatibili.
+                 Se questo accade si seleziona un solo job.
 
-Strategia 4 (Fewest Conflicts): Cerco di prendere quello che ha meno conflitti con altri job tra tutti
-quelli non ancora esaminati. (Due colonne da 3 con 4 job sopra e uno in mezzo con meno conflitti)
+Strategia 4 (Fewest Conflicts): 
+    1. Idea: Per ogni job, conta il numero cj di job che sono in conflitto con lui e ordina in modo crescente 
+             rispetto al numero di conflitti.
+    2. Problema: Può accadere che un job che genera meno conflitti di altri si sovrapponga a due job compatibili.
 
----------------------------------------------------------------------------------------------Pseudocodice
+-------------------------------------------------------------------- Pseudocodice
 
 #Algoritmo che dato in input un instanza del problema Interval Scheduling, implementa la strategia Greedy
 Shortest Finish Time.
 
 IntSched(job){
-    Sort(job[] secondo i tempi di fine)
-    j=0
-    ord= insieme vuoto
-    for(i=1 to n){
-        if (job[i].getStart()>=f){
-            ord.add(job[i])
-            f=job[i].getFinish()
+    Ordinamento dei Job secondo i tempi di fine, t.c. f1 <= f2 <= ... <= fn             // Tempo dominante
+    f = 0                                                                               // Tempo di fine dell'ultimo job selezionato
+    A = insieme vuoto
+    for(j = 1; j <= n; j = j + 1){
+        if (sj >= f){
+            A = A UNIONE {j};
+            f = fj;  
         }
     }
-    return ord
+    return A
 }
 
 Tempo dell'ordinamento: O(n log n) (Termine dominante)
 Tempo del for: O(n)
 
-Tempo totale: O(n)+O(n log n)=O(n log n)
+Tempo totale: O(n) + O(n log n)=O(n log n)
 
----------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------- FIN
