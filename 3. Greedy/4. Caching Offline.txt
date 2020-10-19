@@ -1,41 +1,77 @@
----------------------------------------------------------------------------------Definizione del Problema
+-------------------------------------------------------------------- Definizioni
+
+Definizione di cache hit:
+    - l'elemento è già presentenella cache
+
+Definizione di cache miss:
+    - l'elemento non è presente nella cache, occorre portarlo in emoria e se la cache è piena
+      bisogna espellere alcuni elementi.
+      
+Definizione di Eviction Schedule:
+    a. Eviction Schedule Ridotto: è uno scheuling degli elementi da espellere, cioè una 
+       sequenza che indica quale elemento espellere quando bisogna far posto ad un 
+       elemento richiesto non in cache.
+           
+           1.a Osservazione: In un Eviction Schedule Ridotto il numero di inseirmenti è 
+                             uguale al numero di cache miss.
+      
+    b. Eviction Schedule non Ridotto: è un scheuling che può decidere di inserire nella 
+       cache un elemento che non ancora richiesto.
+
+-------------------------------------------------------------------- Definizione del Problema
 
 Input:
   * Un memoria centrale contene un insieme U di n elementi.
-  * Una memoria cache con capacità di memorizzare k elementi.
-  * Sequenza di m richieste di elementi d1,d2,...,dm fornita in modo offline (tutte le richieste sono 
-    note fin da subito, non molto realistico).
+  * Una memoria cache con capacità di memorizzare K elementi.
+  * Sequenza di m richieste di elementi d1, d2, ..., dm fornita in modo offline 
+    (tutte le richieste sono note fin da subito, non molto realistico).
   * Assumiamo che all'inizio la cache è piena, ovvero contiene k elementi.
 
-Obbiettivo: definire uno Eviction Scheduling che minimizzi il numero di cache miss.
+Obiettivo: 
+    - Definire uno Eviction Scheduling ridotto in cui il numero di inserimenti effettuati 
+      è al più piccolo possibile. Vogliamo un eviction Scheduling ridotto che minimizzi 
+      il numero di cache miss.
 
-----------------------------------------------------------------------------------------------Definizioni
-
-Chache hit: elemento già presente nella cache quando richiesto.
-
-Chache miss: elemento non presente nella cache quando richiesto: occorre caricarlo nella memoeria e se la
-memoria è piena occorre espellere dalla cache alcuni elementi per fare poso a quelli richiesti.
-
--------------------------------------------------------------------------Definizione di Eviction Schedule
-
-Eviction Schedule Ridotto: è uno scheuling degli elementi da espellere, cioè una sequenza che indica quale
-elemento espellere dalla cache quando bisogna far posto ad un nuovo elemento richiesto.
-
-Eviction Schedule non Ridotto: è un scheuling che può decidere di inserire nella cache un elemento che 
-non è stato richiesto.
-
----------------------------------------------------------------------------------------------Osservazione
-
-Osservazione: In un Eviction Schedule Ridotto il numero di inseirmenti è uguale al numero di cache miss.
-
------------------------------------------------------------------------------------------Strategie Greedy
+-------------------------------------------------------------------- Strategie Greedy
 
 #Strategia Migliore
-Strategia (Farthest-in-future): quando viene rischiesto un elemento che non è presente in cache, espelli
-dalla cache l'elemento che sarà richiesto più in là nel tempo o che non sarà più richiesto.
+Strategia (Farthest-in-future): 
+    - Quando un elemento che viene richiesto non è presente in cache, espelli dalla cache 
+      l'elemento che sarà richiesto più in la nel tempo o che non sarà richiesto. 
+      Farthest-In-Future è uno schedule ridotto ottimo
 
---------------------------------------------------------------------Pseudocodice impossibile da ricordare
+-------------------------------------------------------------------- Pseudocodice
 
-Analisi: O(m+k log k)+O(m log k) dove k è la dimensione della cache
+Ordinamento della sequenza d1, d2, ..., dm in modo non decrescente in base all'ordine di arrivo;
+Per ogni elemento d inizializza la lista L[d] di j tale che dj = d; 
+inizializza L[d] = Insieme vuoto 
+inizializza la coda a priorità Q Q be a priority queue 
 
----------------------------------------------------------------------------------------------------------
+for j = 1 to m {
+    if(list L[dj] è vuota AND dj è nella cache)
+        insert (j,dj) in Q 
+        aggiungi j alla lista L[dj]
+}
+
+for j = 1 to m {
+    if (dj è nella cache){
+        rimuovi il primo elemento da L[dj] 
+        if(L[dj] è vuota)
+            sostituisci la chiave dj con INFINITO in Q
+        } else{
+            p = al primo elemento di L[dj] 
+        s   ostituisci la chiave dj con p in Q
+    } else {
+        (h,dh) = ExtractMax(Q)
+        rimuovi dh dalla cache e porta dj nella cache 
+        rimuovi il rpimo elemento da L[dj]
+        if(L[dj] non è vuota) {
+            p = al primo elemento di L[dj]
+            inserisci (p, dj) in Q 
+        } else 
+            inserisci (∞,dj) in Q
+}
+
+Analisi: O(m + K log K) + O(m log K) dove K è la dimensione della cache
+
+-------------------------------------------------------------------- FIN
