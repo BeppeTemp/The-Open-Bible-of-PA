@@ -138,4 +138,15 @@ inizialmnete ogni insieme è costituito da un solo nodo che ne specifica il nome
 
 Tempo totale = O(m log n)
 
+Path Compression 
+Dopo aver eseguito un’operazione di Find, tutti i nodi attraversati nella ricerca avranno il campo puntatore che punta al 
+nodo contenente l’elemento che dà nome all’insieme.
+
+ - Idea: ogni volta che eseguiamo la Find con in input un elemento x di un certo insieme possiamo fare del lavoro in 
+         più che ci fa risparmiare sulle successive operazioni di Find. Questo lavoro in più non fa comunque 
+         aumentare il tempo di esecuzione asintotico della singola Find.
+ 
+ Questa euristica insieme alla union-by-size permettono ad una sequenza di operazioni union-find di venir eseguite in tempo O(n α(n)).
+ α(n) è l'inversa della funzione di Ackermann [α(n) <= 4]
+
 -------------------------------------------------------------------- FIN
