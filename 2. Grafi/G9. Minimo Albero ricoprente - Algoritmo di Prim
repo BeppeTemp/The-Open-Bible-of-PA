@@ -1,0 +1,73 @@
+-------------------------------------------------------------------- Algoritmo di Prim 
+                                                                     [Jarnik 1930, Prim 1957, Dijkstra 1959]
+
+Comincia con un certo nodo s e costruisce un albero T avente s come radice. Ad ogni passo aggiunge
+a T l'arco di peso più basso tra quelli che hanno esattamente una delle due estremita in T. Se un arco
+ha entrambe le estremità in T, la sua introduzione in T creerebbe un ciclo.
+
+Funzionamento:
+  * Ad ogni passo, T è un sottoinsieme di archi dello MST ed S è l'insieme di nodi di T.
+  * Inizializzazione: Pone in S un qualsiasi nodo u. Il nodo u sarà la radice dello MST.
+  * Ad ogni passo aggiunge a T l'arco (x, y) di costo minimo tra tutti quelli che congiungono un nodo x in
+    S ad un nodo y in V-S (Scelta Greedy).
+  * Termina quando S = V.
+
+Implementazione con coda a priorità:
+Prim(G, c){
+
+    Sia S l'insieme dei nodi esplorati                                   //Inizializzazione
+    Per ogni nodo u non in S, conserva il costo c[u]                     /
+    Sia Q la coda a priorità di coppie (c[u], u) t.c. u non è in S       //
+
+    foreach (nodo u in V){
+        insert(Q, INFINITO, u)
+    }
+
+    while(Q non è vuota){
+        (c[u], u) <-- ExtractMin(Q)
+        aggiungi u ad S
+        foreach(arco e = (u, v)){
+            if ((v non in S) AND (Ce < c[v])){
+                changeKey(Q, v, Ce)                                        //Aggiorna il costo del nodo v contenuto nella coda.
+            }
+        }
+    }
+}
+
+Analisi: 
+    - L'analisi è simile all'analisi dell'algoritmo d Dijksta:
+        a. O(n^2) con array o lista non ordinati.
+        b. O(m log n+n log n) con heap. Siccome nel problema il grafo è connesso allora m >= n-1 allora O(m log n+n log n)= O(m log n).
+        
+-------------------------------------------------------------------- Modifica algoritmo di Prim
+
+Modifica che restituisce l'insieme dei nodi appartenenti allo MST:
+
+Prim(G, c){
+
+    Sia S l'insieme dei nodi esplorati                                  
+    Per ogni nodo u non in S, conserva il costo c[u]                    
+    Sia Q la coda a priorità di coppie (c[u],u) t.c. u non è in S
+    Sia T l'insieme dei nodi appartenti allo MST                            //Prima Modifica
+
+    foreach (nodo u in V){
+        insert(Q,infinito,u)
+    }
+
+    while(Q non è vuota){
+        (c[u],u)<--ExtractMin(Q)
+        add u to S
+        add u to T                                                          //Seconda Modifica
+        foreach(arco e=(u,v)){
+            if ((v non in S)and (Ce<c[v])){
+                changeKey(Q,v,Ce)               
+            }
+        }
+    }
+    return T
+}
+
+Analisi: 
+    - L'analisi è simile all'analisi dell'algoritmo d Dijksta:
+        a. O(n^2) con array o lista non ordinati.
+        b. O(m log n+n log n) con heap. Siccome nel problema il grafo è connesso allora m >= n-1 allora O(m log n+n log n)= O(m log n).
