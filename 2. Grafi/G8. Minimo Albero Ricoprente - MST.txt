@@ -1,0 +1,234 @@
+-------------------------------------------------------------------- Definizione del problema
+
+Problema: 
+    - Sia dato un grafo non direzionato connesso G = (V, E) con costi Ce degli archi a valori reali
+      Un minimo albero ricoprnte è un sottoinsieme di archi tale che T è un albero ricoprente di costo
+      minimo.
+    
+Input:
+    - Grado non direzionato connesso G = (V, E). Ad ogni arco e è assegnato un costo che indichiamo con Ce.
+
+Obiettivo: 
+    - Trovare il minimo spanning tree, ovvero quello con costo totale minimo.
+
+Output:
+    - T albero ricoprente minimo (MST.
+
+-------------------------------------------------------------------- Definizioni
+
+Albero ricoprente (Spanning Tree): 
+    - Sia dato un grafo non direzionato connesso G = (V,E). Uno spanning tree di G 
+      è un sottoinsieme di archi T tali che |T| = n-1 e gli archi di T non formani 
+      cicli. 
+
+Definizione costo di T: 
+    - Sia dato un grafo non direzionato connesso G = (V, E) tale che ad ogni arco e di G è associato
+      un costo Ce. Per ogni albero ricoprente T di G, definiamo il costo di T come la sommatoria di 
+      tutti i costi degli archi.
+
+Teorema di Cayley:
+    - Ci sono n^n-2 alberi ricoprenti del grafo completo Kn.
+
+-------------------------------------------------------------------- Taglio e Proprietà del Taglio
+
+Taglio: 
+    - un taglio è una partizione [S, V-S] dell'insieme dei vertici del grafo.
+
+Insieme di archi che attraversano il taglio [S, V-S]: 
+    - sottoinsieme D di archi che hanno un'estremintà in S e una in V-S.
+    
+[Assumiamo per semplicità che i pesi degli archi siano a due a due disgiunti]
+Proprietà del taglio: 
+    - Sia S un qualsiasi sottoinsieme di nodi e sia e l'arco di costo minimo che 
+      attraversa [S,V-S]. Ogni minimo albero ricoprente contiene e.
+
+Proprieà del ciclo: 
+    - Sia C un qualsiasi ciclo e sia f l'arco di costo massimo in C. Nessun minimo 
+      albero ricoprente contiene f.
+      
+-------------------------------------------------------------------- Algoritmo di Prim 
+                                                                     [Jarnik 1930, Prim 1957, Dijkstra 1959]
+
+Comincia con un certo nodo s e costruisce un albero T avente s come radice. Ad ogni passo aggiunge
+a T l'arco di peso più basso tra quelli che hanno esattamente una delle due estremita in T. Se un arco
+ha entrambe le estremità in T, la sua introduzione in T creerebbe un ciclo.
+
+Funzionamento:
+  * Ad ogni passo, T è un sottoinsieme di archi dello MST ed S è l'insieme di nodi di T.
+  * Inizializzazione: Pone in S un qualsiasi nodo u. Il nodo u sarà la radice dello MST.
+  * Ad ogni passo aggiunge a T l'arco (x, y) di costo minimo tra tutti quelli che congiungono un nodo x in
+    S ad un nodo y in V-S (Scelta Greedy).
+  * Termina quando S = V.
+
+Implementazione con coda a priorità:
+Prim(G, c){
+
+    Sia S l'insieme dei nodi esplorati                                   //Inizializzazione
+    Per ogni nodo u non in S, conserva il costo c[u]                     /
+    Sia Q la coda a priorità di coppie (c[u], u) t.c. u non è in S       //
+
+    foreach (nodo u in V){
+        insert(Q, INFINITO, u)
+    }
+
+    while(Q non è vuota){
+        (c[u], u) <-- ExtractMin(Q)
+        aggiungi u ad S
+        foreach(arco e = (u, v)){
+            if ((v non in S) AND (Ce < c[v])){
+                changeKey(Q, v, Ce)                                        //Aggiorna il costo del nodo v contenuto nella coda.
+            }
+        }
+    }
+}
+
+Analisi: 
+    - L'analisi è simile all'analisi dell'algoritmo d Dijksta:
+        a. O(n^2) con array o lista non ordinati.
+        b. O(m log n+n log n) con heap. Siccome nel problema il grafo è connesso allora m >= n-1 allora O(m log n+n log n)= O(m log n).
+        
+-------------------------------------------------------------------- Modifica algoritmo di Prim
+
+Modifica che restituisce l'insieme dei nodi appartenenti allo MST:
+
+Prim(G, c){
+
+    Sia S l'insieme dei nodi esplorati                                  
+    Per ogni nodo u non in S, conserva il costo c[u]                    
+    Sia Q la coda a priorità di coppie (c[u],u) t.c. u non è in S
+    Sia T l'insieme dei nodi appartenti allo MST                            //Prima Modifica
+
+    foreach (nodo u in V){
+        insert(Q,infinito,u)
+    }
+
+    while(Q non è vuota){
+        (c[u],u)<--ExtractMin(Q)
+        add u to S
+        add u to T                                                          //Seconda Modifica
+        foreach(arco e=(u,v)){
+            if ((v non in S)and (Ce<c[v])){
+                changeKey(Q,v,Ce)               
+            }
+        }
+    }
+    return T
+}
+
+Analisi: 
+    - L'analisi è simile all'analisi dell'algoritmo d Dijksta:
+        a. O(n^2) con array o lista non ordinati.
+        b. O(m log n+n log n) con heap. Siccome nel problema il grafo è connesso allora m >= n-1 allora O(m log n+n log n)= O(m log n).
+
+-------------------------------------------------------------------- Algoritmo di Kruskal
+
+Comincia con T = INSIEME VUOTO. Considera gli archi in ordine non decrescente di costo. 
+Inserisce un arco e in T se e solo se il suo inserimento non genera la creazione di un ciclo in T.
+
+Funzionamento:
+  * Considera ciascun arco in ordine non decrescente di peso, possiamo avere due situazioni:
+        a. Caso 1: Se e crea un ciclo allora scarta e.
+        b. Caso 2: Se e non crea un ciclo inserisci e in T.
+
+Durante l'esecuzione di Kruskal su G =(V, E), l'insieme di vertici V e l'insieme di archi in T formano una
+foresta composta da uno o più alberi, cioè le componenti connesse dal grafo (V, T) sono alberi. (in
+pratica si generano dei mini alberi che poi si uniranno in uno solo).
+
+Implementazione:
+
+Kruskal(G, c){
+    Ordina gli archi in ordine non decrescente di peso, tale che c1 >= c2 <= ... <= cn
+    Inizializza T come vuoto
+
+    foreach (nodo u in V){
+        crea un singleton che contine solo u
+    }
+
+    for(i = 1 to m){                                          
+        (u, v) = ei
+        if (u e v sono in due insiemi differenti){
+            T = T UNIONE {ei}
+            unisci gli insiemi che contengono u e v
+        }
+    }
+    return T
+}
+
+Per rappresentare gli insiemi di vertici disgiunti possiamo utilizzare una struttura dati chiamata Union-Find
+
+-------------------------------------------------------------------- Implementazione con Union Find
+
+All'interno dell'algoritmo ciascun albero della foresta è rappresentato dal suo insieme di vertici.
+Per rappresentare questi vertici, si utilizza la struttura dati Union-Find per la rappresentazione di 
+insiemi disgiunti.
+
+Istruzioni supportate dall'Union-Find:
+  * MakeUnionFind(S): Crea una collezione di insiemi ognuno dei quali contiene un elemento di S.
+       - Viene chiamata nella fase di inizializzazione dell'algoritmo: ciascun insieme creato corrisponde
+         ad un albero con un solo vertice.
+
+  * Find(x): Resituisce l'insieme che contiene x.
+       - Per ciascun arco esaminato (u, v), l'algoritmo invoca find(u) e find(v). Se entrambe le chiamate
+         resituiscono lo stesso insieme allora vuol dire che u e v sono nello stesso albero e quindi (u, v)
+         crea un ciclo in T.
+
+  * Union(X, Y): unisce gli insieme X e Y.
+       - Se l'arco(u, v) non crea un ciclo in T allora l'algoritmo invoca Union(Find(u), Find(v)) per unire
+         le componenti connesse di u e v in un'unica componente connessa.
+
+Implementazione con Union-Find:
+Gli elementi sono etichettati con interi consecutivi da 1 a n e ad ogni elemento è associato una cella 
+dell'array S che contiene il nome del su insieme di appartenenza
+
+Kruskal(G,c){
+    Ordina gli archi in ordine non decrescente di peso, tale che c1 >= c2 <= ... <= cn
+    inizializza T come vuoto
+
+    MakeUnionFind(V)
+
+    for(i = 1 to m){                                                                             
+        (u, v) = ei
+        if (Find(u) != Find(v)){
+            T = T UNIONE {ei}
+            Union(Find(u), Find(v))
+        }
+    }
+    return T
+}
+
+Analisi: la fase di inzializzazione prende tempo: O(n) per creare la struttura Union-Find e O(m log m)
+per ordinare gli archi. Successicamente per ogni arco esaminato abbiamo tempo O(2m)=O(m) per le due find
+e per ogni arco aggiunto O(n) su un totale di n-1 archi che si traduce in (n^2).
+Tempo totale: O(m log n)+O(n^2).
+
+-------------------------------------------------------------------- Implementazione con Union Find con array union-by-size
+
+Stessa implementazione della slide precedente ma si usa anche un altro array A per mantenere traccia 
+della cardinalità di ciascun insieme. L’array ha n celle perché inizialmente ci sono n insiemi:
+    
+    a. Find(x) = O(1)
+    b. MakeUnionFind(S) = O(n), inizializza tutte le celle di S e di A
+    c. Union(X, Y) = viene confrontata la cardinalità, per l'insieme minore si aggiornano le sue celle in S.
+                     In queste celle si inserisce il nome dell'insieme più grande. La cella in A che rappresenta
+                     l'insieme più piccolo viene impostata a 0, quella dell'insieme grande viene aggiornata.
+                     Tempo O(n)
+
+Affermazione: 
+    - Una qualsiasi sequenza di unioni richiede O(n log n). Per ogni elemento viene svolto un lavoro in tempo O(log n).
+      Dato che per la sequenza di union il tempo è O(n). il tempo richiesto totale è O(n log n)
+                  
+* Inizializzaione = O(n) + O(m log m) = O(m log m). 
+    – O(n) creare la struttura Union-Find e
+    – O(m log m) ordinare gli archi
+* In totale il numero di find è 2m che in totale richiedono O(m)
+* Una qualsiasi sequenza di unioni richiede O(n log n)
+
+
+Nuovo tempo totale = O(m log m + n log n) = O(m log m) = O(m log n^2) = O(m log n)
+
+-------------------------------------------------------------------- Implementazione basata su struttura a puntatori
+
+L'insieme viene rappresentato come una struttura a puntatori in modo da semplificare le operazioni di 
+unio e find, portando cosi il tempo di esecuzione a O(log n).
+
+---------------------------------------------------------------------------------------------------------
