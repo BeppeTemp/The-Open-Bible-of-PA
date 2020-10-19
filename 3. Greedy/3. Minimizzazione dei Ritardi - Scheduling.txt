@@ -39,27 +39,28 @@ Strategia 3 (Smallest Slack):
 esecuzione degli intervalli.
 
 MinRit(){
-    ordino gli intervalli in base alla scadenza
-    t=0                                             //conta il tempo di inizio del prossimo job
+    ordinamento degli intervalli in base alla scadenza, t.c. d1 <= d2 <= ... <= dn
+    t = 0                                                                                 //Tempo di inizio del prossimo job
 
-    for(j=1;i<n;j++){
-       asegna il job j all'intervallo [t,t+dj]
-       sj=t                                         //setta sj del job j
-       fj=t+dj                                      //setta fj del job j
-       t=t+dj                                       //aggiorna il tempo di inizio del job j+1
+    for(j = 1; i < n; j = j + 1){
+       assegna il job j all'intervallo [t,t + tj]
+       sj = t                                           //setta sj del job j
+       fj = t + tj                                      //setta fj del job j
+       t = t + tj                                       //aggiorna il tempo di inizio del job j+1
     }
+    
     return i nuovi intervalli
 }
 
 Analisi:
-Tempo ordinamento: O(n log n) (tempo dominante)
-Tempo for: O(n)
+    - Tempo ordinamento: O(n log n) (tempo dominante)
+    - Tempo for: O(n)
 
-Tempo totale: O(n)+O(n log n)=O(n log n)
+Tempo totale: O(n) + O(n log n)=O(n log n)
 
 La soluzione cosi proposta gode di due proprietà:
-a) Nessun Idle Time, non ci sono momenti in cui la risorsa non viene utilizzata.
-b) Nessun Inversione, se un job j ja scadenza maggiore di quella i un job 1 allora viene eseguito i.
+    a) Nessun Idle Time, non ci sono momenti in cui la risorsa non viene utilizzata.
+    b) Nessun Inversione, se un job j ja scadenza maggiore di quella i un job 1 allora viene eseguito i.
 
 
 -------------------------------------------------------------------- Definizione di inversione
