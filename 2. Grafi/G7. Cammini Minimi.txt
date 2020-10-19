@@ -1,109 +1,129 @@
----------------------------------------------------------------------------------Definizione del Problema
+-------------------------------------------------------------------- Definizioni
+
+Definizione: 
+    - Per ogni percorso direzionato P. l(P) = somma delle lunghezze degli archi in P (Costo di P).
+
+-------------------------------------------------------------------- Definizione del Problema
 
 Input:
   * Grafo direzionato G=(V,E)
   * Per ogni arco e, le=valore numerico associato ad e (lunghezza o peso).
   * s=sorgente
 
-Obbiettivo: Trovare i percorsi direzionati più corto da s verso tutti gli altri nodi.
+Obiettivo: 
+    - Trovare i percorsi direzionati più corto da s verso tutti gli altri nodi.
 
-----------------------------------------------------------------------------------------------Definizioni
+-------------------------------------------------------------------- Varianti del problema
 
-Definizione: Per ogni percorso direzionato P. l(P)=somma delle lunghezze degli archi in P (Costo di P).
+Single Source Shortest Paths: 
+    - Determinare il cammino minimo da un dato vertice sorgente s ad ogni altro vertice
 
-------------------------------------------------------------------------------------Varianti del problema
+Single Destination Shortest Paths: 
+    - Determinare i cammini minimi ad un dato vertice destinazione t da tutti gli altri vertici
 
-Single Source Shortest Paths: Cammino minimo da un dato vertice sorgente s ad ogni altro vertice.
+Single-Pair Shortest Path:
+    - Per una data coppia di vertici u e v determinare un cammino minimo da un dato vertice u a v.
 
-Single Destination Shortest Paths: Cammini minimi ad un dato vertice destinazione t a tutti gli altri 
-vertici. (può essere ridotta alla prima variante invertendo il costo degli archi).
+All Pairs Shortest Path: 
+    - Per ogni coppia di vertici u e v, determinare un cammino minimo da u a v.
 
-Single-Pair Shortest Path: Per una data coppia di vertici u e v determinare un cammino minimo da un dato
-vertice u a v.
+-------------------------------------------------------------------- Osservazione
 
-All Pairs Shortest Path: Per ogni coppia di vertici u e v, determinare un cammino minimo da u a v.
+Cicli Negativi: 
+    - Se esiste un ciclo negativo lungo un percorso da s a v, allora non è possibile definire
+      il cammino minimo da s a v. Il percorso avrà un costo dipendente dal numero di volte che il ciclo
+      negativo è stato percorso.
 
----------------------------------------------------------------------------------------------Osservazione
+-------------------------------------------------------------------- Algoritmo di Dijkstra (1959)
 
-Cicli Negativi: in caso di un ciclo negativo non è possibile definire un percorso minimo.
-
-------------------------------------------------------------------------------------Algoritmo di Dijkstra
+Assumiamo lunghezze degli archi non negative per l'osservazione precedente.
 
 Funzionamento:
-  * Ad ogni passo mantiene l'insieme S dei nodi esplorati, ovvero quelli per cui è già stata calcolata la
+  * Ad ogni passo mantiene l'insieme S dei nodi esplorati, cioè di quei nodi per cui è stata già calcolata la
     distanza minima d(u) da s.
-  * Inizializzo S={s},d(s)=0.
+  * Inizializzazione di S = {s} e d(s) = 0.
   * Ad ogni passo, seglie tra i nodi non ancora in S ma adiacenti a qualche nodo in S, quello che può 
     essere raggiunto in modo più economico (scelta greedy).
-  * In altra parole sceglie v che minimizza d'(v) come il min((di e=(u,v):u appartiene ad S) d(u)+le)
-    aggiunge v ad S e pone d(v)=d'(v). (le è il costo dell'arco e).
+  * In altra parole sceglie v che minimizza: d'(v) = min( [e=(u,v):u appartiene ad S di:] d(u) + le),
+    aggiunge v ad S e pone d(v) = d'(v). (le è il costo dell'arco e).
 
 d'(v) rappresenta la lunghezza del percorso più corto da s a v tra quelli che passano solo per nodi di S.
 (in altre parola e la nuova distanza aggiornata tra v e il nodo s).
 
-Psudocodice:
-Dijkstra(G,l){
+-------------------------------------------------------------------- Psudocodice:
+
+Questa versione dell'algoritmo assume che tutti i nodi siano raggiungibili da S
+
+Dijkstra(G, l){
   Sia S l'insieme dei nodi esplorati
   foreach (nodo u in S){
-    conservane la distanza d(u)
+    conserviamo la distanza d(u)
   }
-  inizializza S={s} 
-  d(s)=0
+  inizializza S = {s} 
+  d(s) = 0
 
-  while(S!=V){
-    seleziona un nodo che non appartiene a S con almeno un vertice in S per cui
-    d'(v)=min((e=(u,v):u appartiene ad S) d(u)+le) è il minimo possibile
+  while(S != V){
+    seleziona un nodo che non appartiene a S con almeno un vertice in S per cui d'(v) = min( [e=(u,v):u appartiene ad S di:] d(u) + le) è il minimo possibile
     aggiungi v a S e definisci d(v)=d'(v)
   }
 }
 
 V: Insieme dei nodi contentuti nel grado G.
 
-Analisi: Il while viene iterato n volte quindi O(n). Se poi non usiamo nessuna struttura dati per il 
+Analisi: Il while viene iterato n-1 volte. Se non usiamo nessuna struttura dati per il 
 calcolo in modo efficiente di d'(v), dobbiamo scandire tutti gli archi che congiungono un vertice in S 
 con un vertice non in S, questo prende tempo O(m) che moltiplicate alle iterazioni del while abbiamo 
 O(nm).
 
------------------------------------------------------------------------------------Funzionamento a parole
+----------------------------------------------------------------------------------- Miglioramenti
 
-Ogni nodo viene inserito in una coDa contente l'associazione (Distanza da s, nome nodo), all'inzio tutte
-le distanze da s sono uguali a infinito. Partendo dal nodo s aggiorno la distanza da s di tutti i nodi 
-adiacenti ad s, succesivamente includo il nodo con distanza minore nella lista S e rieseguo l'Algoritmo
-sul nodo con distanza da s minima, fino a quando S non contiene tutti i nodi del grafo.
+1. Per ogni x non appartenente ad S teniamo traccia dell'ultimo valore computato d'(x), 
+   se non è mai stato calcolato poniamo d'(x) = infinito
+   
+2. Ad ogni iterazione del while: per ogn z non appartenente ad S, ricomputiamo il valore di d'(z) se e solo se è
+   stato aggiunto ad S un nodo u per cui esiste l'arco (u, z). Per calcolare il nuovo valore d'(z) basta calcolare 
+   il min{d'(z), d(u) + lz}.
 
-----------------------------------------------------------------------Implementazione con coda a priorità
+3. Se per ogni x appartenente ad S, memorizziamo (d'(x), x) in una coda a priorità, d'(v) può essere calcolato invocando la funzione Min 
+   oppure usando ExtractMin. l'aggiornamento di d'(z) al punto 1 può essere fatto con una ChangeKey.
 
-Dijkstra(G,s,l){
+----------------------------------------------------------------------------------- Implementazione con coda a priorità
 
-  Sia s l'insieme dei nodi esplorati                                        //Inizializzazione
+Dijkstra(G, s, l){
+
+  Sia s l'insieme dei nodi esplorati                                        // Inizializzazione
   Per ogni nodo u non in S, conserva la distanza d'(u)                      /
   Per ogni nodo u in S, conserva la distanza d(u)                           /
-  Sia Q una coda a priorità della coppia (d'(u),u) t.c. u non è in S        //
+  Sia Q una coda a priorità della coppia (d'(u), u) t.c. u non è in S       //
 
-  insert(Q,(0,s))                                       //s ha distanza da se pari a 0
-  per ogni nodo u diverso da s insert(Q,(infinito,u))     
-  while(S!=V){
-    (d(v),v)=extractMin(Q)                              //Estrai il nodo con distanza d'(u) minima
-    add v to S
-    foreach (arco e=(v,z)){
-      if (z non in s) and (d(v)+le<d'(z)){              //Se la distanza dal nodo s associata al nodo z 
-        changeKey(Q,z,d(v)+le)                          //è minore della distanza dal nodo s di v + la
-      }                                                 //lunghezza dell'arco e aggiorna la distanza nella
-    }                                                   //coda a priorita.
+  insert(Q, (0,s))                                                          // s ha distanza da se pari a 0
+  foreach nodo u diverso da s 
+    insert(Q, (infinito,u))
+    
+  while(S != V){
+    (d(v), v) = extractMin(Q)                                               // Estrai il nodo con distanza d'(u) minima
+    aggiungi v ad S
+    foreach (arco e=(v, z)){
+      if (z non in s) AND (d(v) + le < d'(z)){                              // Se la distanza dal nodo s associata al nodo z 
+        changeKey(Q, z, d(v) + le)                                          // è minore della distanza dal nodo s di v + la
+      }                                                                     // lunghezza dell'arco --> aggiorna la distanza nella
+    }                                                                       // coda a priorita.
   }
 }
 
 V: Insieme dei nodi contentuti nel grado G.
 
-Analisi: Abbiamo prima di tutto un tempo constante di inizializzazione, successicamenteo:
-    Se la coda è implementata tramite una lista o un array non ordinato:
-      Inizializzazione: O(n)
-      While: O(n^2) per le n extractMin; O(m) per le m changeKey.
+Analisi:
+    - Se la coda è implementata tramite una lista o un array non ordinato:
+        a. Inizializzazione: O(n)
+        b. While: O(n^2) per le n extractMin; O(m) per le m changeKey.
+        
     Tempo totale: O(n^2)
 
-    Se la cosa è implementata mediante un heap binario:
-      Inizializzazione: O(n) con costruzione bottom up oppure O(n log n) con n inserimenti.
-      While: O(n log n) per le n extractMin; O(m log n) per le m changeKey.
+    - Se la coda è implementata mediante un heap binario:
+        a. Inizializzazione: O(n) con costruzione bottom up oppure O(n log n) con n inserimenti.
+        b. While: O(n log n) per le n extractMin; O(m log n) per le m changeKey.
+        
     Tempo totale: O(n log n + m log n)
 
 ----------------------------------------------------------------------------------------------------Extra
@@ -112,7 +132,8 @@ Heap Binario: una struttura dati basata su un albero dove il nodo figlio sinistr
 minore rispetto al padre, mentre il destro uno maggiore.
 
 Implementazione per la creazione dell'albero dei cammini minimi:
-Dijkstra(G,s,l){
+
+Dijkstra(G, s, l){
   Sia s l'insieme dei nodi esplorati                                        
   Per ogni nodo u non in S, conserva la distanza d'(u)                      
   Per ogni nodo u in S, conserva la distanza d(u)                           
@@ -121,24 +142,22 @@ Dijkstra(G,s,l){
   Insert(Q,(0,s))
   Per ogni nodo u diverso da s insert(Q,(infinito,u))
 
-  Inizializza dtree come albero vuoto              //Prima modifica                     
-  Inserisci s come radice di dtree                 //Seconda modifica
-  ln=s                                             //Terza modifica: contiene l'ultimo nodo inserito 
+  Inizializza dtree come albero vuoto                                   // Prima modifica                     
+  Inserisci s come radice di dtree                                      // Seconda modifica
+  ln = s                                                                // Terza modifica: contiene l'ultimo nodo inserito 
 
-  while(S!=V){
-    (d(v),v)=extractMin(Q)                              
-    add v to S
-    dtree.add(arco(ln,v))                           //Quarta modifica
-    ln=v                                            //Quinta modifica
+  while(S != V){
+    (d(v), v) = extractMin(Q)                              
+    aggiungi v a S
+    inserisci l'arco (ln, v) nell'albero dtree                          // Quarta modifica
+    ln = v                                                              // Quinta modifica
     foreach (arco e=(v,z)){
-      if (z non in s) and (d(v)+le<d'(z)){              
-        changeKey(Q,z,d(v)+le)                          
+      if (z non in s) AND (d(v) + le < d'(z)){              
+        changeKey(Q, z, d(v) + le)                          
       }                                                 
     }                                                  
   }
-  return dtree                                      //Sesta modifica
+  return dtree                                                          // Sesta modifica
 }
 
-
-
----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------- FIN

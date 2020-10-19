@@ -1,40 +1,45 @@
----------------------------------------------------------------------------------Definizione del Problema
+-------------------------------------------------------------------- Definizione del Problema
 
-Input: un insieme di n intervalli [s1,f1],...,[s2,f2] che rappresentano gli intervalli durante i quali si
-svolgono le n attività.
+Definizione di Intervallo: 
+    - Col termine intervallo si intende un'attività. Ogni intervallo ha un tempo di inizio e un tempo di fine.
 
-Obbiettivo: far svolgere le n attività utilizzando il minor numero possibile di risorse, in modo che
-ciascuna risorsa venga utilizzata da al massimo un attività alla volta.
+Input: 
+    - un insieme di n intervalli [s1,f1], [s2,f2], ..., [ss,fn] che rappresentano gli intervalli durante i quali si
+      svolgono le n attività. Anche in questo caso abbiamo a disposizione una singola risorsa.
 
-Al contrario dell'Interval Scheduling, qui vogliamo utilizzare il minor numero possibile di risorse, un 
-esempio è la gestione delle aule in un università, vogliamo occuparne il meno possibile.
+Obiettivo: 
+    - Far svolgere le n attività utilizzando il minor numero possibile di risorse, in modo che
+      ciascuna risorsa venga allocata da al più un'attività alla volta
 
------------------------------------------------------------------------------------Concetto di profondità
+Output: numero di risorse minime da allocare ed utilizzare.
 
-Disponendo gli intervalli lungo l'asse x in modo da non avere intervalli che si sovrappongono alla stessa
-altezza.
+-------------------------------------------------------------------- Concetto di profondità
 
-Profondità: numero massimo di intervalli intersecabili da un singola linea verticale che si muovo lungo 
-l'asse x.
+Immaginamiamo di disporre gli intervalli lungo l'asse delle ordinate in modo da non avere intervalli che
+si sovrappongono alla stessa altezza.
+
+Profondità: 
+    - la profondità di un insieme di intervalli è il numero massimo di intervalli intersecabili con una 
+      singola linea verticale che si muove lungo l'asse delle ascisse.
 
 Osservazione: Numero di risorse necessarie >= profondità.
 
----------------------------------------------------------------------------------------------Pseudocodice
+-------------------------------------------------------------------- Pseudocodice
 
 #Algoritmo che dato in input un instanza del problema partizionamento di intervalli ritorna il numero di 
 risorse minimo per eseguirli in modo compatibile
 
 PartInt(intval){
-    Ordino gli intervalli in base ai tempi di inizio
-    d=0                                                 //contatore risorse allocate
+    Ordinamento degli intervalli in base ai tempi di inizio, t.c. s1 <= s2 <= ... <= sn
+    d = 0                                                                                           //Contatore risorse allocate
 
-    for(j=1;i<n;j++){
-       if(l'intervallo j può essere asegnato a una risorsa già allocata){
-           assegno la risorsa v all'intervallo j
+    for(j = 1; i < n; j = j + 1){
+       if(l'intervallo j può essere assegnato a una risorsa v già allocata){
+           assegniamo la risorsa v all'intervallo j
        }else{
-           alloco una nuova risorsa d+1
-           assegno la risorsa d+1 all'intervallo j
-           d=d+1
+           allochiamo una nuova risorsa d + 1
+           assegniamo la risorsa d + 1 all'intervallo j
+           d = d + 1
        }
     }
     return d
@@ -43,7 +48,20 @@ PartInt(intval){
 Tempo ordinamento: O(n log n) (Termine dominante)
 Tempo del for: O(n)
 
-Tempo con inmplementazione con coda a priorità: O(n lon n)
+Tempo con inmplementazione con coda a priorità: O(n log n)
 
----------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------- Extra
 
+1. Per ogni risorsa , mnteniamo il tempo di fine più grande tra quelli degli intervalli assegnati fino a quel momento a p.
+   Chiamiamo questo tempo con kp.
+
+2. Usiamo una coda a priorità di coppie dela forma (p, kp), dove p è una risorsa già allocata e Kp è l'istante fino al quale 
+   la risorsa è occupata. L'elemento con indice minore indica la risorsa che verrà rilasciata per prima.
+   
+3. Se sj >= kv allora all'intervallo j può essere essere allocato alla risorsa v. In questo caso cancelliamo v dalla coda e
+   la reinseriamo con chiave kv = fj. in caso contrario allochiamo una nuova risorsa z e la inseriamo in coda con chiave kz = fj.
+   
+4. Se utilizziamo una coda a priorità implementata con heap ogni operazione sulla coda richiede tempo log m, dove m è la profondità
+   dell'insieme degli intervalli. poichè effettuiamo O(n) operazioni di questo tipo, allora il costo complessivo del for è O(n log m).
+
+5. A questo va aggiunto il costo dell'ordinamento O(n log n), dato che m < n, il tempo complessivo dell'algoritmo è O(n log n).

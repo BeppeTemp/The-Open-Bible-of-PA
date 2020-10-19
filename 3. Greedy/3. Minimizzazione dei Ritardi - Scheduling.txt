@@ -1,0 +1,73 @@
+-------------------------------------------------------------------- Definizione del Problema
+
+Abbiamo una singola risorsa in grado di elaborare un unico job. Il job j richiede tempo tj e 
+deve essere terminato entro il tempo dj. Se il job j inizia a tempo sj, allora termina al tempo
+fj = sj + tj.
+
+Input: 
+    - un insieme di job di cui abbiamo la durata tj e il tempo dj in cui il job deve essere terminato 
+      ovvero la sua scadenza.
+
+Obiettivo: 
+    - Trovare uno scheduling di tutti i job che minimizzi il ritardo massimo L = max lj. 
+    
+-------------------------------------------------------------------- Definizione di ritardo
+
+Ritardo: 
+    - il ritardo del job j è definito come lj = max{0, fj-dj}.
+    
+-------------------------------------------------------------------- Strategie Greedy
+
+Strategia 1 (Shortest Processing Time First): 
+    1. Idea: Considera pi job in ordine non decrescente dei tempi di elaborazione tj.
+    2. Problema: consideriamo due job: j1 con [1, 100] e j2 = [10, 10], con la strategia SPTF viene eseguito 
+       prima j1 e il ritardo max è 1 che corrisponde al ritardo L2. Elaborando prima j2 il ritardo max sarebbe stato uguale a 0.
+       
+#Strategia Migliore
+Strategia 2 (Earliest Deadline First): 
+    1. Idea: Considera i job in ordina non decrescente dei tempi entro i quali devono essere ultimati dj.
+    2. Problema: ---------
+
+Strategia 3 (Smallest Slack): 
+    1. Idea: Considera i job in ordine non decrescente degli scarti dj - tj 
+    2. Problema: consideriamo due job: j1 con [1, 2] e j2 = [10, 10], con la strategia SS viene eseguito prima il job j2, causando un ritardo max di 9.
+       Eseguendo prima il job j1, il ritardo max sarebbe stato di 1.
+
+---------------------------------------------------------------------------------------------Pseudocodice
+
+#Algoritmo che dato in input un instanza del problema minimizzazione dei ritartdi ritorna l'ordine di
+esecuzione degli intervalli.
+
+MinRit(){
+    ordinamento degli intervalli in base alla scadenza, t.c. d1 <= d2 <= ... <= dn
+    t = 0                                                                                 //Tempo di inizio del prossimo job
+
+    for(j = 1; i < n; j = j + 1){
+       assegna il job j all'intervallo [t,t + tj]
+       sj = t                                           //setta sj del job j
+       fj = t + tj                                      //setta fj del job j
+       t = t + tj                                       //aggiorna il tempo di inizio del job j+1
+    }
+    
+    return i nuovi intervalli
+}
+
+Analisi:
+    - Tempo ordinamento: O(n log n) (tempo dominante)
+    - Tempo for: O(n)
+
+Tempo totale: O(n) + O(n log n)=O(n log n)
+
+La soluzione cosi proposta gode di due proprietà:
+    a) Nessun Idle Time, non ci sono momenti in cui la risorsa non viene utilizzata.
+    b) Nessun Inversione, se un job j ja scadenza maggiore di quella i un job 1 allora viene eseguito i.
+
+
+-------------------------------------------------------------------- Definizione di inversione
+
+Inversione: 
+    - un'inversione in uno scheduling S è una coppia di job i e j tali che: di < dj ma j viene
+      eseguito prima di i. L'algoritmo Earliest Deadline First non produce inversioni.
+
+-------------------------------------------------------------------- FIN
+
