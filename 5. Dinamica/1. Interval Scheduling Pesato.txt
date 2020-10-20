@@ -29,7 +29,7 @@ dalle j richieste con i j tempo di fine più piccoli.
 OPT(J) = |
          |max{Vj + OPT(P(j), OPT(j-1))}          altrimenti
 
--------------------------------------------------------------------- Pseudocodice
+-------------------------------------------------------------------- Pseudocodice del valore per la soluzione ottima
 
 * Questa versione dell'algoritmo corrisponde ad un algoritmo di forza bruta perchè 
   ha tempo esponenziale. L'algoritmo computa più volte la soluzione allo stesso problema.
@@ -96,11 +96,9 @@ Analisi tempo di esecuzione:
             c.2 per far crescere questo valore φ occorrono al più due chiamate ricorsive.
             c.3 quindi occorrono al più 2j chiamate ricorsive per un tempo totale di O(j)     
         d. il tempo totale di M-Compute-Opt(n) è quindi O(n) [una volta ordinati i job in base ai valori di inizio]
-           
-           
-           
-           
-           
+                      
+-------------------------------------------------------------------- Pseudocodice che produce la soluzione ottima
+               
   [Gli algoritmi di programmazione dinamica computano solo il valore ottimo]
 # Algoritmo che esegue il post-processing per trovare la SOLUZIONE ottima:
 
