@@ -52,7 +52,9 @@ OPT(i, j) = | min | δ + OPT(i-1, j)                  altrimenti
             |     | δ + OPT(i, j-1)
             |
             | iδ                                     se j = 0
-
+            
+ATTENZIONE: In questo caso α non sta ad indicare il mismatch ma una funzione che associa ad ogni coppia di simboli dell'alfabeto un valore
+            
 -------------------------------------------------------------------- Pseudocodice che produce il valore della soluzione ottima
 
 Sequenze-Alignment(m, n, [x1, x2, ..., xm], [y1, y2, ..., yn], δ, α){
@@ -70,6 +72,8 @@ Sequenze-Alignment(m, n, [x1, x2, ..., xm], [y1, y2, ..., yn], δ, α){
     return M[m, n]
 
 }
+
+ATTENZIONE: In questo caso α non sta ad indicare il mismatch ma una funzione che associa ad ogni coppia di simboli dell'alfabeto un valore
 
 Analisi:
     - Tempo di esecuzione θ(mn)
