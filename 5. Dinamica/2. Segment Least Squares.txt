@@ -34,7 +34,7 @@ Il valore OPT(j) è ottenuto in corrispondenza dell'indice i che minimizza e(i,j
 OPT(J) = |
          | min(1<=i<=j) di {e(i,j) + C + OPT(i-1)}         altrimenti
 
--------------------------------------------------------------------- Pseudocodice Valore della soluzione Ottima
+-------------------------------------------------------------------- Pseudocodice che produce il valore della soluzione ottima
 
 #Algorimo per il calcolo del Segment Least Squares:
 input: 
@@ -62,7 +62,7 @@ Tempo di esecuzione: O(n^3)
       la formula per computare la minima somma degli errori quadratici,
       ciascun e(i, j) è computato in tempo O(n).
 
--------------------------------------------------------------------- Pseudocodice della soluzione Ottima
+-------------------------------------------------------------------- Pseudocodice che produce la soluzione ottima
 
 #Algoritmo che produce le partizioni:
 Find-Segment(j){
