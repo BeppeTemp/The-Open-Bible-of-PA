@@ -1,1 +1,86 @@
+-------------------------------------------------------------------- Definizione del problema
 
+Input:
+  - Un insieme infinito di monete con valori v1 < v2 < v3 < ... < vn e una somma di denaro V.
+    Assumiamo v1 = 1 in modo che il problema ammetta una soluzione
+
+Obiettivo:
+  - Trovare il valore della soluzione ottima che restituisca il minimo numero di monete richieste 
+    per cambiare la somma di denaro V
+    
+-------------------------------------------------------------------- Definizione OPT
+ 
+OPT(i, v) = minimo numero di monete di valore {v1, ..., vn} per cambiare una banconota di valore v.
+ 
+Abbiamo diversi casi:
+
+    Caso 1 vi < v: 
+        - dobbiamo considerare sia la soluzione che contiene la moneta v1 sia quella senza v1:
+        
+            1.a il numero di monete nella soluzione ottima tra quelle che contengono vi è = 1 + il numero
+                di monete della soluzione ottima per l'importo v - vi quando si utilizzano le monete di 
+                valore {v1, v2, ..., vi}
+                
+            2.a il numero di monete nella soluzione ottima tra quelle che NON contengono vi è = il numero
+                di monete della soluzione ottima per l'importo v quando si utilizzano le monete di valore
+                {v1, v2, ..., vi-1}
+                
+        La soluzione in questo caso è il minimo tra i due sotto-casi:
+        OPT(i, v) = min{1+OPT(i, v-vi), OPT(i-1, v}
+
+    Caso 2 vi > v: 
+        - l'unica soluzione possibile è il caso in cui la soluzione ottima non contenga la moneta
+          di valore vi, ovvero OPT(i, v) = OPT(i-1, v)
+          
+    Caso 3 v = 0:
+        - Banalmente OPT(i, v) = 0 per ogni i
+    
+    Caso 4 i = 1;
+        - Banalmente OPT(i, v) = v per ogni v
+
+            | 0                                      se v = 0
+            |
+            | v                                      se i = 1
+OPT(i, v) = |
+            | OPT(i, v) = OPT(i-1, v)                se vi > v
+            |
+            | OPT(i, v) = min{1+OPT(i, v-vi), OPT(i-1, v} altrimenti
+
+-------------------------------------------------------------------- Pseudocodice che produce il valore della soluzione ottima
+
+MinCoinChange(d, n, V){
+    
+    for(i = 1 to n)
+        M[i, 0] = 0
+
+    for(v = 1 to V)
+        M[1, v] = v
+    
+    for i = 1 to n{
+        for v = 1 to V{
+            if vi > v
+                M[i, v] = M[i-1, v]
+            else 
+                M[i, v] = min{1 + M[i, v-vi], M[i-1, v]}
+        }
+    }
+
+}
+
+-------------------------------------------------------------------- Pseudocodice che produce la soluzione ottima
+
+[Invochiamo MinCoinChange]
+
+MinCoinChange(i, v){
+    if(i = 0){                                                              // La prima volta invocata con i = n e v = V
+        return null
+    }
+    if (M[i, v] = M[i-1, v]){
+        MinCoinChange(i-1, v)
+    }else{
+        print i
+        MinCoinChange(i-1, v-vi)
+    }
+}
+            
+ -------------------------------------------------------------------- FIN           
