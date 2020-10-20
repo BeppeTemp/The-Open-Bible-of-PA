@@ -19,7 +19,7 @@ In definitiva la quantità da minimizzare è E+Cm.
 In sostanza dobbiamo trovare una linea dove tutti i punti salendo o scendendo la intersecano, cercando di
 ottenere lo spostamento minimo di questi ultimi.
 
--------------------------------------------------------------------- Definizioni
+-------------------------------------------------------------------- Definizione OPT
 
 OPT(j)= costo minimo della penalità per i punti p1, p2, ..., pj.
 e(i,j)= minimo errore per l'insieme di punti {pi, pi+1, ..., pj}.
