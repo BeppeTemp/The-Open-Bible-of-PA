@@ -29,7 +29,7 @@ dalle j richieste con i j tempo di fine più piccoli.
 OPT(J) = |
          |max{Vj + OPT(P(j), OPT(j-1))}          altrimenti
 
--------------------------------------------------------------------- Pseudocodice del valore per la soluzione ottima
+-------------------------------------------------------------------- Pseudocodice che produce il valore della soluzione ottima
 
 * Questa versione dell'algoritmo corrisponde ad un algoritmo di forza bruta perchè 
   ha tempo esponenziale. L'algoritmo computa più volte la soluzione allo stesso problema.
