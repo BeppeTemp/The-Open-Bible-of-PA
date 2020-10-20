@@ -1,76 +1,113 @@
------------------------------------------------------------------------------------Definizione del problema
-
-Input: Un insieme J di Job ognuno con un tempo di inizio Sj, un tempo di fine Fj e un valore Vj associato.
-
-Obbiettivo: Trovare il sottoinsieme di job compatibili con il massimo peso totale.
+-------------------------------------------------------------------- Definizione del problema
 
 La strategia Greedy Earlieast Finish Time funziona solo nel caso tutti i pesi siano uguali ad uno nel caso
 in cui a ogni job viene associato un peso questo non è più vero (un hob che finisce prima ma con peso uno,
 un altro job che finisce subito dopo ma con peso 999).
 
-------------------------------------------------------------------------------------------------Definizioni
+Input: Un insieme J di Job ognuno con un tempo di inizio sj, un tempo di fine fj e un valore (peso) vj associato.
 
-p(j): il più grande indice i<j tale che i è compatibile con j. (il job compatibile più vicino)
+Obiettivo: Trovare il sottoinsieme di job compatibili con il massimo peso totale.
+
+-------------------------------------------------------------------- Definizioni
+
+Due Job si definiscono compatibili se non si sovrappongono
+p(j) = il più grande indice i < j tale che i è compatibile con j. (il job compatibile più vicino)
+
+-------------------------------------------------------------------- Definizione OPT
 
 OPT(j): valore della soluzione ottima per l'instanza del problema dell'interval scheduling pesato costituita
 dalle j richieste con i j tempo di fine più piccoli.
+
   * Caso 1: la soluzione ottima per i j job con i tempi di fine più piccoli contiene il job j. In questo
-    caso la soluzione ottima non può usare i job incompatibili con j. La soluzione è compresa tra il job
-    1 e il job j.
+    caso la soluzione ottima non può usare i job incompatibili {p(j) + 1, p(j) + 2, ..., j - 1}. La soluzione 
+    ottim al problema è compresa tra i job 1 e p(j).
 
   * Caso 2: la soluzione non contiene il job j. In questo caso la soluzione è compresa tra il job 1 e il
     job j-1.
 
-       |0 se j=0
-OPT(J)=|
-       |max{Vj + OPT(P(j), OPT(J-1))}
+         |0                                      se j=0
+OPT(J) = |
+         |max{Vj + OPT(P(j), OPT(j-1))}          altrimenti
 
------------------------------------------------------------------------------------------------Pseudocodice
+-------------------------------------------------------------------- Pseudocodice che produce il valore della soluzione ottima
+
+* Questa versione dell'algoritmo corrisponde ad un algoritmo di forza bruta perchè 
+  ha tempo esponenziale. L'algoritmo computa più volte la soluzione allo stesso problema.
 
 #Versione inefficiente (Tempo Esponenziale):
 Input: n, s1,...,sn, f1,...,fn, v1,...,vn
 
-Ordina i job in base ai tempi di fine
-Computa p(1),p(2),...,p(n)
+Ordina i job in base ai tempi di fine tale che f1 <= f2 <= ... <= fn
+
+Computa p(1), p(2), ..., p(n)
 
 Compute-Opt(j){
     if(j=0){
         return 0
     }else{
-        return max(Vj+Compute-Opt(p(j)), Compute-Opt(j-1))
+        return max(Vj + Compute-Opt(p(j)), Compute-Opt(j-1))
     }
 }
 
-#Versione con Memoization:
-Input<: n, s1,...,sn, f1,...,fn, v1,...,vn
+* La Memoization consiste nell'immagazzinare le soluzioni di ciascun sottoproblema
+  in un'area della memoria accessibile globalmente
 
-Ordina i job in base ai tempi di fine
+#Versione con Memoization:
+Input: n, s
+       s1,...,sn, 
+       f1,...,fn, 
+       v1,...,vn
+
+Ordina i job in base ai tempi di fine tale che f1 <= f2 <= ... <= fn
 Computa p(1),p(2),...,p(n)
 
 for(j=1 to n){
-    M[j]=empty
+    M[j] = empty                                                                // Array globale di accesso per applicare la Memoization
 }
 
 Compute-Opt(j){
-    if(j=0){
+    if(j = 0){
         return 0
     }else{
-        M[j]= max(Vj+Compute-Opt(p(j)), Compute-Opt(j-1))
+        M[j] = max( Vj + Compute-Opt(p(j)), Compute-Opt(j-1))
         retunr M[j]
     }
 }
 
 Analisi tempo di esecuzione:
-L'ordinamento prende tempo O(n log n).
-La computazione dei valori invece prende tempo O(n).
 
-#Algoritmo che esegue il post-processing per trovare la soluzione ottima:
+    * Inizializzazione:
+        a. L'ordinamento prende tempo O(n log n).
+        b. La computazione dei valori invece prende tempo O(n): Siano a1, ..., an i job ordinati rispetto
+           ai tempi di inizio e siano b1, ..., bn i job ordinati rispetto ai tempi di fine, si confronta
+           il tempo di fine di b1 con i tempi di inizio a1, a2, a3, ..., fino a che non si incontra un job
+           aj con tempo di inizio >= f1. In questo caso si pone p'(1) = p'(2) = ... = p'( j - 1) = 0. Si confronta
+           il tempo di fine di b2 con i tempi di inizio aj, aj+1, aj+2, ..., fino a che non si incontra un job
+           ak con tempo di inizio >= f2. In questo caso si pone p'(j) = p'(j+1) = ... = p'( k - 1) = 1. Si procede in questo modo...
+               b.1 Si noti che in p'(j), j è l'indice del job nella sequenza a1, ..., an
+               b.2 per ottenere il corrispondente valore p(r) basta sostituire a j l'indice del job nella sequenza b1, ..., bn. l'associazione
+                   tra il job e la sua posizione della sequenza a1, ..., an e quella nella sequenza b1, ..., bn può essere creata quando si ordinano i job.
+           
+    * M-Compite-Opt(j)
+        a. richiede O(n)
+        b. escludendo il tempo per le chiamate ricorsive, ciascuna invocazione prende tempo O(1). Dobbiamo stimare il numero delle chiamate ricorsive
+        c. misura di progressione φ = indica il numero di entrate non vuote di M[].
+            c.1 inizialmente φ = 0 e durante l'esecuzione si ha sempre  φ <= n
+            c.2 per far crescere questo valore φ occorrono al più due chiamate ricorsive.
+            c.3 quindi occorrono al più 2j chiamate ricorsive per un tempo totale di O(j)     
+        d. il tempo totale di M-Compute-Opt(n) è quindi O(n) [una volta ordinati i job in base ai valori di inizio]
+                      
+-------------------------------------------------------------------- Pseudocodice che produce la soluzione ottima
+               
+  [Gli algoritmi di programmazione dinamica computano solo il valore ottimo]
+# Algoritmo che esegue il post-processing per trovare la SOLUZIONE ottima:
+
 Run Compute-Opt(n)
 Run Find-Solution(n)
 
 Find-Solution(j) {
     if (j = 0){
-        output nothing
+       l'output è vuoto
     }else if (vj + M[p(j)] > M[j-1]){
         print j
         Find-Solution(p(j))
@@ -79,16 +116,7 @@ Find-Solution(j) {
     }
 }
 
-#Versione Iterativa:
-Input: n, s1,...,sn, f1,...,fn, v1,...,vn
+Tramite l'induzione su j è possibile dimostrare che ogni entrata M[j] contiene il valore OPT(j).
+Il tempo di esecuzione è O(n), abbiamo n iterazioni per il for e ogni iterazione richiede tempo O(1).
 
-Ordina i job in base ai tempi di fine
-Computa p(1),p(2),...,p(n)
-
-Iter-Compute-Opt(j){
-    M[0]=0
-    for(j=1 to n){
-        M[j]=max(Vj+M[p(j)],M[j-1])
-    }
-}
------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------- FIN

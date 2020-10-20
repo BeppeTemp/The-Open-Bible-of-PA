@@ -1,0 +1,152 @@
+-------------------------------------------------------------------- Algoritmo di Kruskal
+
+Comincia con T = INSIEME VUOTO. Considera gli archi in ordine non decrescente di costo. 
+Inserisce un arco e in T se e solo se il suo inserimento non genera la creazione di un ciclo in T.
+
+Funzionamento:
+  * Considera ciascun arco in ordine non decrescente di peso, possiamo avere due situazioni:
+        a. Caso 1: Se e crea un ciclo allora scarta e.
+        b. Caso 2: Se e non crea un ciclo inserisci e in T.
+
+Durante l'esecuzione di Kruskal su G =(V, E), l'insieme di vertici V e l'insieme di archi in T formano una
+foresta composta da uno o più alberi, cioè le componenti connesse dal grafo (V, T) sono alberi. (in
+pratica si generano dei mini alberi che poi si uniranno in uno solo).
+
+Implementazione:
+
+Kruskal(G, c){
+    Ordina gli archi in ordine non decrescente di peso, tale che c1 >= c2 <= ... <= cn
+    Inizializza T come vuoto
+
+    foreach (nodo u in V){
+        crea un singleton che contine solo u
+    }
+
+    for(i = 1 to m){                                          
+        (u, v) = ei
+        if (u e v sono in due insiemi differenti){
+            T = T UNIONE {ei}
+            unisci gli insiemi che contengono u e v
+        }
+    }
+    return T
+}
+
+Per rappresentare gli insiemi di vertici disgiunti possiamo utilizzare una struttura dati chiamata Union-Find
+
+-------------------------------------------------------------------- Implementazione con Union Find
+
+All'interno dell'algoritmo ciascun albero della foresta è rappresentato dal suo insieme di vertici.
+Per rappresentare questi vertici, si utilizza la struttura dati Union-Find per la rappresentazione di 
+insiemi disgiunti.
+
+Istruzioni supportate dall'Union-Find:
+  * MakeUnionFind(S): Crea una collezione di insiemi ognuno dei quali contiene un elemento di S.
+       - Viene chiamata nella fase di inizializzazione dell'algoritmo: ciascun insieme creato corrisponde
+         ad un albero con un solo vertice.
+
+  * Find(x): Resituisce l'insieme che contiene x.
+       - Per ciascun arco esaminato (u, v), l'algoritmo invoca find(u) e find(v). Se entrambe le chiamate
+         resituiscono lo stesso insieme allora vuol dire che u e v sono nello stesso albero e quindi (u, v)
+         crea un ciclo in T.
+
+  * Union(X, Y): unisce gli insieme X e Y.
+       - Se l'arco(u, v) non crea un ciclo in T allora l'algoritmo invoca Union(Find(u), Find(v)) per unire
+         le componenti connesse di u e v in un'unica componente connessa.
+
+Implementazione con Union-Find:
+Gli elementi sono etichettati con interi consecutivi da 1 a n e ad ogni elemento è associato una cella 
+dell'array S che contiene il nome del su insieme di appartenenza
+
+Kruskal(G,c){
+    Ordina gli archi in ordine non decrescente di peso, tale che c1 >= c2 <= ... <= cn
+    inizializza T come vuoto
+
+    MakeUnionFind(V)
+
+    for(i = 1 to m){                                                                             
+        (u, v) = ei
+        if (Find(u) != Find(v)){
+            T = T UNIONE {ei}
+            Union(Find(u), Find(v))
+        }
+    }
+    return T
+}
+
+Analisi: 
+
+* Inizializzazione = O(n) + O(m log m) =[ATTENZIONE] O(m log n^2) = O(m log n)
+* Per ogni arco esaminato:
+    a. O(1) per le due Find()
+    b. In totale il for viene eseguito m volte quindi 2 * O(1) + O(m) = O(m)
+* per ogni arco raggiunto O(n) per le union:
+    a. In totale O(n^2) per le n-1 union [ATTENZIONE 2]
+    
+Tempo totale di esecuzione: O(n^2) + O(m log n)
+
+
+ATTENZIONE O(n) < O(m log m) --> m <= n^2 --> m <= n(n-1)/2 = O(n^2) --> gli archi di un grafo non direzionato sono coppie non ordinate
+           O(log n^2) = O(2 * log n) = O(log n)
+ATTENZIONE2 Dopo aver inserito n-1 archi in T, l'algoritmo non inserirà più alcun arco m >= n-1
+
+-------------------------------------------------------------------- Implementazione con Union Find con array union-by-size
+
+Stessa implementazione della slide precedente ma si usa anche un altro array A per mantenere traccia 
+della cardinalità di ciascun insieme. L’array ha n celle perché inizialmente ci sono n insiemi:
+    
+    a. Find(x) = O(1)
+    b. MakeUnionFind(S) = O(n), inizializza tutte le celle di S e di A
+    c. Union(X, Y) = viene confrontata la cardinalità, per l'insieme minore si aggiornano le sue celle in S.
+                     In queste celle si inserisce il nome dell'insieme più grande. La cella in A che rappresenta
+                     l'insieme più piccolo viene impostata a 0, quella dell'insieme grande viene aggiornata.
+                     Tempo O(n)
+
+Affermazione: 
+    - Una qualsiasi sequenza di unioni richiede O(n log n). Per ogni elemento viene svolto un lavoro in tempo O(log n).
+      Dato che per la sequenza di union il tempo è O(n). il tempo richiesto totale è O(n log n)
+                  
+* Inizializzaione = O(n) + O(m log m) = O(m log m). 
+    – O(n) creare la struttura Union-Find e
+    – O(m log m) ordinare gli archi
+* In totale il numero di find è 2m che in totale richiedono O(m)
+* Una qualsiasi sequenza di unioni richiede O(n log n)
+
+
+Nuovo tempo totale = O(m log m + n log n) = O(m log m) = O(m log n^2) = O(m log n)
+
+-------------------------------------------------------------------- Implementazione basata su struttura a puntatori
+
+Gli insiemi vengono rappresentati da strutture a puntatori. Ogni nodo ha due campi:
+    - Un campo per l'elemento
+    - Un campo che contiene un puntatore ad un altro nodo dello stesso insieme
+    
+In ogni insieme esiste un nodo che punta a se stesso in questo modo si specifica il nome dell'insieme. 
+inizialmnete ogni insieme è costituito da un solo nodo che ne specifica il nome.
+
+    a. Find(x) = Si segue il percorso che va dal nodo contenente l'elemento x fino al nodo che rappresenta il 
+                 nome dell'insieme. Il tempo dipende dal numero di puntatori attraversati, nel caso pessimo
+                 il tempo è O(n). Per migliorare la find(x) usiamo la union-by-size, il tempo richiesto è O(log n)
+    b. MakeUnionFind(S) = O(n), inizializza tutte le celle di S e di A
+    c. Union(A, B) = per eseguire la union di due insiemi A e B si pone nel campo puntatore dell'elemento x in A
+                     il nodo dell'elemento y in B. Tempo O(1)
+
+
+* O(m log m) = O(m log n^2)= O(m log n) per l’ordinamento
+* O(m log n) per le O(m) Find
+* O(n) per le n - 1 Union
+
+Tempo totale = O(m log n)
+
+Path Compression 
+Dopo aver eseguito un’operazione di Find, tutti i nodi attraversati nella ricerca avranno il campo puntatore che punta al 
+nodo contenente l’elemento che dà nome all’insieme.
+
+ - Idea: ogni volta che eseguiamo la Find con in input un elemento x di un certo insieme possiamo fare del lavoro in 
+         più che ci fa risparmiare sulle successive operazioni di Find. Questo lavoro in più non fa comunque 
+         aumentare il tempo di esecuzione asintotico della singola Find.
+ 
+ Questa euristica insieme alla union-by-size permettono ad una sequenza di operazioni union-find di venir eseguite in tempo O(n α(n)).
+ α(n) è l'inversa della funzione di Ackermann [α(n) <= 4]
+
+-------------------------------------------------------------------- FIN

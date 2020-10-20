@@ -1,66 +1,79 @@
------------------------------------------------------------------------------------Definizione del problema
+-------------------------------------------------------------------- Definizione del problema
 
-Input: Un insieme P di n punti del piano (X1,Y1),(X2,Y2)...(Xn,Yn), con X1<X2<...<Xn e una costante C>0
+Input: Un insieme P di n punti del piano (x1, y1), (x2,y2) ..., (xn,yn), con x1 < x2 < ... < Xn e una costante C > 0
 
-Obbiettivo: Trovare un apartizione P1,P2,...,Pm tale che:
+Obiettivo: Trovare una partizione P1, P2, ..., Pm tale che:
     1) Ciascun Pi è costituito da punti contigui lungo l'asse delle ascisse(X).
     2) La penalità E+Cm sia la più piccola possibile.
-Dove E è la somma degli m errori minimi per P1,P2,...,Pm e C è il numero di segmenti ammesso.
+    
+Dove E è la somma degli m errori minimi per P1, P2, ..., Pm e C è il numero di segmenti ammesso.
 
 #In altro parole:
-Partizionare P in un certo numero m di sottoinsiemi P1,P2,...,Pm in modo che ciascun Pi è
+Partizionare P in un certo numero m di sottoinsiemi P1, P2, ..., Pm in modo che ciascun Pi è
 costituito da punti contigui lungo l'asse delle ascisse (Pi in pratica è un segmento). Tutto questo in modo
-che la seguenza di linee L1,L2,...,Lm ottime rispettivamento per P1,P2,...,Pm minimizzi la somma di:
-    1) La somma E degli m errori minimi per P1,P2,...,Pm.
+che la seguenza di linee L1, L2, ..., Lm ottime rispettivamente per P1, P2, ..., Pm minimizzi:
+    1) La somma E degli m errori minimi per P1, P2, ..., Pm.
     2) Il numero m di linee (pesato per una certa costante C>0)
 In definitiva la quantità da minimizzare è E+Cm.
 
 In sostanza dobbiamo trovare una linea dove tutti i punti salendo o scendendo la intersecano, cercando di
 ottenere lo spostamento minimo di questi ultimi.
 
-------------------------------------------------------------------------------------------------Definizioni
+-------------------------------------------------------------------- Definizione OPT
 
-OPT(j)= costo minimo della penalità per i punti P1,P2,...Pj.
-e(i,j)= minimo errore per l'insieme di punti {Pi,Pi+1,...,Pj}.
+OPT(j)= costo minimo della penalità per i punti p1, p2, ..., pj.
+e(i,j)= minimo errore per l'insieme di punti {pi, pi+1, ..., pj}.
 
-Per computare OPT(j), osserviamo che se l'ultimo segmento nella partizione di {P1,P2,...,Pj} è costituito
-dai punti Pi,Pi+1,...,Pj per un certo i, allora la penalità sarà uguale a:
-    penalità=e(i,j)+C+OPT(i-1)
+Per computare OPT(j), osserviamo che se l'ultimo segmento nella partizione di {p1, p2, ..., pj} è costituito
+dai punti pi, pi+1, ..., pj per un certo i, allora la penalità sarà uguale a:
+    penalità = e(i,j) + C + OPT(i-1)
 Tale valore cambia in base alla scelta di i.
-Il valore OPT(j) è ottenuto in corrispondenza dell'indice i che minimizza e(i,j)+C+OPT(i-1).
+Il valore OPT(j) è ottenuto in corrispondenza dell'indice i che minimizza e(i,j) + C + OPT(i-1).
 
-       |0 se j=0
-OPT(J)=|
-       |min(1<=i<=j){e(i,j)+C+OPT(i-1)}
+         | 0                                               se j=0
+OPT(J) = |
+         | min(1<=i<=j) di {e(i,j) + C + OPT(i-1)}         altrimenti
 
------------------------------------------------------------------------------------------------Pseudocodice
+-------------------------------------------------------------------- Pseudocodice che produce il valore della soluzione ottima
 
 #Algorimo per il calcolo del Segment Least Squares:
-input n,P1,...,Pn,calcolo
+input: 
+    1. n, 
+    2. p1, ..., pn, 
+    3. calcolo
 
-SLS(){
-    M[0]=0
-    for(j=1 to n){
-        for(i=1 to j){
-            compute e(i,j) per i segmenti Pi,...,Pj
+Segmented-Least-Squares(){
+    M[0] = 0
+    for(j = 1 to n){
+        for(i = 1 to j){
+            computa e(i,j) per i segmenti pi, ..., pj
         }
     }
 
-    for(j=1 to n){
-        M[J]=min(1<=i<=j){e(i,j)+C+M[i-1]}
+    for(j = 1 to n){
+        M[J] = min(1<=i<=j) di {e(i,j) + C + M[i-1]}
     }
 
     return M[n]
 }
 
+Tempo di esecuzione: O(n^3)
+    * Dobbiamo computare il valore e(i, j) per O(n^2) coppie i, j. Usando
+      la formula per computare la minima somma degli errori quadratici,
+      ciascun e(i, j) è computato in tempo O(n).
+
+-------------------------------------------------------------------- Pseudocodice che produce la soluzione ottima
+
 #Algoritmo che produce le partizioni:
 Find-Segment(j){
-    if(j=0){
+    if(j = 0){
         return null
     }else{
-        trova un i che minimizza e(i,j)+C+M[i-1]
-        return (il segmento {oi,...,pj}) and (Find-Segment(i-1))
+        trova un i che minimizza e(i,j) + C + M[i-1]
+        return (il segmento {pi, ..., pj}) e il risultato di (Find-Segment(i-1))
     }
 }
 
------------------------------------------------------------------------------------------------------------
+
+Tempo di Esecuzione: O(n^2)
+-------------------------------------------------------------------- FIN
