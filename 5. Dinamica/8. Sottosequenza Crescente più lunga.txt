@@ -1,1 +1,66 @@
+-------------------------------------------------------------------- Definizione del problema
 
+Problema:
+  - Dato una sequenza di numeri A[0, ..., i] vogliamo individuare la sottosequenza crescente più lunga.
+    I numeri della sottosequenza non sono necessariamente contigui nella sequenza di input.
+    
+Input:
+  - Sequenza di numeri A[0, ..., i] con indice da 0 a i.
+  
+Obiettivo:
+  - Trovare la sottosequenza crescente più lunga.
+
+-------------------------------------------------------------------- Definizione OPT
+
+Definiamo OPT(i) come la lunghezza della sottosequenza crescente più lunga che termina in i:
+
+    - Una volta che abbiamo calcolato il valore della soluzione ottima OTP(i) per ogni i, andiamo
+      a calcolare il massimo di tutti i valori OPT(i) per ottenere la lunghezza della sottosequenza 
+      crescente più lunga.
+    
+      Osserviamo che nella sottosequenza crescente più lunga che termina in i, l'elemento A[i] è preceduto
+      dalla più lunga sottosequenza crescente che termina in un certo j tale che j < i e A[j] < A[i]. Occorre prendere
+      il valore A[j] per cui la sottosequenza è massima. OPT(i) = max{OPT(j) + 1 : 0 <= j <= i + 1 AND A[j] < A[i]}
+    
+-------------------------------------------------------------------- Pseudocodice che produce il valore della soluzione ottima
+
+LIS(A, i){
+    if i < 0 return 0;
+    if M[i] ≠ empty return M[i]
+    
+    if i = 0{
+      P[0] = -1
+      M[0] = 1
+      return 1
+    }
+    
+    M[i] = 1
+    P[i] = -1
+    for j = 0 to i-1{
+        m = LIS(a, j)
+        if A[j] < A[i] AND M[i] < m+1
+            M[i] = m + 1
+        P[i] = j
+    
+    }
+    return M[i]
+}
+
+Utiliziammo un array globale M e un Array globale P che sarà utile per la stampa della sottosequenza crescente più lunga.
+Il tempo impiegato dall'algoritmo è O(n^2)
+
+
+//La versione iterativa non è stata riportata.
+
+-------------------------------------------------------------------- Pseudocodice che produce la soluzione ottima
+
+[Esecuzione di LIS]
+
+StampaLis(A, i){                            // La prima chiamata viene effettuata con i = max [**]
+    if i >= 0{
+        StampaLis(A, P[i])
+        print(A[i])
+    }
+}
+  
+[**] Indichiamo con max l'indice in cui si trova l'elemento massimo di M, cioè M[max] = max{OPT(j): 0 <= i <= n - 1}
