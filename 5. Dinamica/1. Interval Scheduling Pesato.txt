@@ -13,7 +13,7 @@ Obiettivo: Trovare il sottoinsieme di job compatibili con il massimo peso totale
 Due Job si definiscono compatibili se non si sovrappongono
 p(j) = il più grande indice i < j tale che i è compatibile con j. (il job compatibile più vicino)
 
--------------------------------------------------------------------- Valore della Soluzione Ottima OPT
+-------------------------------------------------------------------- Definizione OPT
 
 OPT(j): valore della soluzione ottima per l'instanza del problema dell'interval scheduling pesato costituita
 dalle j richieste con i j tempo di fine più piccoli.
