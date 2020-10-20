@@ -4,7 +4,7 @@ Raccolta di appunti per l'esame di Progettazione di Algoritmi della laurea in In
 
 [Modalità di partecipazione alla stesura ancora in lavorazione]
 
-                                                                   !ATTENZIONE!
+                                                        !ATTENZIONE!
 
 QUESTA RACCOLTA DI APPUNTI È PENSATA SOLO PER UNA RIPETIZIONE VELOCE DEI PRINCIPALI ARGOMENTI TRATTATI NEL CORSO DI PROGETTAZIONE ALGORITMI.
 LA RACCOLTA NON SOSTITUISCE IN NESSUN MODO LE SLIDE DEI PROFESSORI NÉ TANTOMENO I LIBRI CONSIGLIATI PER IL CORSO.
