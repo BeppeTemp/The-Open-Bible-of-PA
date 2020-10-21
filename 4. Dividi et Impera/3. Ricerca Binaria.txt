@@ -6,7 +6,7 @@ Input:
 Obiettivo: 
     - Restituire la posizione dell'elemento x se esiste all'interno dell'arrray.
 
-Funzionamento:
+Paradigma Divide et Impera:
   * Caso Base: Quando il segmento analizzato contiene al più un elemento.
   * Decomposizione: Viene calcolato l'indice centrale mid e controllato se x è maggiore o minore di V[mid].
   * Ricorsione e Ricombinazione: Se x < V[mid] cerca l'elemento x nel segmento di sinistra, se x > V[mid] 
