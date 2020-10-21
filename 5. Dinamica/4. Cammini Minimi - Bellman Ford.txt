@@ -193,7 +193,7 @@ Push-based-Shortest-Path(G, s, t){
     for i = 1 to n-1{
         foreach nodo w ∈ V{
             if M[w] è stato aggiornato nell'iterazione precedente{  
-                foreach nodo v take che l'arco (v, w) ∈ E {
+                foreach nodo v tale che l'arco (v, w) ∈ E {
                     if M[v] > M[w] + cvw  {
                         M[v] = MA[w] + cvw
                         S[v] = w  
