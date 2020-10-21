@@ -7,7 +7,7 @@ Input:
 Obiettivo: 
      - Vogliamo ordinare l'array A.
 
-Funzionamento:
+Paradigma Divide et Impera:
       * Decomposizione: se la sequenza ha almeno due elementi, scegli un elemento pivot e dividi la sequenza in
                         due sotto-sequenza in modo tale che la prima contenga elementi minori o uguali al pivot
                         e la seconda gli elementi maggiori o uguali al pivot.
