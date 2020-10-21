@@ -1,1 +1,89 @@
+-------------------------------------------------------------------- Definizione del problema
 
+Problema: Dato un grafo direzionato G = (V, E) con pesi degli archi cvw trovare il percorso più 
+          corto da s a t. Usare Dijkstra non sempre può dare un risultato, per esempio se gli archi
+          sono negativi. Potremmo pensare di aggiungere una costante positiva ai pesi degli archi 
+          potrebbe non funzionare.
+
+Osservazione Se qualche percorso da s a t contiene un ciclo di costo negativo allora non esiste un
+             percorso minimo da s a t. In caso contrario, esiste un percorso minimo da s a t che è 
+             semplice, cioè nessun nodo compare due volte sul percorso.
+
+Input: 
+    - Un grafo direzionato G = (V, E) e un nodo t da raggiungere
+
+Obiettivo:
+    - Trovare il percorso più corto P da s a t.
+
+-------------------------------------------------------------------- Definizione OPT
+
+Definiamo OPT(i, v) = lunghezza del cammino più corto P per andare da v a t che consiste al più i archi.
+
+    Caso 1:
+        - Quando i > 0 e v ≠ t il percorso ottimo P deve contenere almeno un arco. Se (v, w) è il primo arco di P
+          allora P' è formato da (v, w) e dal percorso più corto da (w, t) di al più i - 1 archi.
+          OPT(i, v) = min[(v, w) ∈ E]{OPT(i-1, w) + cvw}. 
+          Se non ci sono cicli di costo negativo allora OPT(i-1, v) = lunghezza del percorso più corta da v a t.
+            
+            | 0                                         se v = t
+            |
+OPT(i, v) = | ∞                                         se i = 0 e v ≠ t
+            |
+            | min[(v, w) ∈ E]{OPT(i-1, w) + cvw}        altrimenti
+
+-------------------------------------------------------------------- Pseudocodice Bellman-Ford
+
+Shortest-Path(G, t){
+    foreach nodo v ∈ V{
+        M[0, v] = ∞
+        S[0, v] = ø                             // Indica che non ci sono da v a t di al più 0 archi. 
+                                                // Servirà per produrre la stampa della soluzione ottima andando 
+                                                // a ricostruire i percorsi minimi verso t
+    }
+    
+    for i = 0 to n-1{
+        M[i, t] = 0
+        S[i, t] = t
+    }
+    
+    for i = 1 to n-1{
+        foreach nodo v ∈ V{
+            M[i, v] = ∞
+            S[i, v] = ø
+            
+            foreach arco (v, w) ∈ E{
+                if M[i-1, w] + cvw < M[i, v]{
+                    M[i, v] = M[i-1, w] + cvw
+                    S[i, v] = w                     
+                }   
+            }
+        }
+    }
+
+}
+
+[Assumiamo che per ogni v esista un percorso da v a t --> n = O(m)]
+Analisi: 
+    - Tempo θ(mn) 
+    - Spazio θ(n^2)
+    
+-------------------------------------------------------------------- Pseudocodice che produce la soluzione ottima
+
+FindPath(i, v){                                                     // La prima volta è invocata con i = n-1 e v uguale al nodo
+                                                                    // per il quale vogliamo computare il cammino minimo verso t
+    if S[i, v] = ø
+        print "Non esiste nessun percorso"
+        return
+    if v = t
+        print t
+        return
+
+    print v
+    FindPath(i-1, S[i, v])
+
+}
+
+Analisi:
+    - Tempo O(n): perchè vengono effettuate al più n-1 chiamate e il tempo, 
+                 ignorando le chiamate ricorsive, per ciascuna chiamata è O(1)
+          
