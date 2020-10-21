@@ -48,7 +48,7 @@ Analisi:
 
 La relazione di ricorrenza che esprime il tempo di esecuzione è la seguente:
 
-        | c0            se n<=1 oppure K è l'elemento centrale
+        | c0            se n<=1 oppure V[mid] è l'elemento centrale
 T(n) <= |
         | T(n/2) + c    altrimenti
 
