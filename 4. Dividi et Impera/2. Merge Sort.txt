@@ -6,7 +6,7 @@ Input:
 Obiettivo: 
     - ordinare l'array a in modo non decrescente.
 
-Funzionamento:
+Paradigma Divide et Impera:
   * Decomposizione: L'array viene diviso in due sottoseguenze, calcolandone il centro cx.
   * Ricorsione: Le due sottoseguenze vengono ricorsivamente ordinate.
   * Ricombinazione: Le due seguenze vengono ricombinate tramite l'algoritmo Merge.
