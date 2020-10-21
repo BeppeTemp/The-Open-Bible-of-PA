@@ -23,52 +23,51 @@ MergeSort(A, sx, dx){
 }
 
 ------------------------------------------------------------------------------------ Merge:
+
 Idea:
     * Scandiamo gli elementi delle due sequenze da sinistra verso destra utilizzando l'indice i per la sequenza a e l'indice j per la sequenza b
     * Fino a che i <= n e j <= m, confrontiamo a[i] con b[j]. Se a[i] <= b[j], a[i] viene inserito alla fine della sequenza di output e i viene incrementato di 1
       Se a[i] >= b[j], b[j] viene inserito alla fine della sequenza di output e j viene incrementato di 1
     * Al termine del ciclo precedente se i <= n trasferiamo uno dopo l'altro gli elementi a[i], ..., a[n] alla fine della sequenza di output;
       Se j <= m trasferiamo uno dopo l'altro gli elementi b[j], ..., b[m] alla fine della sequenza di output
-   
-   
+
+Pseudocodice:
+
+    Merge(a, sx, cx, dx){
+
+        i = sx;
+        j = cx + 1;
+        k = 0;
+
+        while((i <= cx) && (j <= dx)){           // Scorre entrambe le sequenze
+            if(a[i] <= a[j]){                    // Inserisce prima il minore
+                b[k] = a[i];
+                i = i + 1;
+            } else{
+                b[k] = a[j]
+                j = j + 1;
+            }
+            k = k + 1;
+        }
+
+        for(;i <= cx; i=i+1, k=k+1){              // I due cicli for ricreano le due sequenze
+            b[k] = a[i];                          // a e b ordinate, andando a recuperare gli 
+        }                                         // elementi non inseriti precedentemente
+        for(;j <= dx; j=j+1, k=k+1){             
+            b[k] = a[j];
+        }
+        for(i = sx; i <= dx; i=i+1){              //Inserisce la sequenza completa e ordinata in a
+            a[i] = b[i-sx];
+        }
+    }
+
 Analisi: 
+
     - Ogni volta che eseguiamo un confronto tra un elemento di a ed uno di b, viene incrementato uno tra i due indici i e j.
       Di conseguenza l'algoritmo effettua al più n + m operazioni, dove n è la grandezza del segmento a e m è la grandezza del segmento b 
-      (n+m = dimensione dell'array originale).
     - Sia k <= n + m il numero totale di confronti effettuati dall'algoritmo. Al termine di questi confronti, la sequenza di output
       conterrà k elementi e in una delle due sequenze ci saranno n + m - k elementi che dovranno essere trasferiti nella sequenza output.
     - Il tempo totale per fondere le due sequenze ordinate è quindi:  k + (n + m - k) = O(n + m)
-      
------------------------------------------------------------------------------------- Pseudocodice:
-
-
-Merge(a, sx, cx, dx){
-
-    i = sx;
-    j = cx + 1;
-    k = 0;
-
-    while((i <= cx) && (j <= dx)){           // Scorre entrambe le sequenze
-        if(a[i] <= a[j]){                    // Inserisce prima il minore
-            b[k] = a[i];
-            i = i + 1;
-        } else{
-            b[k] = a[j]
-            j = j + 1;
-        }
-        k = k + 1;
-    }
-
-    for(;i <= cx; i=i+1, k=k+1){              // I due cicli for ricreano le due sequenze
-        b[k] = a[i];                          // a e b ordinate, andando a recuperare gli 
-    }                                         // elementi non inseriti precedentemente
-    for(;j <= dx; j=j+1, k=k+1){             
-        b[k] = a[j];
-    }
-    for(i = sx; i <= dx; i=i+1){              //Inserisce la sequenza completa e ordinata in a
-        a[i] = b[i-sx];
-    }
-}
 
 ------------------------------------------------------------------------------------ Relazione di ricorrenza
 
