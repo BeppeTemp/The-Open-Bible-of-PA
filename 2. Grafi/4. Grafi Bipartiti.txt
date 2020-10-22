@@ -1,7 +1,7 @@
 -------------------------------------------------------------------- Definizioni
 
 Grafo bipartito:
-    - un grafo bipartito è un grafo non direzionato, l'insieme dei nodi può essere partizionato
+    - un grafo bipartito è un grafo non direzionato tale che l'insieme dei nodi può essere partizionato
       in due sottoinsiemi X e Y tali che ciasciun arco del grafo ha una delle due estremità in 
       X e l'altra in Y.
 
@@ -35,8 +35,8 @@ Caso 2 dimostrazione: In questo caso ci basta dimostrare che esiste un ciclo dis
 -------------------------------------------------------------------- Pseudocodico
 
 Algoritmo che determina se un grafo è Bipartito:
-    - Modifichiamo la BFS in modo da poter asseganre i due colori ed eseguiamo al termine della visita una scansione sugli archi
-    - Il grafo g è implementato con liste di adiacenza
+    - Modifichiamo la BFS in modo da poter assegnare i due colori ed eseguiamo al termine della visita una scansione sugli archi
+    - Il grafo G è implementato con liste di adiacenza
 
 BFS(s){
     Poni Discovered[s]=true e Discovered[u]=false per tutti gli altri nodi u del grafo
