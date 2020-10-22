@@ -1,7 +1,7 @@
 -------------------------------------------------------------------- Definizioni
 
 Breath First Search (o visita in ampiezza): 
-    - Nella BFS partiamo da un nodo sorgente s ed esploriamo i nodi in ordine di istanza dalla sorgente, 
+    - Nella BFS partiamo da un nodo sorgente s ed esploriamo i nodi in ordine di distanza dalla sorgente, 
       si dice che l'esplorazione avviene per livelli. L'esecuzione dell'algoritmo produce un albero chiamato
       albero BFS.
 
@@ -10,8 +10,7 @@ Albero BFS:
       raggiungibili da quest'ultimo. Nella costruzione dell'albero BFS l'algoritmo andrà ad 
       inserire solo gli archi, questo perchè gli archi danno informazioni di relazione PADRE-FIGLIO
 
-
-------------------------------------------------------------------- Implementazione con lista di adiacenza O(n + m)
+------------------------------------------------------------------- Implementazione con lista di adiacenza 
 
 #Implementazione con lista di adiacenza: 
     - Il grafo è rappresentato con liste di adiacenza;
@@ -45,7 +44,7 @@ Analisi:
     prende come tempo O(n) perchè dobbiamo "analizzare" tutti gli n nodi. Per quanto riguarda il while prende 
     tempo O(n) mentre il foreach esterno sul totale delle iterazioni del while visiterà tutti i nodi, in quanto 
     ogni nodo appartiene ad una sola lista L di grandezza n, quindi O(n). Infine il foreach più interno, 
-    verrà eseguito al più [sommatoria di] deg(u) <= 2m, quindi O(m), perchè l'algoritmo andrà a visitare tutti 
+    verrà eseguito al più Σu∈V deg(u) <= 2m, quindi O(m), perchè l'algoritmo andrà a visitare tutti 
     gli archi incidenti su u.
 
 Totale: 
@@ -79,8 +78,7 @@ Analisi:
     - L'inizializzazione prende tempo costante tranne per quanto riguarda quella dell'array Discovered[] che
     prende come tempo O(n). Per quanto riguarda il while prende tempo O(n) in quanto nella coda transiteranno tutti 
     i nodi del grafo, perchè ogni volta che scopriamo un nodo questo verrà inserito nella coda, verrà eseguito al 
-    più [sommatoria di] deg(u) <= 2m, quindi O(m), perchè l'algoritmo andrà a visitare tutti 
-    gli archi incidenti su u.
+    più Σu∈V deg(u) <= 2m, quindi O(m), perchè l'algoritmo andrà a visitare tutti gli archi incidenti su u.
 
 Totale:
     - O(n+m).
