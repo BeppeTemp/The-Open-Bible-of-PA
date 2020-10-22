@@ -81,12 +81,11 @@ contare il numero di archi entranti in ogni nodo e una lista S che contiene tutt
 entranti.
 
 //Inizializzazione Tempo O(n + m), questa fase è effettuata fuori dalla procedura
-
-foreach (nodo u in g){                          
-    foreach (arco(u,w) entrante in u){          
-        Count[u]=Count[u]+1
+foreach (nodo u in G){                          
+    foreach (arco(u, v) entrante in u){          
+        Count[u] = Count[u]+1
     }
-    if (Count[u]==0){           
+    if (Count[u] == 0){           
         S.push(u)
     }
 }
@@ -97,10 +96,10 @@ TopologicalOrder(Count, S, G){
         cancella u dalla lista S                                //Tempo O(1)
         elimina u dal grafo G in modo da creare G-{u}           //Tempo O(deg(u)) 
         
-        foreach(arco(u,w) uscente da u){                        //Tempo O(deg(u))
-            Count[w] = Count[w]-1
-            if(Count[w] == 0){
-                inserisci w nella lista S
+        foreach(arco(u, v) uscente da u){                        //Tempo O(deg(u))
+            Count[v] = Count[v]-1
+            if(Count[v] == 0){
+                inserisci v nella lista S
             }
         }
         L = TopologicalOrder(Count, S, G)
@@ -113,13 +112,13 @@ TopologicalOrder(Count, S, G){
 Analisi:
     Per l'inizializzazione il tempo richiesto è O(n + m). I valori di Count[] vengono 
     inizializzati scandendo tutti gli archi e incrementando Count[v] per ogni arco entrante in v, 
-    richiede tempo O(m), se abbiamo se abbiamo informazioni sugli archi entranti per ogni nodo 
-    allora il tempo richiesto è O(n). Per iniziallizzare S occorre tempo O(n), in fase di 
-    inizializzazione tutti i nodi sono attivi per cui occorre effettuare una scansione per tutti 
-    gli n nodi e inserire solo quelli senza archi entranti. 
+    richiede tempo O(m), se abbiamo informazioni sugli archi entranti per ogni nodo allora il 
+    tempo richiesto è O(n). Per iniziallizzare S occorre tempo O(n), in fase di inizializzazione 
+    tutti i nodi sono attivi per cui occorre effettuare una scansione per tutti gli n nodi e 
+    inserire solo quelli senza archi entranti. 
     
     Cancellare u da S richiede tempo costante O(1) e per eliminare u da G richiede tempo O(deg(u)). 
-    Ogni volta che  che troviamo un arco (u,w) decrementiamo Count[w] e se Count[w] == 0 allora inseriamo w in S. Queste istruzioni
+    Ogni volta che  che troviamo un arco (u, v) decrementiamo Count[v] e se Count[v] == 0 allora inseriamo v in S. Queste istruzioni
     vengono ripetute per ogni nodo del grafo G, quindi il tempo richiesto dall'algoritmo è O(n) + O(m) = O(n + m)
     
 Tempo totale:
