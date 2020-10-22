@@ -1,0 +1,137 @@
+-------------------------------------------------------------------- Definizione del problema
+
+Input: 
+    - un array a di n elementi distinti con un inizio sx e una fine fx.
+
+Obiettivo: 
+    - Selezionare l'elemento di rango r in un array a di n elementi distinti (evitando di dover ordinare a).
+
+Paradigma Divide et Impera:
+    Decomposizione: se la sequenza sul quale opera l'algoritmo contiene almeno due elementi si scegli il pivot 
+                    nell'intervallo [sx, dx]. La funzione Distribuzione ci permette di trovare il rango corretto
+                    del pivot, posizionando tutti gli elementi di rango minore alla sua sinistra e tutti gli 
+                    elementi di rango maggiore alla sua destra.                
+    Ricorsione: si continua la ricerca dell'elemento di rango r nel solo segmento che lo contiene.
+    Ricombinazione: non c'è nessun lavoro di ricombinazione
+               
+-------------------------------------------------------------------- Pseudocodice
+
+QuickSelect(a, sx, rango, dx){
+    if(sx == dx) return a[sx];
+    else{
+        scegli un pivot px nell'intervallo [sx, ..., dx];
+        indiceFinalePivot = Distribuzione(a, sx , px, dx);
+  
+        if(rango-1 == indiceFinalePivot) return a[indiceFinalePivot];
+        else{
+            if(rango-1 < indiceFinalePivot) return QuickSelect(a, sx, rango, indiceFinalePivot-1);
+            else return QuickSelect(a, indiceFinalePivot+1, rango, dx);
+        }
+    }
+}
+
+-------------------------------------------------------------------- Distribuzione
+
+Algoritmo:
+    * Scambia gli elementi A[px] e A[dx], se A[px] è diverso da A[dx]
+    * Usa due indici i e j per scandire il segmento: i parte da sx e scorre verso destra, j parte da dx - 1 e scorre verso 
+      sinistra fino a quando i <= j.
+    * Ogni volta che si ha un A[i] <= pivot o A[j] >= pivot, scambia A[i] con A[j] e poi riprende la scansione.
+    * Alla fine della scansione, Distribuzione posiziona il pivot nella posizione corretta [per posizione corretta si intende il suo rango].
+  
+Pseudocodice:
+
+     Distribuzione(A, sx, px, dx):
+         if(A[px] != A[dx])  Scambia(A[px], A[dx]);
+
+         i = sx;
+         j = dx - 1;
+
+         while(i <= j){
+
+             while((i <= j) && (A[i] <= A[dx])) i = i + 1;
+             while((i <= j) && (A[j] >= A[dx])) j = j - 1;
+
+             if(i < j){
+                 Scambia(A[i]), A[j]);
+
+                 i = i + 1;
+                 j = j - 1;
+             }
+
+         }
+         if(i != dx) Scambia(A[i], A[dx]);
+         return i;
+
+
+     Scambia(a[i], a[j]):
+         temp = a[j];
+         a[j] = a[i];
+         a[i] = temp;
+
+Analisi:
+    - Dobbiamo stimare il numero di iterazioni eseguite complessivamente dai due while interni.
+         1. primo while = numero di confronti tra un elemento A[i] con il pivot
+         2. secondo while = numero di confronti tra un elemento A[j] con il pivot
+         3. Dopo ogni confronto di A[i] con il pivot:
+             3.a viene incrementeato i di 1
+             3.b il while esterno termina dopo al più un'interazione
+         4. Dopo ogni confronto di A[j] con il pivot:
+             4.a viene incrementeato j di 1
+             4.b il while esterno termina dopo al più un'interazione
+         5. Dopo ogni interazione di ciascuno dei while interni, tranne per l'ultima, 
+            viene confrontato un nuovo elemento con il pivot.
+         6. Il numero totale di confronti con il pivot è quindi al più n - 2. 
+            Il numero di iterazioni complessive dei due while è di n - 2.
+         7. Tempo di esecuzione: O(n)
+
+-------------------------------------------------------------------- Relazione di ricorrenza
+
+Analisi:
+    - Caso base: 
+        1.a Se il segmento sul quale opera l'algoritmo contiene un solo elemento allora l'algoritmo esegue un
+            numero costante di operazioni per cui il costo è <= c per una certa costance c positiva;
+        2.a Se l'indice restituito da Distribuzione(a, sx, px, dx) è uguale a r - 1, l'algoritmo termina. 
+            Il costo in questo caso è dato dal costo lineare di distribuzione più il costo costante delle 
+            altre istruzioni per cui il costo totale è uguale a c1n, con c1 > 0.
+    - Passo ricorsivo: il costo in questo caso è dato dal costo lineare di distribuzione più il costo della 
+                       chiamata ricorsive effettuata sul segmento composto dagli elementi minori del pivot oppure 
+                       dal segmento composto dagli elementi maggiori del pivot. Il costo in questo caso è al più
+                       pari a cn (per una certa costance c > 0) più il costo delle chiamate ricorsive.
+
+La relazione di ricorrenza che esprime il tempo di esecuzione è la seguente:
+
+        | c0                       se n=1
+T(n) <= | c1n                      se n>1 e rp=r-1
+        | max{T(rp-1), T(n-rp)} + cn  altrimenti
+              
+-------------------------------------------------------------------- Analisi Caso Pessimo
+
+Nel caso pessimo il pivot è tutto a sinistra (rp = 1) e r > rp oppure è tutto a destra (rp = n)
+e r > rp. In entrambi i casi la relazione diventa:
+
+        T(n) <= T(n - 1) + T(0) + cn <= T(n - 1) + cn;        per un'opportuna costante c;
+
+Applicando iterativamente la relazione di ricorrenza:
+
+        T(n) <= T(n - i) + [Somma per j che va da (n-i+1) a n di] cj;
+
+Sostituiamo i = n - 1, otteniamo:
+        
+        T(n) <= T(1) + [Somma per j che va da 2 a n di] cj 
+                <= c0 + [Somma per j che va da 2 a (n) di] cj
+                    <= c0 + [**] c(n+1)n/2 - c = O(n^2)
+                
+[**]: Compare la sommatoria dei primi n numeri, nell'ultimo passaggio abbiamo un - c' perchè la sommatoria parte da 1
+     
+Tempo di Esecuzione:
+
+    * QuickSelect caso pessimo: T(n) = O(n^2)
+
+    * QuickSelect caso ottimo: T(n) = O(n)
+
+    * QuickSelect caso medio: T(n) = O(n)
+
+    * QuickSelect randomizzato tempo medio: T(n) = O(n)
+
+-------------------------------------------------------------------- FIN

@@ -1,0 +1,84 @@
+-------------------------------------------------------------------- Definizioni
+
+Definizione di matching: un insieme di coppie è in matching se ogni elemento appartiene ad al più una coppia
+Definizione di incrocio: le coppie (xi, yj) e (xi', yj') si incrociano se i < i' ma j > j'
+Definizione di allineamento: Un allineamento M è un insieme di coppie (xi, yj) tali che M è un matching e M 
+                             non contiene coppie che si incrociano.
+
+-------------------------------------------------------------------- Definizione del problema
+
+Problema:
+    - Ci occorre un modo per allineare due sequenze di caratteri. formiamo un insieme di coppie di caratteri
+      dove ciascuna coppia è formata da un carattere della prima stringa e uno della seconda Stringa
+      
+Input: 
+    - Due stringe X = x1, x2, ..., xm e Y = y1, y2, ..., yn
+    
+    
+Obiettivo:
+    - Trovare l'allineamento di minimo costo
+
+Indichiamo la gap penality con δ
+Indichiamo la MisMatch penality con α
+
+Definiamo: 
+    - cost(M) = [Somma per (xi, yi) appartenenti ad M di] αxiyi + [Somma per i : xi unmatched di] δ + [Somma per j : yj unmatched di] δ
+                  _____________________________________________        ______________________________________________________________ 
+                
+                                 MISMATCH                                                              GAP  
+
+Dato un allineamento M di due stringhe X = x1, x2, ..., xm e Y = y1, y2, ..., yn, se in M non c'è la coppia (xm, yn) allora o
+xm non è accoppiato in M o yn non è accoppiato in M.
+
+-------------------------------------------------------------------- Definizione OPT
+
+OPT(i, j) = costo dell'allineamento ottimo per le due stringhe x1, x2, ..., xi e y1, y2, ..., yj
+
+    Caso 1:
+        - xi e yi sono accoppiati nella soluzione ottima per x1, x2, ..., xi e  y1, y2, ..., yj.
+          OPT(i, j) = costo dell'eventuale mismatch tra xi e yj + costo dell'allineamento ottimo di x1, x2, ..., xi-1 e  y1, y2, ..., yj-1
+
+    Caso 2:
+        - 2.a: xi non è accoppiato nella soluzione ottima per x1, x2, ..., xi e  y1, y2, ..., yj.
+               OPT(i, j) = Costo del gap xi + costo dell'allineamento ottimo di x1, x2, ..., xi-1 e  y1, y2, ..., yj
+        - 2.b: yj non è accoppiato nella soluzione ottima per x1, x2, ..., xi e  y1, y2, ..., yj.
+               OPT(i, j) = Costo del gap yj + costo dell'allineamento ottimo di x1, x2, ..., xi e  y1, y2, ..., yj-1
+
+
+            | jδ                                     se i= 0 
+            |
+            |     | αxiyj + OPT(i-1, j-1)
+OPT(i, j) = | min | δ + OPT(i-1, j)                  altrimenti                
+            |     | δ + OPT(i, j-1)
+            |
+            | iδ                                     se j = 0
+            
+ATTENZIONE: In questo caso α non sta ad indicare il mismatch ma una funzione che associa ad ogni coppia di simboli dell'alfabeto un valore
+            
+-------------------------------------------------------------------- Pseudocodice che produce il valore della soluzione ottima
+
+Sequenze-Alignment(m, n, [x1, x2, ..., xm], [y1, y2, ..., yn], δ, α){
+    for i = 0 to m
+        M[i, 0] = iδ
+    
+    for j = 0 to n
+        M[0, j] = jδ
+
+    for i = 1 to m
+        for j = 1 to n
+            M[i, j] = min(α[xi, yj] + M[i-1, j-1),
+                                        δ + M[i-1, j],
+                                            δ + M[i, j-1])
+    return M[m, n]
+
+}
+
+ATTENZIONE: In questo caso α non sta ad indicare il mismatch ma una funzione che associa ad ogni coppia di simboli dell'alfabeto un valore
+
+Analisi:
+    - Tempo di esecuzione θ(mn)
+    - Spazio:
+        1. parole inglesi n, m <= 10 --> mxn = 100
+        2. biologia computazionale m = n = 100.000 --> mxn = 10miliardi
+
+-------------------------------------------------------------------- FIN

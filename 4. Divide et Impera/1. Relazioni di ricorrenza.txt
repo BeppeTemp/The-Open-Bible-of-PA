@@ -1,0 +1,29 @@
+------------------------------------------------------------------------------------ Introduzione
+
+Quando un algoritmo contiene una o piu` chiamate ricorsive a s ́e stesso, il suo tempo di esecuzione 
+può essere spesso descritto da una relazione di ricorrenza. 
+      - Una relazione di ricorrenza consiste in un’uguaglianza o in una disuguaglianza che descrive 
+        una funzione in termini dei suoi valori su input piu` piccoli.
+
+Preso un algoritmo basato sulla tecnica del dividi et impera con un tempo di esecuzione pari a T(n)
+su un input di dimensione n. Se la dimensione del problema è minore di una certa constante c, 
+l'algoritmo risolve direttamente il problema.
+Per n > c, invece il problema vine suddiviso in α sotto problemi, ognuno di dimensione n/β, a questo 
+punto l'algoritmo viene invocato ricorsivamente per risolve ciascuno di questi α sotto problemi.
+
+Le α soluzioni vengono poi ricombinate per ottenere la soluzione del problema originario.
+
+------------------------------------------------------------------------------------ Esempio
+
+Supponiamo che l'algoritmo impieghi un tempo d(n) per suddividere il problema e un tempo r(n) per
+ricombinare le α soluzioni, il tempo di esecuzione può pertanto essere descritto come:
+
+T(n) <= αT(n/β) + d(n) + r(n)
+
+Possiamo scrivere la relazione di ricorrenza come:
+
+        | c0                       se n <= c
+T(n) <= |
+        | αT(n/β) + d(n) + r(n)    altrimenti
+
+------------------------------------------------------------------------------------ FIN

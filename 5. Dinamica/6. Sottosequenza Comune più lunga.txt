@@ -1,0 +1,105 @@
+-------------------------------------------------------------------- Definizione del problema
+
+Definizione di sottosequenza:
+  - Dati una sequenza d caratteri x = x1, x2, ..., xm ed un insieme di indici {k1, k2, ..., kt}
+    tali che 1 <= k1 < k2 < ... < kt <= m, la sequenza formata dai caratteri di x in posizione k1, k2, ... kt
+    viene detta sottosequenza di x. I caratteri della sottosequenza non sono necessariamente consecutivi.
+    
+Problema:
+  - Date due sequenze di caratteri x = x1, x2, ..., xm e y = y1, y2, ..., yn, vogliamo trovare la sottosequenza 
+    più lunga comune ad entrambe.
+    
+Input:
+  - Due sottosequenze di caratteri x = x1, x2, ..., xm e y = y1, y2, ..., yn
+  
+Obiettivo:
+  - trovare la sottosequenza comune più lunga
+  
+-------------------------------------------------------------------- Definizione OPT
+
+Definiamo OPT(i, j) come la lunghezza della sottosequenza comune più lunga a x1, ..., xi e y1, ..., yj.
+
+Per computare la soluzione ottima analizziamo i tre casi che possono verificarsi:
+
+  Caso 1:
+    - se xi = yj allora la sottosequenza comune più lunga termina con xi = yj. in questo caso
+      la soluzione ottima è formata dalla sottosequenza comune più lunga x1, ..., xi-1 e y1, ..., yj-1
+      seguita dal carattere xi = yj: OPT(i, j) = OPT(i-1, j-1) + 1
+      
+  Caso 2:
+    2.a Se x ≠ y e la sottosequenza comune più lunga terminca con un simbolo diverso da xi allora la soluzione
+        ottima è data dalla soluzione ottima x1, ..., xi-1 e y1, ..., yj. OPT(i, j) = OPT(i-1, y)
+      
+    2.b Se x ≠ y e la sottosequenza comune più lunga termina con un simbolo diverso da yi allora la soluzione
+        ottima è data dalla soluzione ottima x1, ..., xi e y1, ..., yj-1. OPT(i, j) = OPT(i, y-1)
+      
+    - la soluzione ottima nel caso 2 quindi è data dal max tra la 2.a e la 2.b. OPT(i, j) = max {OPT(i-1, y), OPT(i, y-1)}.
+
+  Caso 3:
+    - Se i = 0 o j = 0 banalmente la sottosequenza più lunga ha lunghezza 0. OPT(i, j) = 0
+
+            | 0                                     se i= 0 o j=0
+            |
+OPT(i, j) = | OPT(i-1, j-1) + 1                     se xi = yj AND i > 0, y > 0
+            |
+            | max {OPT(i-1, y), OPT(i, y-1)}        altrimenti
+
+-------------------------------------------------------------------- Pseudocodice che produce il valore della soluzione ottima
+
+ComputaLunghezzaLCS(x, y){
+  m = lunghezza di x
+  n = lunghezza di y
+  
+  for (i = 1 to m){
+    M[i, 0] = 0                     // Costruzione array globale per i
+  }
+  
+  for (j = 1 to n){
+    M[0, j] = 0                     // Costruzione array globale per j
+  }
+  
+  for (i = 1 to m){
+    for (j = 1 to n){
+    
+      if (xi = yj){
+        M[i, j] = 1 + M[i-1, j-1]
+        b[i, j] = "↖"
+      }
+      
+      else if(M[i-1, j] > M[i, j-1]){
+        M[i, j] = M[i-1, j]
+        b[i, j] = "↑"
+      }
+      
+      else{
+        M[i, j] = M[i, j-1]
+        b[i, j] = "←"
+      }
+      
+    }//ENDFOR j
+  }//ENDFOR i
+
+}
+
+Nell'algoritmo è introdotto una matrice b[i, j] per memorizzare delle frecce in modo che successivamente
+la sottosequenza comune più lunga possa essere ricostruita agevolmente.
+
+-------------------------------------------------------------------- Pseudocodice che produce la soluzione ottima
+
+[Esecuzione di ComputaLunghezzaLCS]
+
+Stampa-LCS(b, x, i, j){
+  if i = 0 OR j = 0 return ""
+  if b[i, j] = "↖" {
+    Stampa-LCS(b , x, i-1, j-1)
+    print(xi)
+  }
+  else if b[i, j] = "↑" 
+    Stampa-LCS(b , x, i-1, j)
+  else 
+    Stampa-LCS(b , x, i, j - 1)
+
+}
+
+-------------------------------------------------------------------- FIN 
+    

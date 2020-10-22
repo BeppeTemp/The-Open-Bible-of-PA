@@ -1,0 +1,41 @@
+-------------------------------------------------------------------- Definizione del problema
+
+Input:
+  - Un insieme infinito di monete C di n diversi valori tali che v1 < v2 < v3 < ... < vn e 
+    una somma di denaro V.
+
+Obiettivo:
+  - Trovare il valore della soluzione ottima che restituisca il numero dei modi in cui 
+    possiamo usare le monete in C per cambiare V
+
+-------------------------------------------------------------------- Definizione OPT
+
+N(i, v) = numero di modi in cui possiamo cambiare v con monete di valore v1, ..., vn
+
+Possiamo avere diversi casi, andiamo ad analizzarli:
+
+    - Caso 1
+        Se vì < v allora la soluzione può includere o meno la moneta di valore vì.
+        Dobbiamo sommare il numero di soluzione che includono il valore vì con il 
+        numero di soluzioni che non includono il valore vì
+        N(i, v) = N(i, v-vi) + N(i-1, v)
+
+    - Caso 2
+        Se vi > v allora le soluzioni possiili sono solo quelle che non includono vì
+        N(i, v) = N(i-1, v)
+    
+    - Caso 3:
+        Se v = 0 banalmente N(i, v) = 0 per ogni i dato che non dobbiamo cambiare nulla
+    
+    - Caso 4 
+        Se i = 1 banalmente N(i, v) = v per ogni v dato che abbiamo solo una moneta
+
+            | 0                                      se v = 0
+            |
+            | v                                      se i = 1
+N(i, v) =   |
+            | N(i, v) = N(i-1, v)                    se vi > v
+            |
+            | N(i, v) = N(i, v-vi) + N(i-1, v)       altrimenti
+
+-------------------------------------------------------------------- FIN        

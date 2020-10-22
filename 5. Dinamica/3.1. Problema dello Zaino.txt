@@ -1,0 +1,106 @@
+-------------------------------------------------------------------- Definizione del problema
+
+Input: 
+    - n oggetti di peso Wi > 0 e valora vi > 0. Lo zaino può trasportare fino a W chili.
+
+Obiettivo: 
+    - Selezionare un sottoinsieme S degli n oggetti in modo che la somma dei loro pesi non superi W
+      in modo da massimizzare la sommatoria dei vi valori.
+
+Osservazione = Il problema corrisponde al Subset Sums, quando vi = wi per ogni i
+
+-------------------------------------------------------------------- Definizione OPT
+
+OPT(i, w) = Valore della soluzione ottima per gli oggetti {1, ..., i} con peso totale w.
+    - Caso 1: La soluzione ottima per i primi i oggetti, con limite di utilizzo w non include l'oggetto i. 
+              In questo caso il valore della soluzione ottima è OPT(i, w) = OPT(i-1, w), la soluzione ottima è {1, 2, ..., i-1}
+
+    - Caso 2: La soluzione ottima per i primi i oggetti, con limite di utilizzo w include l'oggetto i. 
+              In questo caso il valore della soluzione ottima è OPT(i, w) = vi + OPT(i-1, w-wi). La soluzione ottima 
+              include la soluzione ottima per {1, 2, ..., i-1} con limite w- wi
+
+La soluzione ottima per i primi i oggetti con limite di utilizzo w va ricercata tra le soluzioni ottime per i due casi. 
+Questo però se i > 0 e wi <= w.
+
+Se i = 0 banalmente si ha OPT(i, w) = 0. Se wi > w è possibile solo il caso 1 perchè l'oggetto i non può far 
+parte della soluzione in quanto ha peso maggiore del peso trasportabile dallo zaino. Quindi:
+
+         | 0                                        se i=0
+         |
+OPT(j) = | OPT(i-1, w)                              se wi > w  
+         |
+         | max{OPT(i-1, w), vi + OPT(i-1, w-wi)}    altrimenti
+
+
+-------------------------------------------------------------------- Pseudocodice che produce il valore della soluzione ottima
+
+#Algoritmo che computa la soluzione ottima per il problema dello zaino
+
+Knapsack(n, [w1, ..., Wn], [v1, ..., vn], W){
+    for(w = 0 to W){
+        M[0, w] = 0                                                            // Array globale di accesso per applicare la Memoization
+    }
+
+    for(i = 1 to n){
+        for(w = 0 to W){
+            if(wi > w){
+                M[i, w] = M[i-1, w]
+            }else{
+                M[i, w] = max{M[i-1, w], vi + M[i-1, w-wi]}
+            }
+        }
+    }
+    return M[n,W]
+}
+
+Tempo di esecuzione: Theta(n W)
+Per W con un valore ragionevolmente piccolo.
+
+Esercizio: Scrivere la versione ricorsiva dell’algoritmo di programmazione dinamica per il problema dello 
+zaino.
+
+#Algoritmo ricorsivo per il calcolo del Knapsack utilizzando la Memoization:
+
+for(i = 0 to n){
+    for(w = 0 to W){
+        M[i, w] = empty                                                            // Array globale di accesso per applicare la Memoization
+    }
+}
+
+Knapsack(i, w){
+    if (i = 0){                                                                    // La prima volta invocata con i = n e w = W
+        M[i, w] = 0
+    }
+    if (M[i, w] ≠ empty){
+        return M[i, w]
+    }
+    if (wi > w){
+        M[i, w] = Knapsack(i-1, w)
+    }else{
+        M[i, w]= max{Knapsack(i-1, w), wi + Knapsack(i-1, w-wi)}
+    }
+    return M[i, w]
+}
+
+-------------------------------------------------------------------- Pseudocodice che produce la soluzione ottima
+
+Esercizio: Scrivere lo pseudocodice dell’algoritmo che produce la soluzione ottima per un’istanza del 
+problema dello zaino.
+
+[Invochiamo Knapsack]
+
+FindKnapsack(i, w){
+    if(i = 0){                                                              // La prima volta invocata con i = n e w = W
+        return null
+    }
+    if (M[i, w] = M[i-1, w]){
+        FindKnapsack(i-1, w)
+    }else{
+        print i
+        FindKnapsack(i-1, w-wi)
+    }
+}
+
+Analisi: Tempo O(n)
+
+-------------------------------------------------------------------- FIN

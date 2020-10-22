@@ -1,0 +1,91 @@
+------------------------------------------------------------------------------------ Definizione del problema
+
+Input: 
+    - un array A non ordinato con un inizio sx e una fine dx.
+
+Obiettivo: 
+    - ordinare l'array a in modo non decrescente.
+
+Paradigma Divide et Impera:
+  * Decomposizione: L'array viene diviso in due sottoseguenze, calcolandone il centro cx.
+  * Ricorsione: Le due sottoseguenze vengono ricorsivamente ordinate.
+  * Ricombinazione: Le due seguenze vengono ricombinate tramite l'algoritmo Merge.
+
+------------------------------------------------------------------------------------ Pseudocodice MergeSort
+
+MergeSort(A, sx, dx){
+    if(sx < dx){
+        cx = (sx + dx) / 2;
+        MergeSort(A, sx, cx);
+        MergeSort(A, cx+1, dx);
+        Merge(A, sx, cx, dx);
+    }
+}
+
+------------------------------------------------------------------------------------ Merge:
+
+Idea:
+    * Scandiamo gli elementi delle due sequenze da sinistra verso destra utilizzando l'indice i per la sequenza a e l'indice j per la sequenza b
+    * Fino a che i <= n e j <= m, confrontiamo a[i] con b[j]. Se a[i] <= b[j], a[i] viene inserito alla fine della sequenza di output e i viene incrementato di 1
+      Se a[i] >= b[j], b[j] viene inserito alla fine della sequenza di output e j viene incrementato di 1
+    * Al termine del ciclo precedente se i <= n trasferiamo uno dopo l'altro gli elementi a[i], ..., a[n] alla fine della sequenza di output;
+      Se j <= m trasferiamo uno dopo l'altro gli elementi b[j], ..., b[m] alla fine della sequenza di output
+
+Pseudocodice:
+
+    Merge(a, sx, cx, dx){
+
+        i = sx;
+        j = cx + 1;
+        k = 0;
+
+        while((i <= cx) && (j <= dx)){           // Scorre entrambe le sequenze
+            if(a[i] <= a[j]){                    // Inserisce prima il minore
+                b[k] = a[i];
+                i = i + 1;
+            } else{
+                b[k] = a[j]
+                j = j + 1;
+            }
+            k = k + 1;
+        }
+
+        for(;i <= cx; i=i+1, k=k+1){              // I due cicli for ricreano le due sequenze
+            b[k] = a[i];                          // a e b ordinate, andando a recuperare gli 
+        }                                         // elementi non inseriti precedentemente
+        for(;j <= dx; j=j+1, k=k+1){             
+            b[k] = a[j];
+        }
+        for(i = sx; i <= dx; i=i+1){              //Inserisce la sequenza completa e ordinata in a
+            a[i] = b[i-sx];
+        }
+    }
+
+Analisi: 
+
+    - Ogni volta che eseguiamo un confronto tra un elemento di a ed uno di b, viene incrementato uno tra i due indici i e j.
+      Di conseguenza l'algoritmo effettua al più n + m operazioni, dove n è la grandezza del segmento a e m è la grandezza del segmento b 
+    - Sia k <= n + m il numero totale di confronti effettuati dall'algoritmo. Al termine di questi confronti, la sequenza di output
+      conterrà k elementi e in una delle due sequenze ci saranno n + m - k elementi che dovranno essere trasferiti nella sequenza output.
+    - Il tempo totale per fondere le due sequenze ordinate è quindi:  k + (n + m - k) = O(n + m)
+
+------------------------------------------------------------------------------------ Relazione di ricorrenza
+
+Analisi:
+    - Caso base: se il segmento su cui opera l'algoritmo contiene un solo elemento allora l'algoritmo esegue un
+                 numero costante di operazioni per cui il costo è <= c per una certa costance c positiva;
+    - Passo ricorsivo: il costo in questo caso è dato dal costo lineare dell'algoritmo Merge per fondere le due sottosequenze
+                       più il costo per decomporre il problema più il costo effettuato dalle due chiamate ricorsive sulle due sottosequenze.
+                       Quindi il costo in questo caso è dato al più da cn (per una certa costante c > 0) più c' (per una certa costante c' > 0)
+                       più il costo delle chiamate ricorsive.
+
+La relazione di ricorrenza che esprime il tempo di esecuzione è la seguente:
+
+       | c0                se n<=1
+T(n) = |
+       | 2T(n/2) + cn + c' altrimenti
+
+Tempo di esecuzione:
+    - T(n) = O(n log n)
+
+------------------------------------------------------------------------------------ Fin
