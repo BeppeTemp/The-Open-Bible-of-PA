@@ -1,8 +1,9 @@
 ------------------------------------------------------------------------------------ Introduzione
 
-Relazione di ricorrenza: 
-      - Quando un algoritmo contiene più chiamate ricorsive, il suo tempo di esecuzione può essere 
-        spesso descritto da una relazioen di ricorreza.
+Quando un algoritmo contiene una o piu` chiamate ricorsive a s ́e stesso, il suo tempo di esecuzione 
+può essere spesso descritto da una relazione di ricorrenza. 
+      - Una relazione di ricorrenza consiste in un’uguaglianza o in una disuguaglianza che descrive 
+        una funzione in termini dei suoi valori su input piu` piccoli.
 
 Preso un algoritmo basato sulla tecnica del dividi et impera con un tempo di esecuzione pari a T(n)
 su un input di dimensione n. Se la dimensione del problema è minore di una certa constante c, 
