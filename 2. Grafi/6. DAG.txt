@@ -4,22 +4,22 @@ Grafi Direzionati Aciclici:
     - un DAG è un grafo direzionato che non contiene cicli direzionati.
 
 Ordinamento Topologico: 
-    - preso un grafo G = (V, E), un ordinamento topologico è un ordinamento dei suoi nodi, t.c.
-      se c'è l'arco (u,w) in g, allora il nodo u precede il nodo w nell' ordinamento. In sostanza è un
-      etichettatura dei nodi v1,v2,...,vn t.c. se esiste l'arco(vi,vj) si ha che i < j. Tutti gli archi puntano in avanti
-      nell'ordinamento. un ordinamento topologico esiste se e solo se il grafo e aciclico.
+    - preso un grafo G = (V, E), un ordinamento topologico è un ordinamento dei suoi nodi, tale che
+      se c'è l'arco (u,v) in G, allora il nodo u precede il nodo v nell' ordinamento. In sostanza è un
+      etichettatura dei nodi v1, v2, ..., vn tale che se esiste l'arco(vi, vj) si ha che i < j. Tutti gli archi puntano in avanti
+      nell'ordinamento. Un ordinamento topologico esiste se e solo se il grafo e aciclico.
       
 -------------------------------------------------------------------- Lemma 1
 
 Lemma: 
-    - Se un grafo direzionato g ha un ordinamento topologico allora è un DAG.
+    - Se un grafo direzionato G ha un ordinamento topologico allora è un DAG.
     
 Dimostrazione (per assurdo): 
-    - Supponiamo che G sia un grafo direzionato con un ordinamento v1,v2,...,vn, supponiamo per assurdo
+    - Supponiamo che G sia un grafo direzionato con un ordinamento v1, v2, ..., vn, supponiamo per assurdo
       che G non sia un DAG e quindi abbia un ciclo direzionato C.
       
       Prendiamo il nodo vi appartenente a C con indice più piccolo e prendiamo vj quello precendete a vi (al
-      interno del ciclo), questo implica che esiste un arco(vj,vi), quindi visto che esiste un ordinamento 
+      interno del ciclo), questo implica che esiste un arco(vj, vi), quindi visto che esiste un ordinamento 
       topologico per ipotesi, j deve essere minore di i. Ma questo è impossibile, perchè abbiamo preso i come il vertice 
       di indici più piccolo nel ciclo. 
 
@@ -30,10 +30,10 @@ Lemma:
     
 Dimostrazione (per assurdo): 
     - Supponiamo che G sia un DAG e ogni nodo di G abbia almeno un arco entrante. Ora scorrendo tutti 
-      gli archi di G al ritroso per n o più volte. Così facendo attraversiamo almeno n archo
-      i e n+1 vertici ciò vuol dire che incontriamo un nodo almeno due volte, questo implica che 
-      all'interno di G deve esserci un ciclo, quindi G non è un DAG per definizioni, ma questo è assurdo 
-      perchè per ipotesi abbiamo affermato che G è un DAG.
+      gli archi di G al ritroso per n o più volte. Così facendo attraversiamo almeno n archi i e n+1 
+      vertici ciò vuol dire che incontriamo un nodo almeno due volte, questo implica che all'interno 
+      di G deve esserci un ciclo, quindi G non è un DAG per definizioni, ma questo è assurdo perchè 
+      per ipotesi abbiamo affermato che G è un DAG.
 
 -------------------------------------------------------------------- Lemma 3
 
@@ -41,14 +41,14 @@ Lemma:
     - Se G è un DAG, G ha un ordinamento topologico.
     
 Dim (induzione su n):
-    - Passo Base: se n=1 è banalmente vero (un nodo nell'ordinamento).
+    - Passo Base: se n = 1 è banalmente vero (un nodo nell'ordinamento).
 
     - Passo induttivo: supponiamo che il lemma sia vero per n>=1. Preso un DAG con n+1>1 nodi, prendiamo
       un nodo senza archi entranti (sappiamo che esiste). Se cancelliamo v da grafo in modo da ottenere 
       il grafo G-{v}, sappiamo che G-{v} rimane un DAG perchè l'eliminazione di v non introduce cicli nel grafo. 
       Se G-{v} è un DAG allora per ipotesi induttiva G-{v} ha un ordinamento topologico. Consideriamo di aggiungere 
       v all'inzio dell'ordinamento aggiungendo tutti i G-{v} nodi nell'ordine in cui appaiono, sappiamo che v non 
-      ha archi entranti e i suoi archi uscenti ora puntano ai nodi di G-{v}.Quello che abbiamo ottenuto è un 
+      ha archi entranti e i suoi archi uscenti ora puntano ai nodi di G-{v}. Quello che abbiamo ottenuto è un 
       ordinamento topologivo.
 
 -------------------------------------------------------------------- Pseudocodice
@@ -58,7 +58,7 @@ Dim (induzione su n):
 TopologicalOrder(G){
     if (esiste un nodo u senza archi entranti)                       //Tempo O(n)
         elimina v dal grafo G in modo da creare G-{v}                //Tempo deg(u) 
-        L = TopologicalOrder(G-{v}   )
+        L = TopologicalOrder(G-{v})
         aggiungi v all'inizio di L
         return L
     }else{
@@ -68,11 +68,11 @@ TopologicalOrder(G){
 
 Analisi: 
     - Trovare un nodo senza archi entranti, richiede O(n) se per ogni nodo memorizziamo il numero di
-      archi entranti. Cancellare un nodo dal grafo ivnece richiede tempo propozionale al numero di archi del
-      nodo quindi deg(v). Considerando tutte le chiamate ricorsive e il tempo O(n^2) per l'if e O(m) per l'eliminazione.
+      archi entranti. Cancellare un nodo dal grafo invece richiede tempo propozionale al numero di archi del
+      nodo quindi deg(u). Considerando tutte le chiamate ricorsive il tempo è O(n^2) per l'if e O(m) per l'eliminazione.
 
 Totale: 
-    - O(n^2)+O(m)=O(n^2+m)=O(n^2)
+    - O(n^2)
 
 -------------------------------------------------------------------- Miglioramento con tempo O(n+m)
 
@@ -81,12 +81,11 @@ contare il numero di archi entranti in ogni nodo e una lista S che contiene tutt
 entranti.
 
 //Inizializzazione Tempo O(n + m), questa fase è effettuata fuori dalla procedura
-
-foreach (nodo u in g){                          
-    foreach (arco(u,w) entrante in u){          
-        Count[u]=Count[u]+1
+foreach (nodo u in G){                          
+    foreach (arco(u, v) entrante in u){          
+        Count[u] = Count[u]+1
     }
-    if (Count[u]==0){           
+    if (Count[u] == 0){           
         S.push(u)
     }
 }
@@ -97,10 +96,10 @@ TopologicalOrder(Count, S, G){
         cancella u dalla lista S                                //Tempo O(1)
         elimina u dal grafo G in modo da creare G-{u}           //Tempo O(deg(u)) 
         
-        foreach(arco(u,w) uscente da u){                        //Tempo O(deg(u))
-            Count[w] = Count[w]-1
-            if(Count[w] == 0){
-                inserisci w nella lista S
+        foreach(arco(u, v) uscente da u){                        //Tempo O(deg(u))
+            Count[v] = Count[v]-1
+            if(Count[v] == 0){
+                inserisci v nella lista S
             }
         }
         L = TopologicalOrder(Count, S, G)
@@ -113,13 +112,13 @@ TopologicalOrder(Count, S, G){
 Analisi:
     Per l'inizializzazione il tempo richiesto è O(n + m). I valori di Count[] vengono 
     inizializzati scandendo tutti gli archi e incrementando Count[v] per ogni arco entrante in v, 
-    richiede tempo O(m), se abbiamo se abbiamo informazioni sugli archi entranti per ogni nodo 
-    allora il tempo richiesto è O(n). Per iniziallizzare S occorre tempo O(n), in fase di 
-    inizializzazione tutti i nodi sono attivi per cui occorre effettuare una scansione per tutti 
-    gli n nodi e inserire solo quelli senza archi entranti. 
+    richiede tempo O(m), se abbiamo informazioni sugli archi entranti per ogni nodo allora il 
+    tempo richiesto è O(n). Per iniziallizzare S occorre tempo O(n), in fase di inizializzazione 
+    tutti i nodi sono attivi per cui occorre effettuare una scansione per tutti gli n nodi e 
+    inserire solo quelli senza archi entranti. 
     
     Cancellare u da S richiede tempo costante O(1) e per eliminare u da G richiede tempo O(deg(u)). 
-    Ogni volta che  che troviamo un arco (u,w) decrementiamo Count[w] e se Count[w] == 0 allora inseriamo w in S. Queste istruzioni
+    Ogni volta che  che troviamo un arco (u, v) decrementiamo Count[v] e se Count[v] == 0 allora inseriamo v in S. Queste istruzioni
     vengono ripetute per ogni nodo del grafo G, quindi il tempo richiesto dall'algoritmo è O(n) + O(m) = O(n + m)
     
 Tempo totale:

@@ -2,6 +2,7 @@
 
 Depth Firts Search (o visita in profondità):
     - La visita DFS parte dalla sorgente s e si spinge in profondità fino a che non è più possibile raggiungere nuovi nodi.
+      La visita DFS simula il comportamento di esplorazione di un labirinto. L'algoritmo costruisce l'albero DFS.
 
 Albero DFS: 
     - L’algoritmo DFS produce un albero che ha come radice la sorgente s e come nodi tutti i nodi del grafo raggiungibili da s.
@@ -10,11 +11,12 @@ Albero DFS:
 
 Implementazione Ricorsiva:
     - Assumiamo G implementato con liste di adiacenza;
-    - R indica l'insieme dei vertici ragiunti/scoperti
+    - R indica l'insieme dei vertici raggiunti/scoperti
     - Lo stack viene utilizzato in maniera implicita andando ad utilizzare la ricorsione;
 
 DFS(s){
-    marchia u come "esplorato" e aggiungi u ad R                 //Tempo O(1)
+    marchia u come "esplorato"                                   //Tempo O(1)
+    aggiungi  ad R                                               //Tempo O(1)
     foreach( arco (u,v) incidente su u){                         //Tempo O(deg(u))
         if( v non è "esplorato")                                    //Tempo O(1)
             richiama ricorsivamente DFS(v);
@@ -26,8 +28,8 @@ Analisi:
         - O(1) per marcare u e aggiungerlo ad R
         - O(deg(u)) per eseguire il foreach
     Se inizialmente invochiamo DFS su un nodo s, allora DFS viene invocata ricorsivamente su tutti i nodi raggiungibili a partire da s. 
-    Il costo totale è quindi al più: [somma per u appartenente a V di ] O(1 + deg(u)) =
-                                    = O([somma per u appartenente a V di ] 1 + [somma per u appartenente a V di ] deg(u)) =
+    Il costo totale è quindi al più: Σu∈V O(1 + deg(u)) =
+                                    = O(Σu∈V 1 + Σu∈V deg(u)) =
                                     = O(n + m)
                                  
 -------------------------------------------------------------------- Implementazione con Stack O(n+m)
@@ -43,7 +45,7 @@ DFS(s){
     while(S non è vuoto){                                                           //Tempo O(deg(u))
         metti in u il nodo al top di S                                                   //Ogni nodo scoperto andrà inserito nello stack, quindi al più O(n)
         if (esiste un arco(u,v) incidente su u non ancora esplorato){
-            if (Explored[v]=false){
+            if (Explored[v]==false){
                 Explored[v]=true
                 aggiungi l'arco (u, v) all'albero DFStree                                                   //Tempo O(1)                
                 inserisci v al top di S                                                                     //Tempo O(1) 

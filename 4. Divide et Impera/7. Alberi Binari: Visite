@@ -32,16 +32,17 @@ Tempo di esecuzione: O(n) per n nodi.
 
 -------------------------------------------------------------------- Visita Postorder
 
-Chiamata anche visita Posticipata. Il nodo u su cui viene invoata la visita viene ispezionato
+Chiamata anche visita Posticipata. Il nodo u su cui viene invocata la visita viene ispezionato
 dopo le due visite al sotto-albero destro e al sotto-albero sinistro
 
 Pseudocodice:
     
     Posticipata(u):
         if(u != null){
-            elabora(u);             // Se bisogna usare il risultato occorre salvarlo in una variabile.
             Posticipata(u.sx);
             Posticipata(u.dx);
+            elabora(u);             // Se bisogna usare il risultato occorre salvarlo in una variabile.
+
         }
 
 Tempo di esecuzione: O(n) per n nodi.

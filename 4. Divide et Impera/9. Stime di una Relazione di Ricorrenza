@@ -4,12 +4,12 @@
 T(n) <= |
         |  αT(n/β) + c'n^k        altrimenti
         
-NB= c' e k sono due costanti tali che k >= 0, c' > 0;
+NB = c' e k sono due costanti tali che k >= 0, c' > 0;
         
         
         | O(n^k)                    α < β^k   
 T(n) =  | O(n^k log n)              α = β
-        | O(n^logβ α)               α > β^k
+        | O(n^(logβ α))             α > β^k
         
         
         

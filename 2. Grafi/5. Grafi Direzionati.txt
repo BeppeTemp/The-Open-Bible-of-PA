@@ -1,28 +1,33 @@
-----------------------------------------------------------------------------------------------Definizioni
+-------------------------------------------------------------------- Definizioni
 
-Mutualmente raggiungibili: due nodi u e v si dicono mutualmente raggiungibili se c'è un percorso da u a
-v e un percorso tra v e u.
+Mutualmente raggiungibili: 
+    - due nodi u e v si dicono mutualmente raggiungibili se c'è un percorso da u a
+      v e un percorso tra v e u.
 
-Fortemente connesso: un grafo in cui ogni coppia di nodi è mutualmente raggiungibile è fortemente
-connesso.
+Fortemente connesso: 
+    - un grafo in cui ogni coppia di nodi è mutualmente raggiungibile è fortemente connesso.
 
----------------------------------------------------------------------------------------------Pseudocidice
+-------------------------------------------------------------------- Pseudocodice
 
-#Algoritmo che determina se un grafo g è fortemente connesso (Tempo n+m), in pratica dato un grafo g,
-eseguo BFS su un nodo s di g, succesicamente inverto tutti gli archi di g e rieseguo il BFS su s, se
-i due array disc sono uguali allora il grado è fortemente connesso.
+#Algoritmo che determina se un grafo G è fortemente connesso, 
 
-IsStrongConnect(s,g){
-    discbfs_one=BFS(s,g)                        //Tempo O(n+m)
-    g_inv=inverti tutti gli archi del grafo g   //Tempo O(m)
-    discbfs_two=BFS(s,g_inv)                    //Tempo O(n+m)
-    for(i=0,i<n;i++){                           //Tempo O(n)
-        if(discbfs_one[i]!=discbfs_two[i]){
+Funzionamento:
+-   in pratica dato un grafo G, si esegue la visita BFS su un nodo s di G, successivamente 
+    si invertono tutti gli archi di G e si ripete la visita  BFS su s, se i due array disc
+    sono uguali allora G è fortemente connesso.
+
+IsStrongConnect(s, G){
+    discbfs_one = BFS(s, G)                        //Tempo O(n+m)
+    G_inv = inverti tutti gli archi del grafo G    //Tempo O(m)
+    discbfs_two = BFS(s, G_inv)                    //Tempo O(n+m)
+    for(i=0, i < n; i++){                           //Tempo O(n)
+        if(discbfs_one[i] != discbfs_two[i]){
             return false
         }
     }
     return true
 }
 
-Tempo totale: O(n+m)+O(m)+O(n+m)+O(n)=O(3n+3m)=O(n+m)
---------------------------------------------------------------------------------------------------------
+Tempo totale: O(n+m)
+
+-------------------------------------------------------------------- FIN

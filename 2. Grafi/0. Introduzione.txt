@@ -10,27 +10,28 @@ Un grafo può essere:
 
 * Consideriamo un grafo G con due nodi u e v connessi dall'arco e = (u, v):
     - u e v sono adiacenti
-    - e è v sono le estremità dell'arco
-    - l'arco e incide sui vertici u e v
+    - u e v sono le estremità dell'arco e
+    - l'arco e incide sui nodi u e v
     - u è un nodo vicino di v
     - v è un nodo vicino di u
     
-* Dato un nodo u chiamamo gradi di u: il numero di archi incidenti su u e lo indichiamo con deg(u)
+* Dato un nodo u chiamamo grado di u: il numero di archi incidenti su u e lo indichiamo con deg(u)
 
-* La somma di tutti i gradi dei nodi di G è 2m
+* La somma di tutti i gradi dei nodi di G è [Somma di u ∈ V di ] deg(u) = 2m
 
 * Il numero m di archi in un grafo G non direzionato è al più n(n-1)/2
 
-* In un grafo direzionato il numero m di archi di g è al più n^2
+* In un grafo direzionato G il numero m di archi è al più n^2
 
--------------------------------------------------------------------- Percorsi e connettività
+-------------------------------------------------------------------- Percorsi, connettività e cicli
 
-Un percorso in un grafo non direzionato G = (V, E) è una sequenza P di nodi v1, v2, v3, ... vk con la proprietà
-che ciascuna coppia di vertici consecutivi vi, vi+1 sono uniti da un arco. Un percorso si definisce semplice se
-tutti i nodi sono distinti. Un grafo non direzionato si dice connesso se per ogni coppia di nodi u e v, esiste 
-un percorso tra u e v.
+- Un percorso in un grafo non direzionato G = (V, E) è una sequenza P di nodi v1, v2, v3, ... vk con la proprietà
+  che ciascuna coppia di vertici consecutivi vi, vi+1 sono uniti da un arco. Un percorso si definisce semplice se
+  tutti i nodi sono distinti. 
 
--------------------------------------------------------------------- Ciclo
+- Un grafo non direzionato si dice connesso se per ogni coppia di nodi u e v, esiste un percorso tra u e v.
 
-Un ciclo è un percorso v1, v2, ... vk in cui v1=vk con k > 2. Un cclo si definisce semplice se i primi k - 1 nodi
-del ciclo sono tutti distinti tra loro
+- Un ciclo è un percorso v1, v2, ... vk in cui v1 = vk con k > 2. Un ciclo si definisce semplice se i primi k - 1 nodi
+  del ciclo sono tutti distinti tra loro
+
+-------------------------------------------------------------------- FIN

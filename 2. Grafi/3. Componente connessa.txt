@@ -1,7 +1,7 @@
 -------------------------------------------------------------------- Definizioni
 
 Componente connessa: 
-    - Sottoinsieme di vertici tale per ciascuna coppia di vertici u e v esiste un percorso tra u e v
+    - Sottoinsieme di vertici tale che per ciascuna coppia di vertici u e v esiste un percorso tra u e v
 
 -------------------------------------------------------------------- Teoremi
 
@@ -17,28 +17,37 @@ Dimostrazione:
 
 #Algoritmo che trova tutte le componenti connesse in un grafo: il BFS va modificato in modo da lasciare
 la fase di inizializzalizzazione di discovered a AllComponents.
-AllComponents(g){
-    per ogni sono u in g Discovered[u] = false      //Tempo O(n)
-    foreach (nodo u in g){
+
+AllComponents(G){
+    per ogni nono u in G Discovered[u] = false          //Tempo O(n)
+    foreach (nodo u in G){
         BFS(u)                                          //Tempo O(n+m)
     }
 }
 
-Analisi: Indicando con ni e mi il numero di nodi e di archi dell'iesima compontente connessa il tempo 
-necessario per ogni componente conessa sarà di O(ni+mi) quindi il tempo totale sarà dato dalla [somma per i che va da 1 a k di] O(ni+mi), ma siccome le componenti connesse sono a due a due disgiunte questa sommatoria sarà uguale a O(n+m).
+Analisi: 
+    - Indicando con ni e mi il numero di nodi e di archi dell'iesima compontente connessa il tempo 
+      necessario per ogni componente conessa sarà di O(ni+mi) quindi il tempo totale sarà dato dalla Σi=0 to k O(ni+mi), 
+      ma siccome le componenti connesse sono a due a due disgiunte questa sommatoria sarà uguale a O(n+m).
 
 Pertanto il tempo totale dell'algorimo è: O(n)+O(n+m) = O(n+m)
 
 -------------------------------------------------------------------- Extra
 
 #Algoritmo che trova le componenti connesse in un grafo, associando i nodi alla componente connessa
-di cui fanno parte.
+di cui fanno parte:
+    - Utilizziamo un array monodimensionele Component inizializzato a 0 per tutti i nodi u ∈ V.
+    - Modifichiamo BFS in modo che accetti il numero della componente connessa che si sta "esplorando"
+    - Inizializziamo j a 1 (nella prima esecuzione vogliamo trovare la prima componente connessa)
+    - Nella BFS ogni volta che viene scoperto un nuovo nodo v aggiorniamo Component[v] = j
+    - AllCompAss restituisce l'array Component
+    - il Tempo di esecuzione rimane O(n + m), in quanto le operazioni aggiunte non modificano il tempo di esecuzione
 
-AllCompAss(g){
-    per ogni nodo u in g Discovered[u] = false
-    inizializza Component[u] = 0 per ogni u in g
+AllCompAss(G){
+    per ogni nodo u in G Discovered[u] = false
+    inizializza Component[u] = 0 per ogni u in G
     j = 1
-    foreach (nodo u in g){
+    foreach (nodo u in G){
         BFS(u, j)
         j = j + 1
     }

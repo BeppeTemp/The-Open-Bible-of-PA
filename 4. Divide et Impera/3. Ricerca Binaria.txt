@@ -20,14 +20,14 @@ RicercaBinaria(V, x, sx, dx){
     if(sx > dx){
         return -1
     }
+    
+    if(sx == dx){
+        return -1
+    }
 
     mid = (sx + dx)/2
     if(x == V[mid]){
         return mid;
-    }
-
-    if(sx == dx){
-        return -1
     }
 
     if(x < V[mid]){
@@ -40,9 +40,10 @@ RicercaBinaria(V, x, sx, dx){
 ------------------------------------------------------------------------------------ Relazione di ricorrenza
 
 Analisi:
-    - Caso base: se il segmento su cui opera l'algoritmo contiene al più un elemento oppure l'elemento cercato è proprio 
-                 quello nella posizione centrale, allora l'algoritmo esegue un numero costante di operazioni per cui il 
-                 costo è <= c0 (c positiva)
+    - Caso base: 
+        1.a Se il segmento su cui opera l'algoritmo contiene al più un elemento
+        2.a l'elemento cercato è proprio quello nella posizione central
+        In entrambi i casi l'algoritmo esegue un numero costante di operazioni per cui il costo è <= c0 (c positiva)
     - Passo ricorsivo: il costo in questo caso è pari a una costante c (c positiva) più il tempo richiesto dalla ricerca 
                        dell'elemento in un segmento di dimensione al più pari alla metà di quello attuale.
 

@@ -1,11 +1,13 @@
 -------------------------------------------------------------------- Definizione del problema: Dimensione
 
-Input: un albero u
+Input: 
+    - Un nodo u
 
-Obbiettivo: calcolare la dimensione d dell'albero u, ovvero i numeri di nodi che compongono l'albero u
+Obiettivo: 
+    - Calcolare la dimensione d dell'albero u, ovvero i numeri di nodi che compongono l'albero u
 
-Caso Base: se l'albero u è vuoto allora d = 0
-Caso induttivo: la dimensione d è uguale a 1 + la dimensione del sottoalbero sinitro + la dimensione del sottoalbero destro
+Passo Base: se l'albero u è vuoto allora d = 0
+Passo induttivo: la dimensione d è uguale a 1 + la dimensione del sottoalbero sinitro + la dimensione del sottoalbero destro
 
 -------------------------------------------------------------------- Pseudocodice: Dimensione
 
@@ -20,12 +22,14 @@ Dimensione(u):
  
 -------------------------------------------------------------------- Definizione del problema: Altezza
 
-Input: un albero u
+Input: 
+    - Un nodo u
 
-Obbiettivo: calcolare l'altezza h dell'albero u
+Obiettivo: 
+    - calcolare l'altezza h dell'albero u
 
-Caso Base: se l'albero u è vuoto allora h = -1
-Caso induttivo: l'altezza h. uguale a 1 + la massima altezza dei figli di u
+Passo Base: se l'albero u è vuoto allora h = -1
+Passo induttivo: l'altezza h. uguale a 1 + la massima altezza dei figli di u
 
 -------------------------------------------------------------------- Pseudocodice: Altezza
 
