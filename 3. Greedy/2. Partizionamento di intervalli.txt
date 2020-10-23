@@ -4,14 +4,15 @@ Definizione di Intervallo:
     - Col termine intervallo si intende un'attività. Ogni intervallo ha un tempo di inizio e un tempo di fine.
 
 Input: 
-    - un insieme di n intervalli [s1,f1], [s2,f2], ..., [ss,fn] che rappresentano gli intervalli durante i quali si
-      svolgono le n attività. Anche in questo caso abbiamo a disposizione una singola risorsa.
+    - un insieme di n intervalli [s1,f1], [s2,f2], ..., [sn,fn] che rappresentano gli intervalli durante i quali si
+      svolgono le attività. Anche in questo caso abbiamo a disposizione una singola risorsa.
 
 Obiettivo: 
     - Far svolgere le n attività utilizzando il minor numero possibile di risorse, in modo che
       ciascuna risorsa venga allocata da al più un'attività alla volta
 
-Output: numero di risorse minime da allocare ed utilizzare.
+Output: 
+    - Numero di risorse minime da allocare ed utilizzare.
 
 -------------------------------------------------------------------- Concetto di profondità
 
@@ -48,18 +49,18 @@ PartInt(intval){
 Tempo ordinamento: O(n log n) (Termine dominante)
 Tempo del for: O(n)
 
-Tempo con inmplementazione con coda a priorità: O(n log n)
+Tempo con implementazione con coda a priorità: O(n log n)
 
--------------------------------------------------------------------- Extra
+-------------------------------------------------------------------- implementazione con coda a priorità
 
-1. Per ogni risorsa , mnteniamo il tempo di fine più grande tra quelli degli intervalli assegnati fino a quel momento a p.
-   Chiamiamo questo tempo con kp.
+1. Per ogni risorsa, manteniamo il tempo di fine più grande tra quelli degli intervalli assegnati fino a quel momento a p.
+   Chiamiamo questo tempo kp.
 
 2. Usiamo una coda a priorità di coppie dela forma (p, kp), dove p è una risorsa già allocata e Kp è l'istante fino al quale 
    la risorsa è occupata. L'elemento con indice minore indica la risorsa che verrà rilasciata per prima.
    
 3. Se sj >= kv allora all'intervallo j può essere essere allocato alla risorsa v. In questo caso cancelliamo v dalla coda e
-   la reinseriamo con chiave kv = fj. in caso contrario allochiamo una nuova risorsa z e la inseriamo in coda con chiave kz = fj.
+   la reinseriamo con chiave kv = fj. In caso contrario allochiamo una nuova risorsa z e la inseriamo in coda con chiave kz = fj.
    
 4. Se utilizziamo una coda a priorità implementata con heap ogni operazione sulla coda richiede tempo log m, dove m è la profondità
    dell'insieme degli intervalli. poichè effettuiamo O(n) operazioni di questo tipo, allora il costo complessivo del for è O(n log m).
