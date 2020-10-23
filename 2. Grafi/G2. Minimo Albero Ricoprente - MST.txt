@@ -18,13 +18,12 @@ Output:
 
 Albero ricoprente (Spanning Tree): 
     - Sia dato un grafo non direzionato connesso G = (V,E). Uno spanning tree di G 
-      è un sottoinsieme di archi T tali che |T| = n-1 e gli archi di T non formani 
+      è un sottoinsieme di archi T tali che |T| = n-1 e gli archi di T non formano 
       cicli. 
 
 Definizione costo di T: 
     - Sia dato un grafo non direzionato connesso G = (V, E) tale che ad ogni arco e di G è associato
-      un costo Ce. Per ogni albero ricoprente T di G, definiamo il costo di T come la sommatoria di 
-      tutti i costi degli archi.
+      un costo Ce. Per ogni albero ricoprente T di G, definiamo il costo di T = Σe∈E Ce
 
 Teorema di Cayley:
     - Ci sono n^n-2 alberi ricoprenti del grafo completo Kn.
