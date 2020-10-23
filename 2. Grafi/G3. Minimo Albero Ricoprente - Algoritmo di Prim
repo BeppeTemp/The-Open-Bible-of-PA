@@ -2,7 +2,7 @@
                                                                      [Jarnik 1930, Prim 1957, Dijkstra 1959]
 
 Comincia con un certo nodo s e costruisce un albero T avente s come radice. Ad ogni passo aggiunge
-a T l'arco di peso più basso tra quelli che hanno esattamente una delle due estremita in T. Se un arco
+a T l'arco di peso più basso tra quelli che hanno esattamente una delle due estremità in T. Se un arco
 ha entrambe le estremità in T, la sua introduzione in T creerebbe un ciclo.
 
 Funzionamento:
@@ -27,7 +27,7 @@ Prim(G, c){
         (c[u], u) <-- ExtractMin(Q)
         aggiungi u ad S
         foreach(arco e = (u, v)){
-            if ((v non in S) AND (Ce < c[v])){
+            if ((v non in S) && (Ce < c[v])){
                 changeKey(Q, v, Ce)                                        //Aggiorna il costo del nodo v contenuto nella coda.
             }
         }
@@ -59,7 +59,7 @@ Prim(G, c){
         add u to S
         add u to T                                                          //Seconda Modifica
         foreach(arco e=(u,v)){
-            if ((v non in S)and (Ce<c[v])){
+            if ((v non in S) && (Ce<c[v])){
                 changeKey(Q,v,Ce)               
             }
         }
