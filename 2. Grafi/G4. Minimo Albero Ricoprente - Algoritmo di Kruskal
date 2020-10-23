@@ -1,6 +1,6 @@
 -------------------------------------------------------------------- Algoritmo di Kruskal
 
-Comincia con T = INSIEME VUOTO. Considera gli archi in ordine non decrescente di costo. 
+Comincia con T = ø. Considera gli archi in ordine non decrescente di costo. 
 Inserisce un arco e in T se e solo se il suo inserimento non genera la creazione di un ciclo in T.
 
 Funzionamento:
@@ -25,7 +25,7 @@ Kruskal(G, c){
     for(i = 1 to m){                                          
         (u, v) = ei
         if (u e v sono in due insiemi differenti){
-            T = T UNIONE {ei}
+            T = T U {ei}
             unisci gli insiemi che contengono u e v
         }
     }
@@ -58,7 +58,7 @@ Implementazione con Union-Find:
 Gli elementi sono etichettati con interi consecutivi da 1 a n e ad ogni elemento è associato una cella 
 dell'array S che contiene il nome del su insieme di appartenenza
 
-Kruskal(G,c){
+Kruskal(G, c){
     Ordina gli archi in ordine non decrescente di peso, tale che c1 >= c2 <= ... <= cn
     inizializza T come vuoto
 
