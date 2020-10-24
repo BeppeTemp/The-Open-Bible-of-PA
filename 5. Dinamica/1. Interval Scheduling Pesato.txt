@@ -1,7 +1,7 @@
 -------------------------------------------------------------------- Definizione del problema
 
-La strategia Greedy Earlieast Finish Time funziona solo nel caso tutti i pesi siano uguali ad uno nel caso
-in cui a ogni job viene associato un peso questo non è più vero (un hob che finisce prima ma con peso uno,
+La strategia Greedy Earlieast Finish Time funziona solo nel caso tutti i pesi siano uguali ad 1 nel caso
+in cui a ogni job viene associato un peso questo non è più vero (un job che finisce prima ma con peso uno,
 un altro job che finisce subito dopo ma con peso 999).
 
 Input: Un insieme J di Job ognuno con un tempo di inizio sj, un tempo di fine fj e un valore (peso) vj associato.
@@ -78,15 +78,17 @@ Analisi tempo di esecuzione:
 
     * Inizializzazione:
         a. L'ordinamento prende tempo O(n log n).
-        b. La computazione dei valori invece prende tempo O(n): Siano a1, ..., an i job ordinati rispetto
-           ai tempi di inizio e siano b1, ..., bn i job ordinati rispetto ai tempi di fine, si confronta
-           il tempo di fine di b1 con i tempi di inizio a1, a2, a3, ..., fino a che non si incontra un job
-           aj con tempo di inizio >= f1. In questo caso si pone p'(1) = p'(2) = ... = p'( j - 1) = 0. Si confronta
-           il tempo di fine di b2 con i tempi di inizio aj, aj+1, aj+2, ..., fino a che non si incontra un job
-           ak con tempo di inizio >= f2. In questo caso si pone p'(j) = p'(j+1) = ... = p'( k - 1) = 1. Si procede in questo modo...
-               b.1 Si noti che in p'(j), j è l'indice del job nella sequenza a1, ..., an
-               b.2 per ottenere il corrispondente valore p(r) basta sostituire a j l'indice del job nella sequenza b1, ..., bn. l'associazione
-                   tra il job e la sua posizione della sequenza a1, ..., an e quella nella sequenza b1, ..., bn può essere creata quando si ordinano i job.
+        b. La computazione dei valori invece prende tempo O(n) ed essenzialmente Compute si occupa di creare un'associazione
+           tra i job e la loro posizione in due sottosequenze ordinate in modo differente, la prima sequenza a è ordinata 
+           in base ai tempi di inzio, mentre la seconda b è ordinata in base ai tempi di fine: 
+               Siano a1, ..., an i job ordinati rispetto
+               ai tempi di inizio e siano b1, ..., bn i job ordinati rispetto ai tempi di fine, si confronta
+               il tempo di fine di b1 con i tempi di inizio a1, a2, a3, ..., fino a che non si incontra un job
+               aj con tempo di inizio >= f1. In questo caso si pone p'(1) = p'(2) = ... = p'( j - 1) = 0. Si confronta
+               il tempo di fine di b2 con i tempi di inizio aj, aj+1, aj+2, ..., fino a che non si incontra un job
+               ak con tempo di inizio >= f2. In questo caso si pone p'(j) = p'(j+1) = ... = p'( k - 1) = 1. Si procede in questo modo...
+                   b.1 Si noti che in p'(j), j è l'indice del job nella sequenza a1, ..., an
+                   b.2 per ottenere il corrispondente valore p(r) basta sostituire a j l'indice del job nella sequenza b1, ..., bn.
            
     * M-Compute-Opt(j)
         a. richiede O(n)
