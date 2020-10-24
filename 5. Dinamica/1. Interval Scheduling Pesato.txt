@@ -59,13 +59,13 @@ Input: n, s
        v1,...,vn
 
 Ordina i job in base ai tempi di fine tale che f1 <= f2 <= ... <= fn
-Computa p(1),p(2),...,p(n)
+Computa p(1), p(2), ..., p(n)
 
 for(j=1 to n){
     M[j] = empty                                                                // Array globale di accesso per applicare la Memoization
 }
 
-Compute-Opt(j){
+M-Compute-Opt(j){
     if(j = 0){
         return 0
     }else{
@@ -88,7 +88,7 @@ Analisi tempo di esecuzione:
                b.2 per ottenere il corrispondente valore p(r) basta sostituire a j l'indice del job nella sequenza b1, ..., bn. l'associazione
                    tra il job e la sua posizione della sequenza a1, ..., an e quella nella sequenza b1, ..., bn può essere creata quando si ordinano i job.
            
-    * M-Compite-Opt(j)
+    * M-Compute-Opt(j)
         a. richiede O(n)
         b. escludendo il tempo per le chiamate ricorsive, ciascuna invocazione prende tempo O(1). Dobbiamo stimare il numero delle chiamate ricorsive
         c. misura di progressione φ = indica il numero di entrate non vuote di M[].
