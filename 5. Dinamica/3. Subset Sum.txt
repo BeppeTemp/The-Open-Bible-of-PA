@@ -1,14 +1,14 @@
 -------------------------------------------------------------------- Definizione del problema
 
 Input: Un insieme di n job 1, 2, ..., n e un tempo wi > 0 associato ad ogni job. 
-       Un limite w al tempo per il quale il processore può essere utilizzato.
+       Un limite W al tempo per il quale il processore può essere utilizzato.
 
-Obiettivo: selezionare un sottoinsieme S degli n job tali che la sommatoria dei tempi di esecuzione si quanto
-più grande possibile ma comunque minore uguale di w.
+Obiettivo: selezionare un sottoinsieme S degli n job tali che la sommatoria dei tempi di esecuzione sia quanto
+più grande possibile ma comunque minore uguale di W.
 
 -------------------------------------------------------------------- Definizione OPT
 
-Per esprimere il valore della soluzione ottima er un certo i in termini dei valori
+Per esprimere il valore della soluzione ottima per un certo i in termini dei valori
 della soluzione ottime per input più piccoli di i, dobbiamo introdurre un limite
 al tempo totale da dedicare all'esecuzione dei job che precedono i.
 
