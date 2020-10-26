@@ -1,0 +1,26 @@
+-------------------------------------------------------------------- Definizioni
+
+Definizione di O: T(n)=O(F(n)) se esistono due constanti c>0 ed n0>=0 t.c.
+                 per ogni n>=n0 si ha che T(n)<=c*F(n).
+
+Definizione di Omega: T(n)=Omega(F(n)) se esistono due constanti c>0 ed n0>=0
+                     t.c. per ogni n>=n0 si ha che T(n)>=c*F(n).
+
+Definizione di Theta: T(n)=Theta(F(n)) se T(n) è sia O(F(n)) che Omega(F(n)).
+
+-------------------------------------------------------------------- Odine di peso
+
+Dal più scarso al più powerfull:
+
+1:  O(1)                     (Tempo Costante)
+2:  O(log log n)
+3:  O(log n)                 (Tempo Logaritmico)
+4:  O(n^(1/c)) con c>1       (Tempo Sublineare)
+5:  O(n)                     (Tempo Lineare)
+6:  O(n log n)
+7:  O(n^2)                   (Tempo Quadratico)
+8:  O(n^3)                   (Tempo Cubico)
+9:  O(n^k) k>=1              (Tempo Polinomiale)
+10: O(a^n) a>1               (Tempo Esponenziale)
+
+-------------------------------------------------------------------- FIN
