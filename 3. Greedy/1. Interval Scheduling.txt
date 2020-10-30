@@ -5,49 +5,60 @@ Input:
       è possibile eseguire una sola attività alla volta
 
 Obiettivo: 
-    - fare in modo che vengono svolte quante più attività è possibile.
+    - Fare in modo che vengono svolte quante più attività è possibile.
 
 Definizione di compatibilità fra Job: 
-    - Attività compatibili sono attività tali che gli intervalli in cui devono essere eseguite non si sovrappngono.
+    - Due Attività sono compatibili se che gli intervalli in cui devono essere eseguite non si sovrappongono.
       Due Job i e j si dicono compatibili se fi <= sj oppure fj <= si. L'obiettivo è quindi quello di trovare
       un sottoinsieme di cardinalità massima di job a due a due compatibili.
       
 Output:
-    - in output avremo un insieme di attività di job a due a due compatibili.
+    - Un insieme di attività di job a due a due compatibili.
 
 -------------------------------------------------------------------- Strategie Greedy
 
 Strategia 1 (Earliest Start Time): 
     1. Idea: Considera i job in ordine crescente rispetto ai tempi di inizio sj.
     2. Problema: Può accadere che il job che comincia per primo finisca dopo tutti gli altri.
+    
+                       --- ----  --- ---
+                     ---------------------  → Job Selezionato
 
 #Strategia Migliore
 Strategia 2 (Earliest Finish Time): 
     1. Idea: considera i job in ordine crescente rispetto ai tempi di fine fj.
-    2. Problema: -----------
+    2. Problema: 
 
 Strategia 3 (Shortest Interval): 
     1. Idea: Considera i job in ordine crescente rispetto alle loro durate fj - fi.
-    2. Problema: Può accadere che un job che dira meno di altri si sovrapponga a due job che sono compatibili.
-                 Se questo accade si seleziona un solo job.
+    2. Problema: Può accadere che un job che dura meno di altri si sovrapponga a due job che 
+       non si sovrappongono tra di loro. Se questo accade invece di selezionare due job ne selezioniamo uno solo.
+       
+                     ------ -----
+                         ------   →   Job Selezionato
 
 Strategia 4 (Fewest Conflicts): 
     1. Idea: Per ogni job, conta il numero cj di job che sono in conflitto con lui e ordina in modo crescente 
              rispetto al numero di conflitti.
     2. Problema: Può accadere che un job che genera meno conflitti di altri si sovrapponga a due job compatibili.
+    
+                         --- --- --- --- 
+                           --- --- ---
+                           ---  ↑  ---
+                                Job selezionato
 
 -------------------------------------------------------------------- Pseudocodice
 
 #Algoritmo che dato in input un instanza del problema Interval Scheduling, implementa la strategia Greedy
 Shortest Finish Time.
 
-IntSched(job){
+IntervallSchedulling(job){
     Ordinamento dei Job secondo i tempi di fine, t.c. f1 <= f2 <= ... <= fn             // Tempo dominante
     f = 0                                                                               // Tempo di fine dell'ultimo job selezionato
     A = insieme vuoto
     for(j = 1; j <= n; j = j + 1){
         if (sj >= f){
-            A = A UNIONE {j};
+            A = A U {j};
             f = fj;  
         }
     }
